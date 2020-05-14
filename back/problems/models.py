@@ -10,3 +10,13 @@ class ProblemBasic(models.Model):
     class Meta:
         managed = False
         db_table = 'problems'
+
+class AnswerBasic(models.Model):
+    a_id = models.AutoField(primary_key=True)
+    p_id = models.ForeignKey(ProblemBasic, models.DO_NOTHING, db_column='p_id')
+    a_value = models.TextField()
+    a_correct = models.BooleanField()
+
+    class Meta:
+        managed = False
+        db_table = 'answers'
