@@ -6,16 +6,41 @@ from .models import *
 from .serializers import *
 # Create your views here.
 
+# Read
 @api_view(['GET'])
-def get_prob(request):
+def get_probs(request):
   problems = ProblemBasic.objects.all()
   serializer = ProblemBasicSerializer(problems, many=True)
   return Response(serializer.data)
 
 @api_view(['GET'])
-def problems_detail(request, problem_id):
+def get_prob_by_id(request, problem_id):
   problem = get_object_or_404(ProblemBasic, pk=problem_id)
-  # embed()
   serializer = ProblemAndAnswerSerializer(problem)
-  # serializer = ProblemAndAnswerSerializer(problem)
-  return Response(serializers.data)
+  return Response(serializer.data)
+
+@api_view(['GET'])
+def get_probs_detail(request):
+  problems = ProblemBasic.objects.all()
+  serializer = ProblemAndAnswerSerializer(problems, many=True)
+  return Response(serializer.data)
+
+# Create
+@api_view(['POST'])
+def create_prob(request):
+  prob_info = request.data.get('problems')
+  ans_list = request.data.get('answers')
+  
+  # 문제 생성부
+  p_category = prob_info.get('p_category')
+  p_question = prob_info.get('p_question')
+  p_type = prob_info.get('p_type')
+  p_diff = prob_info.get('p_diff')
+  prob = ProblemBasic(p_category=p_category, p_question=p_question, p_type=p_type, p_diff=p_diff)
+  prob.save()
+
+  # 보기 생성부
+  prob_id = prob.p_id
+
+  # embed()
+  
