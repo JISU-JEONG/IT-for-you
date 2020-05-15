@@ -12,7 +12,7 @@ import CreateQuestion from "@/components/CreateQuestion.vue";
 export default {
   name: "Home",
   components: {
-    Quiz
+    Quiz,
     CreateQuestion
   }
 };
