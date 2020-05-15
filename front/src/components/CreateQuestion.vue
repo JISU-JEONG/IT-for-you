@@ -22,15 +22,15 @@
         <textarea id="question-box" cols="50" rows="10" v-if="showCodeBox" @keydown="setInputDefault" v-model="codeText"></textarea> <br>
         <h2>정답</h2>
         <div v-if="questionId===1">
-          <input type="text" name="" id="">
+          <input type="text" name="" id="" v-model="answer">
         </div>
         <div v-if="questionId===2">
-          <input type="text" name="" id="">
+          <input type="text" name="" id="" v-model="answer">
           <h2>보기</h2>
-          <input type="text" name="" id="">
-          <input type="text" name="" id="">
-          <input type="text" name="" id="">
-          <input type="text" name="" id="">
+          <input type="text" name="example" id="" v-model="example[0]">
+          <input type="text" name="example" id="" v-model="example[1]">
+          <input type="text" name="example" id="" v-model="example[2]">
+          <input type="text" name="example" id="" v-model="example[3]">
         </div>
         <div v-if="questionId===3">
           <input type="radio" name="answer" value="O" v-model="answer">O
@@ -42,8 +42,14 @@
         <h2>문제</h2>
         <p>카테고리: {{category}} || 문제유형: {{ questionType[questionId] }}</p>
         <p>{{questionText}}</p>
-        <div class="code-box">
-          <pre v-html="codeHTML"></pre>
+        <div class="code-box" v-html="codeHTML" v-if="showCodeBox"></div>
+        <h2>정답</h2>
+        <p>{{answer}}</p>
+        <div v-if="questionId===2">
+          <h2>보기</h2>
+          <ol>
+            <li v-for="e in example" :key="e">{{e}}</li>
+          </ol>
         </div>
       </div>
     </div>
@@ -92,6 +98,9 @@
   }
   pre {
     margin: 0;
+  }
+  ol {
+    text-align: inherit;
   }
   .change-type-btn {
     cursor: pointer;
