@@ -6,6 +6,7 @@ class ProblemBasic(models.Model):
     p_category = models.CharField(max_length=200)
     p_question = models.TextField()
     p_type = models.IntegerField()
+    p_diff = models.IntegerField()
     
     class Meta:
         managed = False
