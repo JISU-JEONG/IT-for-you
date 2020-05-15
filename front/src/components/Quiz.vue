@@ -3,7 +3,7 @@
     <div id="subhead">
       <p>
         모든 코드는 내가 짠다 :
-        <a href="mailto:kempfjj@gmail.com">김태우</a>
+        <a href="#">김태우</a>
       </p>
     </div>
 
