@@ -3,7 +3,7 @@ from .models import *
 class ProblemBasicSerializer(serializers.ModelSerializer):
   class Meta:
     model = ProblemBasic
-    fields = ('p_id', 'p_category', 'p_question', 'p_type', 'p_diff')
+    fields = ('p_id', 'p_category', 'p_question', 'p_type', 'p_diff', 'p_code')
 
 class AnswerBasicSerializer(serializers.ModelSerializer):
   class Meta:
