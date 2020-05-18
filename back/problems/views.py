@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from IPython import embed
@@ -29,7 +30,7 @@ def get_probs_detail(request):
 @api_view(['POST'])
 def create_prob(request):
   prob_info = request.data.get('problems')
-  ans_list = request.data.get('answers')
+  
   
   # 문제 생성부
   p_category = prob_info.get('p_category')
@@ -40,7 +41,15 @@ def create_prob(request):
   prob.save()
 
   # 보기 생성부
-  prob_id = prob.p_id
-
-  # embed()
+  # prob_id = prob.p_id
+  # test
+  return JsonResponse({'message': 'Success'})
   
+  
+def create_ans(request, prob_pk):
+  ans_list = request.data.get('answers')
+  correct_ans = request.data.get('answers')
+  for ans_idx in range(len(ans_list)):
+    p_id = prob_pk
+    a_value = ans_list
+
