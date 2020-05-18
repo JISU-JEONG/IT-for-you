@@ -42,7 +42,7 @@ def create_prob(request):
 
   # 보기 생성부
   # prob_id = prob.p_id
-  
+  # test
   return JsonResponse({'message': 'Success'})
   
   
