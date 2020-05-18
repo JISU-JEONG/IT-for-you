@@ -34,7 +34,8 @@ export default {
                     this.$session.set('jwt', token)
 
                     this.$store.dispatch('login', token)
-                    router.push('/')
+                    // home으로 가기
+                    // router.push('/')
                 })
                 .catch(error => {
                     console.log(error)
