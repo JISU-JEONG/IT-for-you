@@ -45,62 +45,85 @@ def get_probs_detail(request):
   serializer = ProblemDetailSerializer(problems, many=True)
   return Response(serializer.data)
 
-# # Create
+# Create
 @api_view(['POST'])
 def create_prob(request):
   # 문제 생성부
   problems = request.data.get('problems')
   p_question = problems.get('p_question')
-  pc_id = ProbCate.objects.get(pc_value=problems.get('pc_value'))
-  pt_id = ProbType.objects.get(pt_id=problems.get('pt_id'))
-  pd_id = ProbDiff.objects.get(pd_id=problems.get('pd_id'))
-  prob = Problem(p_question=p_question, pc_id=pc_id, pt_id=pt_id, pd_id=pd_id)
+  p_code = problems.get('p_code')
+  pc_obj = ProbCate.objects.get(pc_value=problems.get('pc_value'))
+  pt_obj = ProbType.objects.get(pt_id=problems.get('pt_id'))
+  pd_obj = ProbDiff.objects.get(pd_id=problems.get('pd_id'))
+  prob = Problem(p_question=p_question, p_code=p_code, pc_id=pc_obj, pt_id=pt_obj, pd_id=pd_obj)
   prob.save()
+
   # 보기 생성부
   answers = request.data.get('answers')
-  correct_ans = request.data.get('correct_ans')
-  for ans in answers:
-    # embed()
-    a_value = ans
-    a_correct = False
-    if a_value == correct_ans:
-      a_correct = True
-    # 외래키인 p_id는 숫자가 아닌 문제 객체 그 자체를 받아야 한다.
+  # 주관식(1), 단답식(4)
+  if pt_obj.pt_id == 1 or pt_obj.pt_id == 4:
+    a_value = answers
+    a_correct = True
     answer = Answer(p_id=prob, a_value=a_value, a_correct=a_correct)
     answer.save()
+  # 객관식(2), OX Quiz(3)
+  elif pt_obj.pt_id == 2 or pt_obj.pt_id == 3: 
+    correct_ans = request.data.get('correct_ans')
+    for ans in answers:
+      a_value = ans
+      a_correct = False
+      if a_value == correct_ans:
+        a_correct = True
+      # 외래키인 p_id는 숫자가 아닌 문제 객체 그 자체를 받아야 한다.
+      answer = Answer(p_id=prob, a_value=a_value, a_correct=a_correct)
+      answer.save()
 
   return JsonResponse({'message': 'Success'})
 
-# # Update
-# @api_view(['PUT'])
-# def update_prob(request, prob_id):
-#   # Prob Update
-#   prob_info = request.data.get('problems')
-#   prob = get_object_or_404(Problem, p_id=prob_id)
-#   prob.p_category = prob_info.get('p_category')
-#   prob.p_question = prob_info.get('p_question')
-#   prob.p_type = prob_info.get('p_type')
-#   prob.p_diff = prob_info.get('p_diff')
-#   prob.save()
+# Update
+@api_view(['PUT'])
+def update_prob(request, prob_id):
+  # Prob Update
+  problems = request.data.get('problems')
+  prob = get_object_or_404(Problem, p_id=prob_id)
+  prob.p_question = problems.get('p_question')
+  prob.p_code = problems.get('p_code')
+  prob.pc_obj = ProbCate.objects.get(pc_value=problems.get('pc_value'))
+  prob.pt_obj = ProbType.objects.get(pt_id=problems.get('pt_id'))
+  prob.pd_obj = ProbDiff.objects.get(pd_id=problems.get('pd_id'))
+  prob.save()
 
-#   # Answer Update
-#   new_answers = request.data.get('answers')
-#   new_correct_ans = request.data.get('correct_ans')
-#   pre_answers = prob.answerbasic_set.all()
-#   for ans_idx in range(len(new_answers)):
-#     ans = get_object_or_404(Answer, a_id=pre_answers[ans_idx].a_id)
-#     ans.a_value = new_answers[ans_idx]
-#     ans.a_correct = False
-#     if ans.a_value == new_correct_ans:
-#       ans.a_correct = True
-#     ans.save()
+  # prob type이 바뀔 경우에 대비해 기존 기본 보기들 모두 삭제
+  pre_answers = prob.answer_set.all()
+  for ans in pre_answers:
+    ans.delete()
 
-#   return JsonResponse({'message': 'Success'})
+  # 보기 생성부
+  answers = request.data.get('answers')
+  # 주관식(1), 단답식(4)
+  if prob.pt_obj.pt_id == 1 or prob.pt_obj.pt_id == 4:
+    a_value = answers
+    a_correct = True
+    answer = Answer(p_id=prob, a_value=a_value, a_correct=a_correct)
+    answer.save()
+  # 객관식(2), OX Quiz(3)
+  elif prob.pt_obj.pt_id == 2 or prob.pt_obj.pt_id == 3: 
+    correct_ans = request.data.get('correct_ans')
+    for ans in answers:
+      a_value = ans
+      a_correct = False
+      if a_value == correct_ans:
+        a_correct = True
+      # 외래키인 p_id는 숫자가 아닌 문제 객체 그 자체를 받아야 한다.
+      answer = Answer(p_id=prob, a_value=a_value, a_correct=a_correct)
+      answer.save()
+
+  return JsonResponse({'message': 'Success'})
 
 
-# # Delete
-# @api_view(['DELETE'])
-# def prob_delete(request, prob_id):
-#   prob = Problem.objects.get(p_id=prob_id)
-#   prob.delete()
-#   return JsonResponse({'message': 'Success'})
+# Delete
+@api_view(['DELETE'])
+def prob_delete(request, prob_id):
+  prob = Problem.objects.get(p_id=prob_id)
+  prob.delete()
+  return JsonResponse({'message': 'Success'})
