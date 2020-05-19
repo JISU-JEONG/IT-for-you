@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Login from "../views/Login.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -12,7 +11,29 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: () => import("../views/Login.vue")
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import("../views/Admin.vue"),
+    children: [
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import("../views/User.vue"),
+      },
+      {
+        path: 'make',
+        name: 'MakeQuestion',
+        component: () => import("../views/MakeQuestion.vue"),
+      },
+      {
+        path: 'edit',
+        name: 'EditQuestion',
+        component: () => import("../views/EditQuestion.vue"),
+      },
+    ]
   }
 ];
 
