@@ -8,8 +8,8 @@ class ProbCate(models.Model):
         managed = False
         db_table = 'prob_cate'
 
-    def __str__(self):
-        return self.pc_value
+    # def __str__(self):
+    #     return self.pc_value
 
 class ProbType(models.Model):
     pt_id = models.AutoField(primary_key=True)
