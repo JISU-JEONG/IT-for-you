@@ -78,6 +78,7 @@
   }
 
   &__name {
+    font-family: "godoMaum";
     height: 2.5rem;
     margin: 0.75rem 0;
     font-size: 1.3rem;
@@ -86,6 +87,7 @@
   }
 
   &__slogan {
+    font-family: "godoMaum";
     height: 2rem;
     text-align: center;
     font-weight: 400;
@@ -344,4 +346,24 @@
       opacity: 1;
     }
   }
+}
+
+h1 {
+  font-family: "godoMaum";
+  color: #fe7c96;
+}
+
+@font-face {
+  font-family: "godoMaum";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/godoMaum.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "KCC-eunyoung";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/KCC-eunyoung-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }

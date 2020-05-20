@@ -1,5 +1,6 @@
 <template>
   <main id="app" class="content">
+    <h1>내인생을 부탁해</h1>
     <nav class="nav">
       <menu class="nav__controls">
         <div
@@ -11,7 +12,7 @@
         }"
           :key="menu+0"
           @click="setMenu(menu, active)"
-        >{{ menu }}, {{active}}</div>
+        >{{ menu }}</div>
         <div class="nav__label nav__label--clear" @click="clearAllFilters">Clear all</div>
       </menu>
     </nav>
@@ -26,7 +27,7 @@
       >
         <div v-if="filter === 'rating'" class="filters__rating">
           <output>
-            <label>Minimum rating:&nbsp;</label>
+            <label>Minimum Level:&nbsp;</label>
             {{ parseFloat(filters.rating).toFixed(1) }}
           </output>
 
@@ -60,7 +61,7 @@
         </div>
 
         <ul class="company__details">
-          <label class="company__label">Rating</label>
+          <label class="company__label">Level</label>
           <p class="company__rating">{{ company.rating.toFixed(1) }}</p>
         </ul>
       </div>
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+import * as question from "../QuestionData.js";
 export default {
   name: "CategoryList",
 
@@ -153,24 +155,37 @@ export default {
   },
 
   beforeMount() {
-    fetch("https://s3-us-west-2.amazonaws.com/s.cdpn.io/450744/mock-data.json")
-      .then(response => {
-        return response.json();
-      })
-      .then(companies => {
-        this.companies = companies;
-        companies.forEach(({ country, keywords, rating }) => {
-          this.$set(this.filters.countries, country, false);
-          if (this.rating.max < rating) this.rating.max = rating;
-          if (this.rating.min > rating) {
-            this.rating.min = rating;
-            this.filters.rating = rating;
-          }
-          keywords.forEach(category => {
-            this.$set(this.filters.categories, category, false);
-          });
-        });
+    // fetch("https://s3-us-west-2.amazonaws.com/s.cdpn.io/450744/mock-data.json")
+    //   .then(response => {
+    //     return response.json();
+    //   })
+    //   .then(companies => {
+    //     this.companies = companies;
+    //     companies.forEach(({ country, keywords, rating }) => {
+    //       this.$set(this.filters.countries, country, false);
+    //       if (this.rating.max < rating) this.rating.max = rating;
+    //       if (this.rating.min > rating) {
+    //         this.rating.min = rating;
+    //         this.filters.rating = rating;
+    //       }
+    //       keywords.forEach(category => {
+    //         this.$set(this.filters.categories, category, false);
+    //       });
+    //     });
+    //   });
+
+    this.companies = question.data();
+    question.data().forEach(({ country, keywords, rating }) => {
+      this.$set(this.filters.countries, country, false);
+      if (this.rating.max < rating) this.rating.max = rating;
+      if (this.rating.min > rating) {
+        this.rating.min = rating;
+        this.filters.rating = rating;
+      }
+      keywords.forEach(category => {
+        this.$set(this.filters.categories, category, false);
       });
+    });
   }
 };
 </script>
