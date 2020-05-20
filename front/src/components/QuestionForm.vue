@@ -57,7 +57,7 @@
 </template>
 <script>
   export default {
-    name: 'CreateQuestion',
+    name: 'QuestionForm',
     data() {
       return {
         questionType: ['','주관식', '객관식', 'O/X'],
