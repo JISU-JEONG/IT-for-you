@@ -3,7 +3,7 @@
     <section>
       <h1>서비스이름</h1>
       <ul>
-        <li><router-link to="/admin/user" class="btn-active"><i></i><span>회원 관리</span></router-link></li>
+        <li><router-link to="/admin/user"><i></i><span>회원 관리</span></router-link></li>
         <li><router-link to="/admin/make"><i></i><span>문제 생성</span></router-link></li>
         <li><router-link to="/admin/edit"><i></i><span>문제 수정</span></router-link></li>
       </ul>
@@ -15,7 +15,12 @@
 </template>
 <script>
 export default {
-    
+    data() {
+      return {
+      }
+    },
+    methods: {
+    }
 }
 </script>
 <style scoped lang='scss'>
@@ -49,24 +54,36 @@ export default {
           &:hover {
             color: rgba(0, 0, 0, 0.9);
           }
-          &.btn-active {
+          &.router-link-active {
             color: rgba(0, 0, 0, 0.9);
           }
-          &.btn-active:before {
+          &.router-link-active:before {
             content: '';
             left: 0;
             top: 6px;
             bottom: 6px;
             position: absolute;
-            border-left: 2px solid black;
+            border-left: 3px solid black;
           }
         }
       }
     }
   }
   .admin-content {
-    margin-left: 250px;
     height: 1500px;
-    min-height: 100vh;
+    min-height: 100vh;  
+    margin-left: 250px;
+    padding: 40px;
+    position:relative;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 400px;
+      background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%);
+      z-index: -1;
+    }
   }
 </style>
