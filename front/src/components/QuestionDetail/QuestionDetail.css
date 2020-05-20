@@ -64,7 +64,6 @@ a {
   pointer-events: none;
 }
 
-/* 색깔칠하는거 */
 #questionsList .questionItem svg path {
   stroke: #8c8c8c;
   stroke-width: 13px;
@@ -111,8 +110,7 @@ svg:not(:root) {
   cursor: pointer;
 }
 
-.nextButton,
-.finalButton {
+.nextButton {
   display: block;
   border: 4px solid #8c8c8c;
   border-radius: 20px;
