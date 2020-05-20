@@ -25,6 +25,7 @@ export default {
     },
     methods:{
         login(){
+            console.log(this.credentials)
             axios.post('http://127.0.0.1:8000/api-token-auth/',this.credentials)
                 .then(response => {
                     console.log(response)
