@@ -22,10 +22,12 @@
 </template>
 
 <script>
-import * as Question from "./QuestionDetail.js";
+import * as utils from "./Problem.js";
+import * as Question from "../QuestionData.js";
 
 export default {
-  name: "Question",
+  name: "Problem",
+
   data() {
     return {
       question: Question.data(),
@@ -33,9 +35,10 @@ export default {
       questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
     };
   },
+
   mounted() {
-    require("./QuestionDetail.css");
-    Question.drow();
+    require("./Problem.css");
+    utils.drow();
   },
 
   methods: {
