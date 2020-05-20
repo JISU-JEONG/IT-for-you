@@ -1,46 +1,61 @@
 <template>
 <body>
-  <div id="subhead">
-    <p>
-      모든 코드는 내가 짠다 :
-      <a href="#">김태우</a>
-    </p>
-  </div>
+  <div id="subhead"></div>
 
   <ul id="questionsList">
-    <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in Question" :key="i">
-      레벨 : {{ q.level }}
-      <br />
-      타입 : {{ q.type }}
+    <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in question" :key="i">
+      코드블럭 : {{q.problems.p_code}}
+      레벨 : {{q.problems.pd_id}}
+      카데고리 : {{ q.problems.pc_id }}
+      유형 : {{questionType[q.problems.pt_id]}}
       <li>
-        <p>{{ q.question }}</p>
-        <span class="questionItem" v-for="a in q.answer" :key="a">
-          <input :id="a" type="radio" :name="q.answer" :value="a" />
+        <p>{{ q.problems.p_question }}</p>
+        <span class="questionItem" v-for="a in q.answers" :key="a">
+          <input :id="a" type="radio" :name="q.answers" :value="a" />
           <label :for="a">{{ a }}</label>
         </span>
       </li>
-      <a
-        href="#"
-        :id="i === Question.length - 1 ? 'submitAnswers' : ''"
-        :class="i === Question.length - 1 ? 'finalButton' : 'nextButton'"
-      >Next Question &gt;</a>
+      <a class="nextButton" @click="nextQuestion(i, question.length-1, q.correct_ans)">정답 확인</a>
     </section>
   </ul>
 </body>
 </template>
 
 <script>
-import * as Question from "./Question.js";
+import * as Question from "./QuestionDetail.js";
+
 export default {
   name: "Question",
   data() {
     return {
-      Question: Question.data()
+      question: Question.data(),
+      questions: document.getElementsByTagName("section"),
+      questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
     };
   },
   mounted() {
     require("./QuestionDetail.css");
-    require("./QuestionDetail.js");
+    Question.drow();
+  },
+
+  methods: {
+    nextQuestion(i, size, currentAnswer) {
+      if (i !== size) {
+        this.questions[i].className = "";
+        this.questions[i + 1].className = "current";
+      }
+
+      let answer = this.questions[i].getElementsByTagName("input");
+      answer.forEach(v => {
+        if (v.checked) {
+          if (v.value === currentAnswer) {
+            alert("맞음");
+          } else {
+            alert("틀림");
+          }
+        }
+      });
+    }
   }
 };
 </script>
