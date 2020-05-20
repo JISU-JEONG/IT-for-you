@@ -1,19 +1,16 @@
 <template>
   <div class="home">
-    <Quiz />
-    <create-question />
+    <QuestionDetail />
   </div>
 </template>
 
 <script>
-import Quiz from "@/components/Quiz.vue";
-import CreateQuestion from "@/components/CreateQuestion.vue";
+import QuestionDetail from "@/components/QuestionDetail/QuestionDetail.vue";
 
 export default {
   name: "Home",
   components: {
-    Quiz,
-    CreateQuestion
+    QuestionDetail
   }
 };
 </script>
