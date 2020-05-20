@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'problems.apps.ProblemsConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_yasg',
     'corsheaders',
     'django.contrib.admin',
@@ -138,18 +139,18 @@ CORS_ORIGIN_WHITELIST = [
 
 # JWT
 # DRS : 모든 views.py에서 적용되는 데코레이터 선언
-REST_FRAMEWORK = {
-    # 모든 views.py : 반드시 인증되어야 한다. (IsAuthenticated)
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    # 모든 views.py : 인증을 JWT 혹은 Session 등을 통해서 인증된다.
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}
+# REST_FRAMEWORK = {
+#     # 모든 views.py : 반드시 인증되어야 한다. (IsAuthenticated)
+#     'DEFAULT_PERMISSION_CLASSES': (
+#          'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
+#     ),
+#     # 모든 views.py : 인증을 JWT 혹은 Session 등을 통해서 인증된다.
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.BasicAuthentication',
+#     ),
+# }
 import datetime
 
 JWT_AUTH = {
