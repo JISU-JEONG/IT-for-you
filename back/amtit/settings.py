@@ -25,7 +25,7 @@ SECRET_KEY = '^q9qa8jqei9&z2bia^f3lhn$dy-6)_3szgzsv33+#+&sf23!dm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'amtit.urls'
 
 TEMPLATES = [
