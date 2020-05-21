@@ -1,10 +1,6 @@
 <template>
   <div>
     <form class="user-form" @submit.prevent="userCreate">
-        <!-- <label for="user_id">id: </label>
-        <input 
-        v-model = "user_id"
-        type="text" id="user_id"><hr> -->
         <label for="password" id="password">password: </label>
         <input type="password"
         v-model="password" id="password"><hr>
@@ -26,7 +22,6 @@ export default {
     name: 'UserForm',
     data(){
         return {
-            // user_id:'',
             name: '',
             password:'',
             email:'',
@@ -43,11 +38,8 @@ export default {
                 email: this.email
             }
             console.log(data)
-            // request.POST인 경우는 반드시 FormData!
-            // const formData = new FormData()
-            // formData.append('title', title)
-            // formData.append('user', 1)
-            axios.post('http://127.0.0.1:8000/api/accounts/user/', data)
+
+            axios.post('http://127.0.0.1:8000/api/accounts/signup/', data)
                  // this.options는 computed 변수
                 .then(response => {
                     console.log(this.name)
