@@ -14,6 +14,7 @@
           @click="setMenu(menu, active)"
         >{{ menu }}</div>
         <div class="nav__label nav__label--clear" @click="clearAllFilters">Clear all</div>
+        <div class="nav__label nav__label--clear" @click="clearAllFilters">랜덤문제 풀기</div>
       </menu>
     </nav>
 
@@ -25,44 +26,49 @@
         ref="menu"
         :key="filter+0"
       >
-        <div v-if="filter === 'rating'" class="filters__rating">
+        <div v-if="filter === '난이도'" class="filters__난이도">
           <output>
             <label>Minimum Level:&nbsp;</label>
-            {{ parseFloat(filters.rating).toFixed(1) }}
+            {{ parseFloat(filters.난이도).toFixed(1) }}
           </output>
 
           <input
-            v-model="filters.rating"
+            v-model="filters.난이도"
             class="filters__range"
             type="range"
-            :min="rating.min"
-            :max="rating.max"
-            step="0.1"
+            :min="난이도.min"
+            :max="난이도.max"
+            step="1"
           />
         </div>
 
         <template v-else>
-          <li
+          <div
             v-for="(active, option) in options"
             class="filters__item"
             :class="{ 'filters__item--active': active }"
             @click="setFilter(filter, option)"
             :key="option+0"
-          >{{ option }}</li>
+          >{{ option }}</div>
         </template>
       </menu>
     </transition-group>
 
     <transition-group name="company" tag="ul" class="content__list">
-      <div class="company" v-for="company in list" :key="company.id">
+      <div
+        class="company"
+        v-for="company in list"
+        :key="company.id"
+        @click="questionDetail(company)"
+      >
         <div class="company__info">
           <h2 class="company__name">{{ company.name }}</h2>
-          <blockquote class="company__slogan">{{ company.slogan }}</blockquote>
+          <blockquote class="company__slogan">{{ questionType[company.slogan] }}</blockquote>
         </div>
 
         <ul class="company__details">
           <label class="company__label">Level</label>
-          <p class="company__rating">{{ company.rating.toFixed(1) }}</p>
+          <p class="company__난이도">{{ company.난이도.toFixed(1) }}</p>
         </ul>
       </div>
     </transition-group>
@@ -79,9 +85,10 @@ export default {
       modal: false,
       companies: [],
       dropdown: { height: 0 },
-      rating: { min: 10, max: 0 },
-      filters: { countries: {}, categories: {}, rating: 0 },
-      menus: { countries: false, categories: false, rating: false }
+      난이도: { min: 10, max: 0 },
+      filters: { 문제유형: {}, 카테고리: {}, 난이도: 0 },
+      menus: { 문제유형: false, 카테고리: false, 난이도: false },
+      questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
     };
   },
   computed: {
@@ -92,22 +99,22 @@ export default {
       );
     },
     list() {
-      let { countries, categories } = this.activeFilters;
-      return this.companies.filter(({ country, keywords, rating }) => {
-        if (rating < this.filters.rating) return false;
-        if (countries.length && !~countries.indexOf(country)) return false;
+      let { 문제유형, 카테고리 } = this.activeFilters;
+      return this.companies.filter(({ country, keywords, 난이도 }) => {
+        if (난이도 < this.filters.난이도) return false;
+        if (문제유형.length && !~문제유형.indexOf(country)) return false;
         return (
-          !categories.length || categories.every(cat => ~keywords.indexOf(cat))
+          !카테고리.length || 카테고리.every(cat => ~keywords.indexOf(cat))
         );
       });
     },
     activeFilters() {
-      let { countries, categories } = this.filters;
+      let { 문제유형, 카테고리 } = this.filters;
       return {
-        countries: Object.keys(countries).filter(c => countries[c]),
-        categories: Object.keys(categories).filter(c => categories[c]),
-        rating:
-          this.filters.rating > this.rating.min ? [this.filters.rating] : []
+        문제유형: Object.keys(문제유형).filter(c => 문제유형[c]),
+        카테고리: Object.keys(카테고리).filter(c => 카테고리[c]),
+        난이도:
+          this.filters.난이도 > this.난이도.min ? [this.filters.난이도] : []
       };
     }
   },
@@ -127,7 +134,7 @@ export default {
 
   methods: {
     setFilter(filter, option) {
-      if (filter === "countries") {
+      if (filter === "문제유형") {
         this.filters[filter][option] = !this.filters[filter][option];
       } else {
         setTimeout(() => {
@@ -136,8 +143,8 @@ export default {
       }
     },
     clearFilter(filter, except, active) {
-      if (filter === "rating") {
-        this.filters[filter] = this.rating.min;
+      if (filter === "난이도") {
+        this.filters[filter] = this.난이도.min;
       } else {
         Object.keys(this.filters[filter]).forEach(option => {
           this.filters[filter][option] = except === option && !active;
@@ -151,39 +158,25 @@ export default {
       Object.keys(this.menus).forEach(tab => {
         this.menus[tab] = !active && tab === menu;
       });
+    },
+    questionDetail(company) {
+      this.$store.dispatch("questionData", company);
+      console.log(company);
+      this.$router.push("/detail");
     }
   },
 
   beforeMount() {
-    // fetch("https://s3-us-west-2.amazonaws.com/s.cdpn.io/450744/mock-data.json")
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(companies => {
-    //     this.companies = companies;
-    //     companies.forEach(({ country, keywords, rating }) => {
-    //       this.$set(this.filters.countries, country, false);
-    //       if (this.rating.max < rating) this.rating.max = rating;
-    //       if (this.rating.min > rating) {
-    //         this.rating.min = rating;
-    //         this.filters.rating = rating;
-    //       }
-    //       keywords.forEach(category => {
-    //         this.$set(this.filters.categories, category, false);
-    //       });
-    //     });
-    //   });
-
     this.companies = question.data();
-    question.data().forEach(({ country, keywords, rating }) => {
-      this.$set(this.filters.countries, country, false);
-      if (this.rating.max < rating) this.rating.max = rating;
-      if (this.rating.min > rating) {
-        this.rating.min = rating;
-        this.filters.rating = rating;
+    question.data().forEach(({ country, keywords, 난이도 }) => {
+      this.$set(this.filters.문제유형, country, false);
+      if (this.난이도.max < 난이도) this.난이도.max = 난이도;
+      if (this.난이도.min > 난이도) {
+        this.난이도.min = 난이도;
+        this.filters.난이도 = 난이도;
       }
       keywords.forEach(category => {
-        this.$set(this.filters.categories, category, false);
+        this.$set(this.filters.카테고리, category, false);
       });
     });
   }
