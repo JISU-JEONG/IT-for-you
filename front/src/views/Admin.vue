@@ -5,19 +5,19 @@
       <ul>
         <li>
           <router-link to="/admin/user">
-            <i></i>
+            <i><img :src="addIcon('account')"></i>
             <span>회원 관리</span>
           </router-link>
         </li>
         <li>
           <router-link to="/admin/make">
-            <i></i>
+            <i><img :src="addIcon('plus')"></i>
             <span>문제 생성</span>
           </router-link>
         </li>
         <li>
           <router-link to="/admin/edit">
-            <i></i>
+            <i><img :src="addIcon('book')"></i>
             <span>문제 수정</span>
           </router-link>
         </li>
@@ -43,7 +43,7 @@ export default {
       }
     },
     methods: {
-      test(type){
+      addIcon(type){
         return require(`@/assets/icons/${type}.svg`)
       },
       // color() {
@@ -57,31 +57,24 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
+@font-face { font-family: 'HangeulNuri-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/HangeulNuri-Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
+* {font-family: HangeulNuri-Bold;}
 section {
   width: 250px;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  border: 1px solid black;
   h1 {
     width: 100%;
     height: 100px;
     text-align: center;
     font-size: 36px;
     line-height: 100px;
-    border: 1px solid red;
-    font-family: 'Cute Font', cursive;
   }
   ul {
     li {
       width: 100%;
-      height: 100px;
-      text-align: center;
-      font-size: 48px;
-      line-height: 100px;
-      border: 1px solid red;
-      font-family: 'Cute Font', cursive;
       a {
         width: 100%;
         height: 48px;
@@ -110,10 +103,9 @@ section {
         }
         span {
           height: 28px;
-          font-size: 24px;
+          font-size: 20px;
           line-height: 28px;
           display: inline-block;
-          font-family: 'Cute Font', cursive;
         }
       }
     }
@@ -127,7 +119,6 @@ section {
     right:0;
     padding: 20px 40px;
     justify-content: space-between;
-    border: 1px solid black;
     color: white;
     font-family: 'Cute Font', cursive;
     font-size: 25px;
