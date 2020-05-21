@@ -71,6 +71,7 @@ section {
     font-size: 36px;
     line-height: 100px;
     border: 1px solid red;
+    font-family: 'Cute Font', cursive;
   }
   ul {
     li {
@@ -81,47 +82,43 @@ section {
       line-height: 100px;
       border: 1px solid red;
       font-family: 'Cute Font', cursive;
-    }
-    ul {
-      li {
+      a {
         width: 100%;
-        a {
-          width: 100%;
-          height: 48px;
-          padding: 10px;
-          position: relative;
-          display: flex;
-          text-decoration: none;
-          color: rgba(0, 0, 0, 0.5);
-          &:hover {
-            color: rgba(0, 0, 0, 0.9);
-          }
-          &.router-link-active {
-            color: rgba(0, 0, 0, 0.9);
-          }
-          &.router-link-active:before {
-            content: '';
-            left: 0;
-            top: 6px;
-            bottom: 6px;
-            position: absolute;
-            border-left: 3px solid black;
-          }
-          i {
-            width: 40px;
-            display: inline-block;
-          }
-          span {
-            height: 28px;
-            font-size: 24px;
-            line-height: 28px;
-            display: inline-block;
-            font-family: 'Cute Font', cursive;
-          }
+        height: 48px;
+        padding: 10px;
+        position: relative;
+        display: flex;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.5);
+        &:hover {
+          color: rgba(0, 0, 0, 0.9);
+        }
+        &.router-link-active {
+          color: rgba(0, 0, 0, 0.9);
+        }
+        &.router-link-active:before {
+          content: '';
+          left: 0;
+          top: 6px;
+          bottom: 6px;
+          position: absolute;
+          border-left: 3px solid black;
+        }
+        i {
+          width: 40px;
+          display: inline-block;
+        }
+        span {
+          height: 28px;
+          font-size: 24px;
+          line-height: 28px;
+          display: inline-block;
+          font-family: 'Cute Font', cursive;
         }
       }
     }
   }
+}
   nav {
     display: flex;
     position:absolute;
