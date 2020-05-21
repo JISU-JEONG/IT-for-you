@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1>문제 등록하기</h1>
-    <hr>
-    <div style="display: flex;">
+  <div class="wrapper">
       <div class="input-container">
         <h2>문제</h2>
         카테고리: <select name="category" v-model="category">
@@ -52,12 +49,11 @@
           </ol>
         </div>
       </div>
-    </div>
   </div>
 </template>
 <script>
   export default {
-    name: 'CreateQuestion',
+    name: 'QuestionForm',
     data() {
       return {
         questionType: ['','주관식', '객관식', 'O/X'],
@@ -102,6 +98,10 @@
   ol {
     text-align: inherit;
   }
+  .wrapper {
+    display: flex;
+    height: 100%;
+  }
   .change-type-btn {
     cursor: pointer;
   }
@@ -110,15 +110,15 @@
   }
   .input-container {
     width: 50%;
+    height: 100%;
     display: inline-block;
     text-align: center;
-    border: 1px black solid;
   }
   .question-container {
     width: 50%;
+    height: 100%;
     display: inline-block;
     text-align: center;
-    border: 1px red solid;
   }
   .code-box {
     margin: 5%;
