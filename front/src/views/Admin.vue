@@ -3,9 +3,24 @@
     <section>
       <h1>서비스이름</h1>
       <ul>
-        <li><router-link to="/admin/user"><i><img :src="test('account')"></i><span>회원 관리</span></router-link></li>
-        <li><router-link to="/admin/make"><i><img :src="test('plus')"></i><span>문제 생성</span></router-link></li>
-        <li><router-link to="/admin/edit"><i><img :src="test('book')"></i><span>문제 수정</span></router-link></li>
+        <li>
+          <router-link to="/admin/user">
+            <i></i>
+            <span>회원 관리</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/admin/make">
+            <i></i>
+            <span>문제 생성</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/admin/edit">
+            <i></i>
+            <span>문제 수정</span>
+          </router-link>
+        </li>
       </ul>
     </section>
     <div class="admin-content">
@@ -42,14 +57,23 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
-  section {
-    width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    border: 1px solid black;
-    h1 {
+section {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border: 1px solid black;
+  h1 {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 36px;
+    line-height: 100px;
+    border: 1px solid red;
+  }
+  ul {
+    li {
       width: 100%;
       height: 100px;
       text-align: center;

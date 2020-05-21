@@ -6,12 +6,23 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue")
+    component: () => import("../views/Home.vue"),
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import("../views/Login.vue")
+    path: "/category",
+    name: "Category",
+    component: () => import("../views/Question/Category.vue"),
+  },
+  {
+
+    path: "/detail",
+    name: "Detail",
+    component: () => import("../views/Question/Detail.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/Login.vue"),
   },
   {
     path: '/admin',
@@ -20,28 +31,28 @@ const routes = [
     component: () => import("../views/Admin.vue"),
     children: [
       {
-        path: 'user',
-        name: 'User',
+        path: "user",
+        name: "User",
         component: () => import("../views/User.vue"),
       },
       {
-        path: 'make',
-        name: 'MakeQuestion',
+        path: "make",
+        name: "MakeQuestion",
         component: () => import("../views/MakeQuestion.vue"),
       },
       {
-        path: 'edit',
-        name: 'EditQuestion',
+        path: "edit",
+        name: "EditQuestion",
         component: () => import("../views/EditQuestion.vue"),
       },
-    ]
-  }
+    ],
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;
