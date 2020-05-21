@@ -13,7 +13,10 @@
         <span>{{routerName[this.$router.history.current.name]}}</span>
         <div>어떤 기능</div>
       </nav>
-      <router-view></router-view>
+      <div class="content-top"></div>
+      <div class="content-layout">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -96,32 +99,39 @@ export default {
     }
   }
   nav {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
     display: flex;
-    /* justify-content: ; */
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    padding: 20px 40px;
+    justify-content: space-between;
     border: 1px solid black;
+    color: white;
+    font-family: 'Cute Font', cursive;
+    font-size: 25px;
     div {
       display: inline-block;
     }
   }
   .admin-content {
-    min-height: 100vh;  
+    min-height: 100vh;
     margin-left: 250px;
-    padding: 40px;
     position:relative;
     background-color: rgb(244,246,252);
-    /* &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 400px;
-      background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%);
-      z-index: 1;
-    } */
+  }
+  .content-top {
+    height: 350px;
+    padding: 100px 40px;
+    background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%);
+  }
+  .content-layout {
+    height: 650px;
+    margin: -100px 40px 0;
+    padding: 15px;
+    background-color: rgb(255,255,255);
+    border-radius: 10px;
+    box-shadow: 0 0 2rem 0 rgba(136,152,170,.15); 
   }
 
 

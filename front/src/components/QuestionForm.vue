@@ -100,8 +100,7 @@
   }
   .wrapper {
     display: flex;
-    background-color: rgb(255,255,255);
-    border-radius: 10px;
+    height: 100%;
   }
   .change-type-btn {
     cursor: pointer;
@@ -120,7 +119,6 @@
     height: 100%;
     display: inline-block;
     text-align: center;
-    box-shadow: 0 0 2rem 0 rgba(136,152,170,.15); 
   }
   .code-box {
     margin: 5%;

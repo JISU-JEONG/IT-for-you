@@ -1,6 +1,5 @@
 <template>
-  <div clas="make-question-wrapper">
-    <h1>?? ????</h1>
+  <div style="width:100%; height: 100%;">
     <QuestionForm />
   </div>
 </template>
@@ -17,13 +16,7 @@ export default {
 
     }
   },
-  
-    
 }
 </script>
 <style scoped>
-  h1 {color: white}
-  .make-question-wrapper {
-    height: 100%;
-  }
 </style>

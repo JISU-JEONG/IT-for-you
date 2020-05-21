@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>문제 수정</h1>
   </div>
 </template>
 <script>
