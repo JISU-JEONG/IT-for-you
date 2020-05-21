@@ -14,6 +14,7 @@ const routes = [
     component: () => import("../views/Question/Category.vue"),
   },
   {
+
     path: "/detail",
     name: "Detail",
     component: () => import("../views/Question/Detail.vue"),
@@ -24,8 +25,9 @@ const routes = [
     component: () => import("../views/Login.vue"),
   },
   {
-    path: "/admin",
-    name: "Admin",
+    path: '/admin',
+    name: 'Admin',
+    redirect: '/admin/user',
     component: () => import("../views/Admin.vue"),
     children: [
       {
