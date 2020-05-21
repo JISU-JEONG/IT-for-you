@@ -1,7 +1,7 @@
 <template>
 <body>
   <div id="subhead"></div>
-
+  {{questionData}}
   <ul id="questionsList">
     <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in question" :key="i">
       코드블럭 : {{q.problems.p_code}}
@@ -30,13 +30,20 @@ export default {
 
   data() {
     return {
-      question: Question.data(),
+      question: Question.data2(),
       questions: document.getElementsByTagName("section"),
       questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
     };
   },
 
+  computed: {
+    questionData() {
+      return this.$store.state.data;
+    }
+  },
+
   mounted() {
+    console.log(this.questionData);
     require("./Problem.css");
     utils.drow();
   },
