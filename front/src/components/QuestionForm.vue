@@ -10,7 +10,7 @@
               <option>Server</option>
               <option>Algorithm</option>
               <option>DataBase</option>
-              <option>AWS</option>
+              <option>OS</option>
               <option>Network</option>
               <option>JAVA</option>
               <option>Python</option>
@@ -101,10 +101,11 @@ import axios from 'axios'
         }
         if (this.showCodeBox) question['problems']['p_code'] = this.codeText.replace(/"/gi, '\\"')
         if (this.questionId == 2) question['examples'] = this.example
-        // axios.post('http://k02b1011.p.ssafy.io:8085/api/problems/create_prob/', question)
-        //   .then(res => console.log(res))
-        axios.get('https://baconipsum.com/api/?type=meat-and-filler')
-          .then(res => console.log(res))
+        console.log(question)
+        axios.post('http://k02b1011.p.ssafy.io/api/problems/create_prob/', question)
+          .then(res => {
+            console.log(res)
+          })
       },
       changeQuestionType() {
         this.questionId = (this.questionId + 1) % 3 + 1
