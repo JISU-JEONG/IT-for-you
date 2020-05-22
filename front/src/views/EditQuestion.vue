@@ -1,12 +1,12 @@
 <template>
-  <div class="wrapper">
-    <table style="width:100%">
+  <div class="wrapper" style="overflow: scroll;">
+    <table style="width: 100%;">
       <tr>
         <th>카테고리</th>
         <th>문제</th>
         <th>삭제</th>
       </tr>
-      <tr v-for="question in questions" :key="question.p_id">
+      <tr v-for="question in questions" :key="question.p_id" >
         <td>{{category[question.pc_id]}}</td>
         <td>{{question.p_question}}</td>
         <td class="btn" @click="deleteQuestion(question.p_id)">삭제</td>
@@ -51,6 +51,9 @@ export default {
   * {font-family: 'RIDIBatang';}
   li { list-style: none; cursor: pointer;}
   th {border: 1px solid rgb(107, 107, 107)}
+  tr:nth-child(2n) {
+      background-color: rgb(230, 230, 230);
+    }
   td {text-align: center;}
   .btn {cursor: pointer;}
   .wrapper {width: 100%; height: 100%;}
