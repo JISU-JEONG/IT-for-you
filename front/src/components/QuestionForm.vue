@@ -207,7 +207,7 @@ import axios from 'axios'
       opacity: 1;
     }
     100% {
-      opacity: 0;
+      opacity: 0; 
     }
   }
   .float-right {float: right;}
