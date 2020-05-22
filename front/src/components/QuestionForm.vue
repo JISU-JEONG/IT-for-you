@@ -167,6 +167,29 @@ import axios from 'axios'
     border-radius: 5px;
     outline: none;    
   }
+  .success-message {
+    color: green;
+    margin-right: 10px;
+    opacity: 0;
+  }
+  .ani-show {
+    animation: show 1s;
+  }
+  @keyframes show {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0; 
+    }
+  }
+  .float-right {float: right;}
   .input-container {
     width: 50%;
     height: 100%;
