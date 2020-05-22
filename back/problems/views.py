@@ -66,27 +66,27 @@ def create_prob(request):
     prob = serializer.save()
 
   # 보기 생성부
-  answers = request.data.get('answers')
   ans_data = dict()
   ans_data['p_id'] = prob.p_id
-  # 주관식(1), 단답식(4)
-  if problems.get('pt_id') == 1 or problems.get('pt_id') == 4:
-    ans_data['a_value'] = answers
-    ans_data['a_correct'] = True
-    serializer = AnswerSerializer(data=ans_data)
-    if serializer.is_valid(raise_exception=True):
-      serializer.save()
-  # 객관식(2), OX Quiz(3)
-  elif problems.get('pt_id') == 2 or problems.get('pt_id') == 3: 
-    correct_ans = request.data.get('correct_ans')
-    for ans in answers:
-      ans_data['a_value'] = ans
+  answer = request.data.get('answer')
+  # 객관식(2)
+  if problems.get('pt_id') == 2:
+    examples = request.data.get('examples')
+    for example in examples:
+      ans_data['a_value'] = example
       ans_data['a_correct'] = False
-      if ans == correct_ans:
+      if example == answer:
         ans_data['a_correct'] = True
       serializer = AnswerSerializer(data=ans_data)
       if serializer.is_valid(raise_exception=True):
         serializer.save()
+  # 주관식(1), OX Quiz(3), 단답식(4)
+  else:
+    ans_data['a_value'] = answer
+    ans_data['a_correct'] = True
+    serializer = AnswerSerializer(data=ans_data)
+    if serializer.is_valid(raise_exception=True):
+      serializer.save()
 
   return JsonResponse({'message': 'Success'})
 
@@ -94,14 +94,12 @@ def create_prob(request):
 @api_view(['PUT'])
 def update_prob(request, prob_id):
   # Prob Update
-  problems = request.data.get('problems')
   prob = get_object_or_404(Problem, p_id=prob_id)
-  prob.p_question = problems.get('p_question')
-  prob.p_code = problems.get('p_code')
-  prob.pc_obj = ProbCate.objects.get(pc_value=problems.get('pc_value'))
-  prob.pt_obj = ProbType.objects.get(pt_id=problems.get('pt_id'))
-  prob.pd_obj = ProbDiff.objects.get(pd_id=problems.get('pd_id'))
-  prob.save()
+  problems = request.data.get('problems')
+  problems['pc_id'] = ProbCate.objects.get(pc_value=problems.pop('pc_value')).pc_id
+  serializer = ProblemSerializer(data=problems, instance=prob)
+  if serializer.is_valid(raise_exception=True):
+    prob = serializer.save()
 
   # prob type이 바뀔 경우에 대비해 기존 기본 보기들 모두 삭제
   pre_answers = prob.answer_set.all()
@@ -109,24 +107,27 @@ def update_prob(request, prob_id):
     ans.delete()
 
   # 보기 생성부
-  answers = request.data.get('answers')
-  # 주관식(1), 단답식(4)
-  if prob.pt_obj.pt_id == 1 or prob.pt_obj.pt_id == 4:
-    a_value = answers
-    a_correct = True
-    answer = Answer(p_id=prob, a_value=a_value, a_correct=a_correct)
-    answer.save()
-  # 객관식(2), OX Quiz(3)
-  elif prob.pt_obj.pt_id == 2 or prob.pt_obj.pt_id == 3: 
-    correct_ans = request.data.get('correct_ans')
-    for ans in answers:
-      a_value = ans
-      a_correct = False
-      if a_value == correct_ans:
-        a_correct = True
-      # 외래키인 p_id는 숫자가 아닌 문제 객체 그 자체를 받아야 한다.
-      answer = Answer(p_id=prob, a_value=a_value, a_correct=a_correct)
-      answer.save()
+  ans_data = dict()
+  ans_data['p_id'] = prob.p_id
+  answer = request.data.get('answer')
+  # 객관식(2)
+  if problems.get('pt_id') == 2:
+    examples = request.data.get('examples')
+    for example in examples:
+      ans_data['a_value'] = example
+      ans_data['a_correct'] = False
+      if example == answer:
+        ans_data['a_correct'] = True
+      serializer = AnswerSerializer(data=ans_data)
+      if serializer.is_valid(raise_exception=True):
+        serializer.save()
+  # 주관식(1), OX Quiz(3), 단답식(4)
+  else:
+    ans_data['a_value'] = answer
+    ans_data['a_correct'] = True
+    serializer = AnswerSerializer(data=ans_data)
+    if serializer.is_valid(raise_exception=True):
+      serializer.save()
 
   return JsonResponse({'message': 'Success'})
 
