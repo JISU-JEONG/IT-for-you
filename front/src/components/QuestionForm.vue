@@ -10,7 +10,7 @@
               <option>Server</option>
               <option>Algorithm</option>
               <option>DataBase</option>
-              <option>AWS</option>
+              <option>OS</option>
               <option>Network</option>
               <option>JAVA</option>
               <option>Python</option>
@@ -39,10 +39,10 @@
         <div v-if="questionId===2">
           <input type="text" placeholder="정답 입력"  class="input-default" v-model="answer">
           <h2>보기</h2>
-          <input type="text" name="example" class="input-default" v-model="example[0]">
-          <input type="text" name="example" class="input-default" v-model="example[1]">
-          <input type="text" name="example" class="input-default" v-model="example[2]">
-          <input type="text" name="example" class="input-default" v-model="example[3]">
+          <input type="text" name="examples" class="input-default" v-model="examples[0]">
+          <input type="text" name="examples" class="input-default" v-model="examples[1]">
+          <input type="text" name="examples" class="input-default" v-model="examples[2]">
+          <input type="text" name="examples" class="input-default" v-model="examples[3]">
         </div>
         <div v-if="questionId===3">
           <input type="radio" name="answer" value="O" v-model="answer">O
@@ -51,7 +51,11 @@
         <div v-if="questionId===4">
           <input type="text" placeholder="정답 입력" class="input-default" v-model="answer">
         </div>
-        <button id="submit-btn" class="submit-btn btn" @click="onClickSubmit">문제 등록</button>
+        <div class="float-right">
+          <span class="success-message display-none">문제가 등록되었습니다.</span>
+          <button id="submit-btn" class="submit-btn btn" @click="onClickSubmit">문제 등록</button>
+        </div>
+        
       </div>
       <div class="question-container"> 
         <h2>문제 미리보기</h2>
@@ -63,7 +67,7 @@
         <div v-if="questionId===2">
           <h2>보기</h2>
           <ol>
-            <li v-for="(e, i) in example" :key="i">{{e}}</li>
+            <li v-for="(e, i) in examples" :key="i">{{e}}</li>
           </ol>
         </div>
       </div>
@@ -80,15 +84,26 @@ import axios from 'axios'
         questionId:1,
         category: '',
         difficulty: 1,
-        showCodeBox: false,
         questionText: '',
+        showCodeBox: false,
         codeText:'',
         answer: '',
-        example: ['', '', '', ''],
+        examples: ['', '', '', ''],
       }
     },
     methods: {
+      setDataDefault() {
+        this.questionId = 1,
+        this.category = '',
+        this.difficulty = 1,
+        this.questionText = '',
+        this.showCodeBox = false,
+        this.codeText = '',
+        this.answer = '',
+        this.examples = ['', '', '', '']
+      },
       onClickSubmit() {
+        if (!this.category || !this.questionText || !this.answer) return alert('잘못된 입력입니다.(카테고리 미선택. 문제, 답변 미입력 등..)')
         let question = {
           problems: {
             p_question: this.questionText,
@@ -96,18 +111,25 @@ import axios from 'axios'
             pt_id: this.questionId,
             pd_id: this.difficulty,
           },
-          // 정답 백엔드 통일시켜주세요!!!!!!!!!!!!!
+          answer: this.answer
         }
-        if (this.codeText) question['p_code'] = this.codeText.replace(/"/gi, '\\"')
-        console.log(question)
-        // axios.post('http://k02b1011.p.ssafy.io:8085/', {hi:1})
-        //   .then(res => console.log(res))
+        if (this.showCodeBox) question['problems']['p_code'] = this.codeText
+        if (this.questionId == 2) question['examples'] = this.examples
+        // axios.post('http://k02b1011.p.ssafy.io/api/problems/create_prob/', question)
+        axios.post('http://211.213.225.87:8086/api/problems/create_prob/', question)
+          .then(res => {
+            let successMessage = document.querySelector('.success-message')
+            successMessage.classList.add('ani-show')
+            setTimeout(() => {
+              successMessage.classList.remove('ani-show')
+            },1000)
+            this.setDataDefault()
+          })
       },
       changeQuestionType() {
         this.questionId = (this.questionId + 1) % 3 + 1
       },
       setInputDefault() {
-        console.log(this.codeText)
         if (event.keyCode === 9) {
           event.preventDefault()
           this.codeText += '  ' 
@@ -157,7 +179,6 @@ import axios from 'axios'
     outline: none;
   }
   .submit-btn  {
-    float: right;
     width: 80px;
     height: 35px;
     font-weight: 300px;
@@ -167,6 +188,29 @@ import axios from 'axios'
     border-radius: 5px;
     outline: none;    
   }
+  .success-message {
+    color: green;
+    margin-right: 10px;
+    opacity: 0;
+  }
+  .ani-show {
+    animation: show 1s;
+  }
+  @keyframes show {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .float-right {float: right;}
   .input-container {
     width: 50%;
     height: 100%;
