@@ -15,7 +15,7 @@
   }
 }
 
-.company {
+.question {
   position: relative;
   width: calc(100% / 2 - 1rem);
   display: inline-flex;
@@ -237,7 +237,7 @@
     }
   }
 
-  &__난이도 {
+  &__level {
     font-family: "Recipekorea";
     width: 100%;
     display: flex;
