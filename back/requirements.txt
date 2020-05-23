@@ -10,6 +10,7 @@ decorator==4.4.2
 Django==3.0.6
 django-cors-headers==3.2.1
 djangorestframework==3.11.0
+djangorestframework-jwt==1.11.0
 drf-yasg==1.17.1
 idna==2.9
 inflection==0.4.0
@@ -28,6 +29,7 @@ parso==0.7.0
 pickleshare==0.7.5
 prompt-toolkit==3.0.5
 Pygments==2.6.1
+PyJWT==1.7.1
 pylint==2.5.2
 pyparsing==2.4.7
 pytz==2020.1

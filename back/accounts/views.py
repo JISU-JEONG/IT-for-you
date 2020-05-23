@@ -2,10 +2,44 @@ from django.shortcuts import render,get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
+from django.http import JsonResponse, HttpResponse
 from .models import User
+from .serializers import UserSerializers
+
+from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
+
 
 # Create your views here.
-@api_view()
-def user_login(requset):
-    pass
+@api_view(['POST'])
+def user_signup(request):
+    serializers = UserSerializers(data=request.data)
+    if serializers.is_valid(raise_exception=True):
+        serializers.save()
+        return Response(serializers.data)
+
+@api_view(['POST', 'PUT', 'DELETE'])
+def user(request):
+    
+    if request.method == 'POST':
+        headers = request.headers
+        token = headers["Authorization"][4:]
+        valid_data = VerifyJSONWebTokenSerializer().validate({'token' : token})
+        user = valid_data['user']
+        serializers = UserSerializers(user)
+        return Response(serializers.data)
+    
+    # elif request.method == 'PUT':
+    #     serializers = UserSerializers(data=request.data,instance=user)
+    #     if serializers.is_valid(raise_exception=True):
+    #         serializers.save()
+    #         return Response(serializers.data)
+
+@api_view(['POST'])
+def user_delete(request):
+    if request.method == 'POST':
+        data = request.data
+        valid_data = VerifyJSONWebTokenSerializer().validate(data)
+        user = valid_data['user']
+        user.delete()
+        return Response({'message': '삭제되었음'})
+
