@@ -1,17 +1,21 @@
 <template>
-  <div>
-    <form class="user-form" @submit.prevent="userCreate">
-        <label for="password" id="password">password: </label>
-        <input type="password"
-        v-model="password" id="password"><hr>
-        <label for="name">name: </label>
-        <input type="text"
-        v-model="name" id="name"><hr>
-        <label for="email">email: </label>
-        <input type="text"
-        v-model="email" id="email">
-         <input type = "submit" value = "submit"/>
+  <div class="container">
+    <form class="signup-form" @submit.prevent="userCreate" >
+        <!-- <label for="email">email: </label> -->
+        <input class="input" type="text"
+        v-model="email" id="email"  placeholder="이메일">
+        <!-- <label for="name">name: </label> -->
+        <input class="input" type="text"
+        v-model="name" id="name" placeholder="닉네임">
+        <!-- <label for="password" id="password">password: </label> -->
+        <input class="input" type="password"
+        v-model="password" id="password" placeholder="비밀번호">
+        <input class="input" type="password"
+        v-model="passwordCheck" id="password-check" placeholder="비밀번호 확인" @input="passwordChecking">
+        <input class="input submit" type = "submit" value = "회원가입" />
     </form>
+    <router-link to="/login">로그인</router-link>
+    <router-link to="/">메인으로</router-link>
   </div>
 </template>
 
@@ -24,6 +28,7 @@ export default {
         return {
             name: '',
             password:'',
+            passwordCheck:'',
             email:'',
             credentials:{}
         }
@@ -66,11 +71,55 @@ export default {
                 .catch(error => {
                 console.log(error)
                 })
+        },
+        passwordChecking() {
+          if (this.password != this.passwordCheck) console.log('asd')
         }
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .container {
+    width: 500px;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .input {
+    width: 400px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
+  }
+  .input:placeholder-shown {
+    border: 2px solid #888;
+  }
+  .signup-form {
+    width: 100%;
+    text-align: center;
+  }
+  .submit {
+    border: 2px solid #888;
+    cursor: pointer;
+  }
+  .container a {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(29, 29, 31);
+    text-decoration: none;
+  }
+  .wrong-password {
+    border: 2px solid red;
+  }
+  .correct-password {
+    border: 2px solid green;
+  }
 </style>
