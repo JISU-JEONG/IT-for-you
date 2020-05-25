@@ -2,9 +2,18 @@
   <div class="container">
     <div class="login-container">
       <h1>서비스 이름</h1>
-      <p>아직 회원이 아닌가요?</p>
-      <router-link to="/signup">회원가입</router-link>
-      <LoginForm />
+      <div class="login-or-signup">
+        <span>
+          <p>회원이시라면</p>
+          <p class="form-change-btn" :class="{'activate': showLogin}" @click="showLogin=!showLogin">로그인</p>
+        </span>
+        <span>
+          <p>아직 회원이 아닌가요?</p>
+          <p class="form-change-btn" :class="{'activate': !showLogin}" @click="showLogin=!showLogin">회원가입</p>
+        </span>
+      </div>
+      <LoginForm v-if="showLogin"/>
+      <SignupForm v-else/>
     </div>
     <div class="desc-container">
       <h1>서비스 이름</h1>
@@ -27,6 +36,7 @@
 
 <script>
 import LoginForm from '@/components/LoginForm.vue'
+import SignupForm from '@/components/SignupForm.vue'
 import router from '../router'
 import axios from 'axios'
 
@@ -34,11 +44,13 @@ export default {
     name: "Login",
     data() {
         return {
-            isAuthenticated: this.$session.has('jwt')
+          showLogin: true,
+          isAuthenticated: this.$session.has('jwt')
         }
     },
     components:{
-        LoginForm
+        LoginForm,
+        SignupForm
     },
     methods:{
         logout(){
@@ -85,22 +97,29 @@ export default {
     height: 100vh;
     padding: 30px;
   }
+  .login-or-signup {
+    display: flex;
+  }
   .login-container h1 {
     font-size: 35px;
     margin-bottom: 100px;
   }
   .login-container p {
-    font-size: 16px;
+    font-size: 14px;
     color: #888;
     margin-bottom: 10px;
   }
-  .login-container a {
-    margin: 0 30px 50px 0;
+  .login-container .form-change-btn {
+    margin: 0 40px 50px 0;
     display: inline-block;
     font-size: 25px;
     font-weight: bold;
+    color: #888;
+    cursor: pointer;
+  }
+  .form-change-btn.activate {
     color: rgb(29, 29, 31);
-    text-decoration: none;
+    text-decoration: underline;
   }
   .desc-container {
     width: 100%;
