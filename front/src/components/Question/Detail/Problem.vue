@@ -1,46 +1,61 @@
 <template>
-<body>
-  <div id="subhead"></div>
-  <ul id="questionsList">
-    <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in question" :key="i">
-      코드블럭 : {{ q.problems.p_code }} 레벨 :
-      {{ q.problems.pd_id }} 카데고리 : {{ q.problems.pc_id }} 유형 :
-      {{ questionType[q.problems.pt_id] }}
-      <li>
-        <p class="problem_question">{{ q.problems.p_question }}</p>
-        <span class="questionItem" v-for="a in q.answers" :key="a">
-          <input :id="a" type="radio" :name="q.answers" :value="a" />
-          <label :for="a">{{ a }}</label>
+  <body>
+    <div id="subhead"></div>
+    <ul id="questionsList">
+      <section
+        :class="i === 0 ? 'current' : ''"
+        v-for="(q, i) in this.$store.getters.questionList"
+        :key="i"
+      >
+        <p class="problem_question">{{ q.p_question }}</p>
+
+        <div v-highlight v-if="q.p_code !== null">
+          <pre class="language-javascript">
+              <code>
+                {{q.p_code}}
+              </code>
+            </pre>
+        </div>
+        <span class="questionItem" v-for="a in q.answers" :key="a.a_id">
+          <input
+            :id="a.a_value"
+            type="radio"
+            :name="q.answers"
+            :value="a.a_value"
+          />
+          <label :for="a.a_value">{{ a.a_value }}</label>
         </span>
-      </li>
-      <a class="nextButton" @click="nextQuestion(i, question.length - 1, q.correct_ans)">정답 확인</a>
-    </section>
-  </ul>
-</body>
+        <a
+          class="nextButton"
+          @click="nextQuestion(i, questionList.length - 1, q.correctAnswer)"
+          >정답 확인</a
+        >
+      </section>
+    </ul>
+  </body>
 </template>
 
 <script>
 import * as utils from "./Problem.js";
 import * as Question from "../QuestionData.js";
-import axios from "axios";
+import "@/utils/prism.css";
+import axios from "@/api/api.service.js";
 
 export default {
   name: "Problem",
 
   data() {
     return {
-      question: Question.data2(),
       questions: document.getElementsByTagName("section"),
-      questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
+      wrongAnswer: 0
+      // questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
+      // questionData: this.$store.getter.questionData
     };
   },
 
   computed: {
-    questionData() {
-      return this.$store.getters.questionData;
-    },
-    filters() {
-      return this.$store.getters.filters;
+    questionList() {
+      return this.$store.getters.questionList;
     }
   },
 
@@ -54,23 +69,45 @@ export default {
     utils.drow();
   },
 
+  beforeMount() {
+    console.log(this.$store.getters.questionList);
+  },
+
   methods: {
     nextQuestion(i, size, currentAnswer) {
-      if (i !== size) {
-        this.questions[i].className = "";
-        this.questions[i + 1].className = "current";
-      }
-
+      console.log(currentAnswer);
       let answer = this.questions[i].getElementsByTagName("input");
-      answer.forEach(v => {
+      let problems = document.getElementsByClassName("questionItem");
+      let button = document.getElementsByClassName("nextButton");
+
+      answer.forEach((v, i) => {
         if (v.checked) {
-          if (v.value === currentAnswer) {
-            alert("맞음");
+          if (v.value === currentAnswer.value) {
+            problems[currentAnswer.index].setAttribute(
+              "style",
+              "background:#99f19e"
+            );
+            // alert("맞음");
           } else {
-            alert("틀림");
+            problems[this.wrongAnswer + i].setAttribute(
+              "style",
+              "background:#ff4e50"
+            );
+            problems[currentAnswer.index].setAttribute(
+              "style",
+              "background:#99f19e"
+            );
+            // alert("틀림");
           }
         }
       });
+      this.wrongAnswer += answer.length;
+      setTimeout(() => {
+        if (i !== size) {
+          this.questions[i].className = "";
+          this.questions[i + 1].className = "current";
+        }
+      }, 3000);
     }
   }
 };
