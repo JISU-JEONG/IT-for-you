@@ -1,29 +1,21 @@
 const state = {
-  questionData: null,
-  filters: null
+  questionList: null
 };
 
 const mutations = {
-  setQuestionData(state, values) {
-    state.questionData = values;
-  },
-  setFilters(state, values) {
-    state.filters = values;
+  setQuestionList(state, values) {
+    state.questionList = values;
   }
 };
 
 const actions = {
-  questionData(context, values) {
-    context.commit("setQuestionData", values);
-  },
-  filters(context, values) {
-    context.commit("setFilters", values);
+  questionList(context, values) {
+    context.commit("setQuestionList", values);
   }
 };
 
 const getters = {
-  questionData: state => state.questionData,
-  filters: state => state.filters
+  questionList: state => state.questionList
 };
 
 export default {
