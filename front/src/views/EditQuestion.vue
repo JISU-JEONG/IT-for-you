@@ -56,6 +56,6 @@ export default {
     }
   td {text-align: center;}
   .btn {cursor: pointer;}
-  .wrapper {width: 100%; height: 100%;}
+  .wrapper {width: 100%; height: 100%;overflow: scroll;}
   .question-container {width: 60%; height: 100%; border: 1px solid black;}
 </style>
