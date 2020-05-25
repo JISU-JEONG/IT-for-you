@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from IPython import embed
 from .models import *
+from accounts.models import *
 from .serializers import *
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -138,3 +139,22 @@ def prob_delete(request, prob_id):
   prob = Problem.objects.get(p_id=prob_id)
   prob.delete()
   return JsonResponse({'message': 'Success'})
+
+
+# 오답 노트
+@api_view(['GET'])
+def x_note(request, user_id):
+  user = User.objects.get(id=user_id)
+  x_probs = user.incorrects.all()
+  serializer = ProblemDetailSerializer(x_probs, many=True)
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def x_note_add(request):
+  user = User.objects.get(id=2)
+  prob = Problem.objects.get(p_id=1)
+  myanswer = 'X'
+  test = ThroughModel(user=user, prob=prob, myanswer=myanswer)
+  test.save()
+  
+  
