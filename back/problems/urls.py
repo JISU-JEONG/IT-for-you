@@ -12,4 +12,6 @@ urlpatterns = [
     path('create_prob/', views.create_prob),
     path('update_prob/<int:prob_id>/', views.update_prob),
     path('delete_prob/<int:prob_id>/', views.prob_delete),
+    path('x_note/<int:user_id>/', views.x_note),
+    path('x_note_add/', views.x_note_add),
 ]

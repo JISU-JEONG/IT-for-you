@@ -44,16 +44,16 @@ def user_delete(request):
         user.delete()
         return Response({'message': '삭제되었음'})
 
-@api_view(['POST'])
-def add_problem(request, problem_pk):
-    data = request.data
-    valid_data = VerifyJSONWebTokenSerializer().validate(data)
-    user = valid_data['user']
-    problem = get_object_or_404(Problem, pk=problem_pk)
+# @api_view(['POST'])
+# def add_problem(request, problem_pk):
+#     data = request.data
+#     valid_data = VerifyJSONWebTokenSerializer().validate(data)
+#     user = valid_data['user']
+#     problem = get_object_or_404(Problem, pk=problem_pk)
 
-    if problem in user.uncorrets.all():
-        user.uncorrets.remove(problem)
-    else:
-        user.uncorrets.add(problem)
-    return Response({'message': '추가되었습니다.'})
+#     if problem in user.uncorrets.all():
+#         user.uncorrets.remove(problem)
+#     else:
+#         user.uncorrets.add(problem)
+#     return Response({'message': '추가되었습니다.'})
 
