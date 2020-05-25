@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
   .container {
-    width: 500px;
+    max-width: 500px;
     height: 100vh;
     margin: 0 auto;
     display: flex;
@@ -70,7 +70,7 @@ export default {
     text-align: center;
   }
   .input {
-    width: 400px;
+    width: 80%;
     height: 50px;
     border: 2px solid black;
     border-radius: 5px;
