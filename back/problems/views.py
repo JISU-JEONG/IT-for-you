@@ -179,5 +179,23 @@ class TestProb(APIView):
       serializer = AnswerSerializer(data=ans_data)
       if serializer.is_valid(raise_exception=True):
         serializer.save()
-
     return Response({'message': '작성 완료'}, status=status.HTTP_201_CREATED)
+    
+# 오답 노트
+@api_view(['GET'])
+def x_note(request, user_id):
+  user = User.objects.get(id=user_id)
+  x_probs = user.incorrects.all()
+  serializer = ProblemDetailSerializer(x_probs, many=True)
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def x_note_add(request):
+  user = User.objects.get(id=1)
+  prob = Problem.objects.get(p_id=1)
+  myanswer = 'X'
+  embed()
+  test = Xnote(user=user, prob=prob, u_answer=myanswer)
+  test.save()
+  return JsonResponse({'message': 'Success'})
+
