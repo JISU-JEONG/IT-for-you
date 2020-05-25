@@ -15,6 +15,7 @@
             <option>Network</option>
             <option>JAVA</option>
             <option>Python</option>
+            <option>AI</option>
           </select>
         </span>
         <span>
