@@ -66,7 +66,7 @@ export default {
             .catch(error => {
                 console.log(error)
             })
-    }
+      }
     },
     mounted(){
         this.isLogin()

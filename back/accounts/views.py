@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.http import JsonResponse, HttpResponse
 from .models import User
+from problems.models import Problem
 from .serializers import UserSerializers
 
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
@@ -17,7 +18,7 @@ def user_signup(request):
         serializers.save()
         return Response(serializers.data)
 
-@api_view(['POST', 'PUT', 'DELETE'])
+@api_view(['POST', 'PUT'])
 def user(request):
     
     if request.method == 'POST':
@@ -42,4 +43,17 @@ def user_delete(request):
         user = valid_data['user']
         user.delete()
         return Response({'message': '삭제되었음'})
+
+@api_view(['POST'])
+def add_problem(request, problem_pk):
+    data = request.data
+    valid_data = VerifyJSONWebTokenSerializer().validate(data)
+    user = valid_data['user']
+    problem = get_object_or_404(Problem, pk=problem_pk)
+
+    if problem in user.uncorrets.all():
+        user.uncorrets.remove(problem)
+    else:
+        user.uncorrets.add(problem)
+    return Response({'message': '추가되었습니다.'})
 
