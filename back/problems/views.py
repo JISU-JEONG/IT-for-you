@@ -10,6 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 # Create your views here.
 from rest_framework.views import APIView
+from rest_framework import status
 
 # Read
 @api_view(['GET'])
@@ -40,7 +41,6 @@ def get_probs(request):
 def get_prob_by_id(request, problem_id):
   problem = get_object_or_404(Problem, pk=problem_id)
   serializer = ProblemDetailSerializer(problem)
-  embed()
   return Response(serializer.data)
 
 @api_view(['GET'])
@@ -49,13 +49,6 @@ def get_probs_detail(request):
   serializer = ProblemDetailSerializer(problems, many=True)
   return Response(serializer.data)
 
-# Create
-# @swagger_auto_schema(
-#   method='post',
-#   tags=['Problems'],
-#   request_body=ProblemSerializer,
-#   responses={200: openapi.Response(description='성공메세지', examples={'a': 'd'})}
-# )
 @api_view(['POST'])
 def create_prob(request):
   # 문제 생성부
@@ -132,7 +125,6 @@ def update_prob(request, prob_id):
 
   return JsonResponse({'message': 'Success'})
 
-
 # Delete
 @api_view(['DELETE'])
 def prob_delete(request, prob_id):
@@ -140,21 +132,52 @@ def prob_delete(request, prob_id):
   prob.delete()
   return JsonResponse({'message': 'Success'})
 
+class TestProb(APIView):
+  '''
+  디폴트 설명인가?
+  '''
+  @swagger_auto_schema(
+    tags=['Problem CRUD'],
+  )
+  def get(self, request):
+    problems = Problem.objects.all()
+    serializer = ProblemDetailSerializer(problems, many=True)
+    return Response(serializer.data)
 
-# 오답 노트
-@api_view(['GET'])
-def x_note(request, user_id):
-  user = User.objects.get(id=user_id)
-  x_probs = user.incorrects.all()
-  serializer = ProblemDetailSerializer(x_probs, many=True)
-  return Response(serializer.data)
+  @swagger_auto_schema(
+    tags=['Problem CRUD'],
+    request_body=ProbPostSerializer
+  )
+  def post(self, request):
+    # 문제 생성부
+    problems = request.data.get('problems')
+    # 키 이름 및 값 변경(pop) pc_value -> pc_id
+    problems['pc_id'] = ProbCate.objects.get(pc_value=problems.pop('pc_value')).pc_id
+    serializer = ProblemSerializer(data=problems)
+    if serializer.is_valid(raise_exception=True):
+      prob = serializer.save()
 
-@api_view(['POST'])
-def x_note_add(request):
-  user = User.objects.get(id=2)
-  prob = Problem.objects.get(p_id=1)
-  myanswer = 'X'
-  test = ThroughModel(user=user, prob=prob, myanswer=myanswer)
-  test.save()
-  
-  
+    # 보기 생성부
+    ans_data = dict()
+    ans_data['p_id'] = prob.p_id
+    answer = request.data.get('answer')
+    # 객관식(2)
+    if problems.get('pt_id') == 2:
+      examples = request.data.get('examples')
+      for example in examples:
+        ans_data['a_value'] = example
+        ans_data['a_correct'] = False
+        if example == answer:
+          ans_data['a_correct'] = True
+        serializer = AnswerSerializer(data=ans_data)
+        if serializer.is_valid(raise_exception=True):
+          serializer.save()
+    # 주관식(1), OX Quiz(3), 단답식(4)
+    else:
+      ans_data['a_value'] = answer
+      ans_data['a_correct'] = True
+      serializer = AnswerSerializer(data=ans_data)
+      if serializer.is_valid(raise_exception=True):
+        serializer.save()
+
+    return Response({'message': '작성 완료'}, status=status.HTTP_201_CREATED)

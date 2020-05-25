@@ -32,3 +32,8 @@ class ProblemDetailSerializer(ProblemSerializer):
   
   class Meta(ProblemSerializer.Meta):
     fields = ProblemSerializer.Meta.fields + ('answers', 'category',)
+
+class ProbPostSerializer(serializers.ModelSerializer):
+  test = serializers.ListField()
+  class Meta(ProblemSerializer.Meta):
+    fields = ('test',)
