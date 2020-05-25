@@ -1,17 +1,15 @@
 <template>
-  <div class="container">
+  <!-- <div class="container"> -->
       <form @submit.prevent="login" class="login-form">
-        <!-- <label for="username">ID: </label> -->
+        <label for="username">아이디를 입력해주세요 </label>
         <input class="input" for="text" v-model="credentials.username"
-        id="username" placeholder="아이디"><br>
-        <!-- <label for="password">PWD: </label> -->
+        id="username" placeholder="ex)ssafy" autocomplete="off"><br>
+        <label for="password">비밀번호를 입력해주세요 </label>
         <input class="input" type="password" v-model="credentials.password"
-        id="password" placeholder="비밀번호"><br>
-        <input class="input submit" type="submit" value="로그인">
+        id="password" placeholder="ex)1q2w3e4r!" autocomplete="off"><br>
+        <button class="input submit" type="submit" :disabled="credentials.username.length < 1 || credentials.password.length < 1">로그인</button>
       </form>
-      <router-link to="/signup">회원가입</router-link>
-      <router-link to="/">메인으로</router-link>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -22,7 +20,10 @@ export default {
     name : "LoginForm",
     data(){
         return {
-            credentials:{}
+            credentials:{
+              username: '',
+              password: ''
+            }
         }
     },
     methods:{
@@ -50,40 +51,41 @@ export default {
 </script>
 
 <style scoped>
-  .container {
+  /* .container {
     max-width: 500px;
-    height: 100vh;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .container a {
-    font-size: 16px;
-    font-weight: bold;
-    color: rgb(29, 29, 31);
-    text-decoration: none;
-  }
+  } */
   .login-form {
     width: 100%;
-    text-align: center;
+  }
+  .login-form label {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #888;
   }
   .input {
-    width: 80%;
+    width: 100%;
     height: 50px;
     border: 2px solid black;
     border-radius: 5px;
     outline: none;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding: 5px;
     font-size: 16px;
   }
   .input:placeholder-shown {
-    border: 2px solid #888;
+    border: none;
   }
   .submit {
-    border: 2px solid #888;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(29, 29, 31);
     cursor: pointer;
+  }
+  .submit:disabled {
+    border: none;
+    color: #888;
+    background-color: #dddddd;
   }
 </style>
