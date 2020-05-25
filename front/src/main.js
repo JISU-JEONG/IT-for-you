@@ -4,10 +4,11 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import VueSession from "vue-session";
-import axios from "axios";
+import VueCodeHighlight from "vue-code-highlight";
 
 Vue.config.productionTip = false;
 Vue.use(VueSession);
+Vue.use(VueCodeHighlight);
 
 new Vue({
   router,

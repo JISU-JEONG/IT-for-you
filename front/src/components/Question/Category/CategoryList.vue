@@ -7,23 +7,32 @@
           v-for="(active, menu) in menus"
           class="nav__label"
           :class="{
-          'nav__label--active': active,
-          'nav__label--filter': activeFilters[menu].length
-        }"
-          :key="menu+0"
+            'nav__label--active': active,
+            'nav__label--filter': activeFilters[menu].length
+          }"
+          :key="menu + 0"
           @click="setMenu(menu, active)"
-        >{{ menu }}</div>
-        <div class="nav__label nav__label--clear" @click="clearAllFilters">Clear all</div>
+        >
+          {{ menu }}
+        </div>
+        <div class="nav__label nav__label--clear" @click="clearAllFilters">
+          Clear all
+        </div>
       </menu>
     </nav>
 
-    <transition-group name="dropdown" tag="section" class="dropdown" :style="dropdown">
+    <transition-group
+      name="dropdown"
+      tag="section"
+      class="dropdown"
+      :style="dropdown"
+    >
       <menu
         v-for="(options, filter) in filters"
         class="filters"
         v-show="menus[filter]"
         ref="menu"
-        :key="filter+0"
+        :key="filter + 0"
       >
         <div v-if="filter === 'level'" class="filters__level">
           <output>
@@ -47,22 +56,28 @@
             class="filters__item"
             :class="{ 'filters__item--active': active }"
             @click="setFilter(filter, option)"
-            :key="option+0"
-          >{{ option }}</div>
+            :key="option + 0"
+          >
+            {{ option }}
+          </div>
         </template>
       </menu>
     </transition-group>
 
+    <!-- <transition-group name="question" tag="ul" class="content__list">
+      <div class="question" v-for="(active, option) in filters" :key="option">
+        <div class="question__info" v-for="a in Object.keys(active)" :key="a">
+          {{ a }}
+        </div>
+      </div>
+    </transition-group> -->
     <transition-group name="question" tag="ul" class="content__list">
-      <div
-        class="question"
-        v-for="question in list"
-        :key="question.p_id"
-        @click="questionDetail(question.p_id)"
-      >
+      <div class="question" v-for="question in list" :key="question.p_id">
         <div class="question__info">
           <h2 class="question__name">{{ question.p_question }}</h2>
-          <blockquote class="question__slogan">{{ questionType[question.pt_id] }}</blockquote>
+          <blockquote class="question__slogan">
+            {{ questionType[question.pt_id] }}
+          </blockquote>
         </div>
 
         <ul class="question__details">
@@ -71,6 +86,8 @@
         </ul>
       </div>
     </transition-group>
+
+    <button @click="questionDetail()">문제 풀러 가기</button>
   </main>
 </template>
 
@@ -79,7 +96,6 @@ import axios from "@/api/api.service.js";
 
 export default {
   name: "CategoryList",
-
   data() {
     return {
       questionType: [],
@@ -156,7 +172,27 @@ export default {
       }
     },
 
-    questionDetail(p_id) {
+    async questionDetail() {
+      // console.log(this.filters);
+      let questionlist = this.list;
+      let index = 0;
+      const promiseList = await this.list.map(({ p_id }, i) => {
+        return axios.get(`/api/problems/probs/${p_id}`).then(({ data }) => {
+          data.answers.some((v, j) => {
+            questionlist[i].correctAnswer = {
+              value: v.a_value,
+              index: index + j
+            };
+            return v.a_corrent;
+          });
+          index += data.answers.length;
+          questionlist[i].answers = data.answers;
+          return data;
+        });
+      });
+
+      await Promise.all(promiseList);
+      this.$store.dispatch("questionList", questionlist);
       this.$router.push("/detail");
     },
 
@@ -188,7 +224,6 @@ export default {
       // Problems Get
       await axios.get("/api/problems/probs/").then(({ data }) => {
         this.questionData = data;
-        this.$store.dispatch("questionData", data);
         data.forEach(({ pt_id, pc_id, pd_id }) => {
           // Type, Category
           this.$set(this.filters.type, this.questionType[pt_id], false);
@@ -201,8 +236,6 @@ export default {
           }
         });
       });
-
-      this.$store.dispatch("filters", this.filters);
     }
   },
 
@@ -212,5 +245,8 @@ export default {
 };
 </script>
 
-<style lang="scss" src="@/components/Question/Category/CategoryList.scss" scoped>
-</style>
+<style
+  lang="scss"
+  src="@/components/Question/Category/CategoryList.scss"
+  scoped
+></style>
