@@ -151,10 +151,11 @@ def x_note(request, user_id):
 
 @api_view(['POST'])
 def x_note_add(request):
-  user = User.objects.get(id=2)
+  user = User.objects.get(id=1)
   prob = Problem.objects.get(p_id=1)
   myanswer = 'X'
-  test = ThroughModel(user=user, prob=prob, myanswer=myanswer)
+  embed()
+  test = Xnote(user=user, prob=prob, u_answer=myanswer)
   test.save()
-  
-  
+  return JsonResponse({'message': 'Success'})
+

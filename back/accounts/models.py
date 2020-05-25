@@ -14,13 +14,13 @@ class User(AbstractUser):
         Problem,
         related_name='incorrect',
         blank=True,
-        through='ThroughModel'
+        through='Xnote'
     )
-
-class ThroughModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    prob = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    myanswer = models.CharField(max_length=200)
+    
+class Xnote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)    
+    prob = models.ForeignKey(Problem, on_delete=models.CASCADE)    
+    u_answer = models.CharField(max_length=500)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
