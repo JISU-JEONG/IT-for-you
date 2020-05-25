@@ -12,4 +12,5 @@ urlpatterns = [
     path('create_prob/', views.create_prob),
     path('update_prob/<int:prob_id>/', views.update_prob),
     path('delete_prob/<int:prob_id>/', views.prob_delete),
+    path('testprob/', views.TestProb.as_view()),
 ]
