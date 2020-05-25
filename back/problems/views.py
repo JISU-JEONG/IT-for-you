@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from IPython import embed
 from .models import *
+from accounts.models import *
 from .serializers import *
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -130,10 +131,6 @@ def prob_delete(request, prob_id):
   prob = Problem.objects.get(p_id=prob_id)
   prob.delete()
   return JsonResponse({'message': 'Success'})
-
-
-
-
 
 class TestProb(APIView):
   '''
