@@ -15,6 +15,7 @@
             <option>Network</option>
             <option>JAVA</option>
             <option>Python</option>
+            <option>AI</option>
           </select>
         </span>
         <span>
@@ -145,7 +146,7 @@ export default {
         });
     },
     changeQuestionType() {
-      this.questionId = ((this.questionId + 1) % 3) + 1;
+      this.questionId = ((this.questionId + 1) % 5) || 1;
     },
     setInputDefault() { // 코드 입력창 tab 설정
       if (event.keyCode === 9) {
