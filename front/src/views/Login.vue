@@ -1,13 +1,11 @@
 <template>
-  <div class="login">
-      <div v-if="!isAuthenticated">
-        <LoginForm />
-      </div>
-      <div v-else>
-          <a @click.prevent="check" href="#">profile</a>
-          <br>
-          <a @click.prevent="logout" href="#">Logout</a>
-      </div>
+  <div class="login-container">
+    <LoginForm v-if="!isAuthenticated"/>
+    <div v-else>
+        <a @click.prevent="check" href="#">profile</a>
+        <br>
+        <a @click.prevent="logout" href="#">Logout</a>
+    </div>
   </div>
 </template>
 
@@ -59,9 +57,9 @@ export default {
 </script>
 
 <style scoped>
-  .login {
+  .login-container {
     width: 100vw;
-    height: 100vh;
+    height: 100vh; 
   }
 
 </style>

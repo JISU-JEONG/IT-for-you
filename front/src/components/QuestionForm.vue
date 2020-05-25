@@ -15,6 +15,7 @@
             <option>Network</option>
             <option>JAVA</option>
             <option>Python</option>
+            <option>AI</option>
           </select>
         </span>
         <span>
@@ -56,9 +57,11 @@
         <input type="text" name="examples" class="input-default" v-model="examples[2]" />
         <input type="text" name="examples" class="input-default" v-model="examples[3]" />
       </div>
-      <div v-if="questionId===3">
-        <input type="radio" name="answer" value="O" v-model="answer" />O
-        <input type="radio" name="answer" value="X" v-model="answer" />X
+      <div v-if="questionId===3" @click="onClickOX">
+        <label class="ox-label o ox-deactivate" for="answer-o">O</label>
+        <input class="ox-input" type="radio" name="answer" id="answer-o" value="O" v-model="answer" />
+        <label class="ox-label x ox-deactivate" for="answer-x">X</label>
+        <input class="ox-input" type="radio" name="answer" id="answer-x" value="X" v-model="answer" />
       </div>
       <div v-if="questionId===4">
         <input type="text" placeholder="정답 입력" class="input-default" v-model="answer" />
@@ -99,7 +102,8 @@ export default {
       showCodeBox: false,
       codeText: "",
       answer: "",
-      examples: ["", "", "", ""]
+      examples: ["", "", "", ""],
+      recentOXButton:''
     };
   },
   methods: {
@@ -113,7 +117,7 @@ export default {
         (this.answer = ""),
         (this.examples = ["", "", "", ""]);
     },
-    onClickSubmit() {
+    onClickSubmit() { // 문제 등록
       if (!this.category || !this.questionText || !this.answer)
         return alert(
           "잘못된 입력입니다.(카테고리 미선택. 문제, 답변 미입력 등..)"
@@ -142,12 +146,21 @@ export default {
         });
     },
     changeQuestionType() {
-      this.questionId = ((this.questionId + 1) % 3) + 1;
+      this.questionId = ((this.questionId + 1) % 5) || 1;
     },
-    setInputDefault() {
+    setInputDefault() { // 코드 입력창 tab 설정
       if (event.keyCode === 9) {
         event.preventDefault();
         this.codeText += "  ";
+      }
+    },
+    onClickOX() { // OX 클릭시 class 변경
+      if (event.target.nodeName === 'LABEL' && this.recentOXButton !== event.target) {
+        if (this.recentOXButton) {
+          this.recentOXButton.classList.add('ox-deactivate')
+        }
+        event.target.classList.remove('ox-deactivate')
+        this.recentOXButton = event.target
       }
     }
   },
@@ -263,5 +276,33 @@ li {
   outline: none;
   padding: 0 8px;
   margin: 4px 0;
+}
+.ox-label {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  display: inline-block;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 10px 20px;
+}
+.ox-input {
+  display: none;
+}
+.o {
+  color: #4CAF50;
+  background-color: #E8F5E9;
+  border: 2px solid #A5D6A7;
+}
+.x {
+  color: #F44336;
+  background-color: #FFEBEE;
+  border: 2px solid #EF9A9A;
+}
+.ox-deactivate {
+  color: black;
+  background-color: white;
+  border: 2px solid #888;
 }
 </style>
