@@ -1,11 +1,7 @@
 <template>
   <div class="login">
       <div v-if="!isAuthenticated">
-        <h2>로그인</h2>
         <LoginForm />
-        <div>
-            <a @click.prevent="signup" href="#">signup</a>
-        </div>
       </div>
       <div v-else>
           <a @click.prevent="check" href="#">profile</a>
@@ -37,9 +33,9 @@ export default {
             this.$store.dispatch('logout')
             // router.push('/login')
         },
-        signup(){
-            router.push('/signup')
-        },
+        // signup(){
+        //     router.push('/signup')
+        // },
         check(){
             // this.$session.start()
             // const token = this.$session.get('jwt')
@@ -62,6 +58,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  .login {
+    width: 100vw;
+    height: 100vh;
+  }
 
 </style>
