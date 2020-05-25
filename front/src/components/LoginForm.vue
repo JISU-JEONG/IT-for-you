@@ -1,14 +1,14 @@
 <template>
   <!-- <div class="container"> -->
-      <form @submit.prevent="login" class="login-form">
-        <label for="username">아이디를 입력해주세요 </label>
-        <input class="input" for="text" v-model="credentials.username"
-        id="username" placeholder="ex)ssafy" autocomplete="off"><br>
-        <label for="password">비밀번호를 입력해주세요 </label>
-        <input class="input" type="password" v-model="credentials.password"
-        id="password" placeholder="ex)1q2w3e4r!" autocomplete="off"><br>
-        <button class="input submit" type="submit" :disabled="credentials.username.length < 1 || credentials.password.length < 1">로그인</button>
-      </form>
+    <form @submit.prevent="login" class="login-form" autocomplete="off">
+      <label for="username">아이디를 입력해주세요 </label>
+      <input class="input" for="text" v-model="credentials.username"
+      id="username" placeholder="ex) safy"><br>
+      <label for="password">비밀번호를 입력해주세요 </label>
+      <input class="input" type="password" v-model="credentials.password"
+      id="password" placeholder="ex)1q2w3e4r!"><br>
+      <button class="input submit" type="submit" :disabled="credentials.username.length < 1 || credentials.password.length < 1">로그인</button>
+    </form>
   <!-- </div> -->
 </template>
 
