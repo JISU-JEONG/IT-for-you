@@ -12,21 +12,12 @@
           }"
           :key="menu + 0"
           @click="setMenu(menu, active)"
-        >
-          {{ menu }}
-        </div>
-        <div class="nav__label nav__label--clear" @click="clearAllFilters">
-          Clear all
-        </div>
+        >{{ menu }}</div>
+        <div class="nav__label nav__label--clear" @click="clearAllFilters">Clear all</div>
       </menu>
     </nav>
 
-    <transition-group
-      name="dropdown"
-      tag="section"
-      class="dropdown"
-      :style="dropdown"
-    >
+    <transition-group name="dropdown" tag="section" class="dropdown" :style="dropdown">
       <menu
         v-for="(options, filter) in filters"
         class="filters"
@@ -57,9 +48,7 @@
             :class="{ 'filters__item--active': active }"
             @click="setFilter(filter, option)"
             :key="option + 0"
-          >
-            {{ option }}
-          </div>
+          >{{ option }}</div>
         </template>
       </menu>
     </transition-group>
@@ -68,9 +57,7 @@
       <div class="question" v-for="question in list" :key="question.p_id">
         <div class="question__info">
           <h2 class="question__name">{{ question.p_question }}</h2>
-          <blockquote class="question__slogan">
-            {{ questionType[question.pt_id] }}
-          </blockquote>
+          <blockquote class="question__slogan">{{ questionType[question.pt_id] }}</blockquote>
         </div>
 
         <ul class="question__details">
@@ -171,7 +158,11 @@ export default {
       this.list.forEach(({ answers }, i) => {
         answers.forEach(({ a_value, a_correct }, j) => {
           if (a_correct) {
-            questionlist[i].currentAnswer = a_value;
+            if (questionlist[i].currentAnswer === undefined) {
+              questionlist[i].currentAnswer = [a_value];
+            } else {
+              questionlist[i].currentAnswer.push(a_value);
+            }
             questionlist[i].currentIndex = index + j;
           }
         });
