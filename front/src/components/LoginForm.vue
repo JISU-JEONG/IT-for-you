@@ -61,7 +61,7 @@ export default {
     display: inline-block;
     font-size: 16px;
     margin-bottom: 5px;
-    color: #888;
+    color: rbg(29, 29, 31);
   }
   .input {
     width: 100%;
