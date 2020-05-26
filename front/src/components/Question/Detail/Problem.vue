@@ -4,7 +4,7 @@
     <ul id="questionsList">
       <section
         :class="i === 0 ? 'current' : ''"
-        v-for="(q, i) in this.$store.getters.questionList"
+        v-for="(q, i) in questionList"
         :key="i"
       >
         <p class="problem_question">{{ q.p_question }}</p>
@@ -27,7 +27,14 @@
         </span>
         <a
           class="nextButton"
-          @click="nextQuestion(i, questionList.length - 1, q.correctAnswer)"
+          @click="
+            nextQuestion(
+              i,
+              questionList.length - 1,
+              q.currentAnswer,
+              q.currentIndex
+            )
+          "
           >정답 확인</a
         >
       </section>
@@ -37,7 +44,6 @@
 
 <script>
 import * as utils from "./Problem.js";
-import * as Question from "../QuestionData.js";
 import "@/utils/prism.css";
 import axios from "@/api/api.service.js";
 
@@ -47,9 +53,7 @@ export default {
   data() {
     return {
       questions: document.getElementsByTagName("section"),
-      wrongAnswer: 0
-      // questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
-      // questionData: this.$store.getter.questionData
+      index: 0
     };
   },
 
@@ -74,34 +78,28 @@ export default {
   },
 
   methods: {
-    nextQuestion(i, size, currentAnswer) {
-      console.log(currentAnswer);
+    nextQuestion(i, size, currentAnswer, currentIndex) {
       let answer = this.questions[i].getElementsByTagName("input");
       let problems = document.getElementsByClassName("questionItem");
       let button = document.getElementsByClassName("nextButton");
-
       answer.forEach((v, i) => {
         if (v.checked) {
-          if (v.value === currentAnswer.value) {
-            problems[currentAnswer.index].setAttribute(
+          if (v.value === currentAnswer) {
+            problems[this.index + i].setAttribute(
               "style",
               "background:#99f19e"
             );
-            // alert("맞음");
           } else {
-            problems[this.wrongAnswer + i].setAttribute(
+            problems[this.index + i].setAttribute(
               "style",
               "background:#ff4e50"
             );
-            problems[currentAnswer.index].setAttribute(
-              "style",
-              "background:#99f19e"
-            );
-            // alert("틀림");
+            problems[currentIndex].setAttribute("style", "background:#99f19e");
           }
         }
       });
-      this.wrongAnswer += answer.length;
+      this.index += answer.length;
+
       setTimeout(() => {
         if (i !== size) {
           this.questions[i].className = "";

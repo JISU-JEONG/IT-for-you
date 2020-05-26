@@ -64,13 +64,6 @@
       </menu>
     </transition-group>
 
-    <!-- <transition-group name="question" tag="ul" class="content__list">
-      <div class="question" v-for="(active, option) in filters" :key="option">
-        <div class="question__info" v-for="a in Object.keys(active)" :key="a">
-          {{ a }}
-        </div>
-      </div>
-    </transition-group> -->
     <transition-group name="question" tag="ul" class="content__list">
       <div class="question" v-for="question in list" :key="question.p_id">
         <div class="question__info">
@@ -172,26 +165,18 @@ export default {
       }
     },
 
-    async questionDetail() {
-      // console.log(this.filters);
+    questionDetail() {
       let questionlist = this.list;
       let index = 0;
-      const promiseList = await this.list.map(({ p_id }, i) => {
-        return axios.get(`/api/problems/probs/${p_id}`).then(({ data }) => {
-          data.answers.some((v, j) => {
-            questionlist[i].correctAnswer = {
-              value: v.a_value,
-              index: index + j
-            };
-            return v.a_corrent;
-          });
-          index += data.answers.length;
-          questionlist[i].answers = data.answers;
-          return data;
+      this.list.forEach(({ answers }, i) => {
+        answers.forEach(({ a_value, a_correct }, j) => {
+          if (a_correct) {
+            questionlist[i].currentAnswer = a_value;
+            questionlist[i].currentIndex = index + j;
+          }
         });
+        index += answers.length;
       });
-
-      await Promise.all(promiseList);
       this.$store.dispatch("questionList", questionlist);
       this.$router.push("/detail");
     },
@@ -222,7 +207,7 @@ export default {
       });
 
       // Problems Get
-      await axios.get("/api/problems/probs/").then(({ data }) => {
+      await axios.get("/api/problems/probs_detail/").then(({ data }) => {
         this.questionData = data;
         data.forEach(({ pt_id, pc_id, pd_id }) => {
           // Type, Category
