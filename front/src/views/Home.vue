@@ -5,7 +5,6 @@
     <router-link class="router" to="/detail">Detail</router-link>
     <router-link class="router" to="/Admin">Admin</router-link>
     <router-link class="router" to="/login">login</router-link>
-    <router-link class="router" to="/signup">signup</router-link>
   </div>
 </template>
 
