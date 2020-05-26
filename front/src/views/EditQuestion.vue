@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from "@/api/api.service.js";
 export default {
     data() {
       return {
@@ -25,14 +25,14 @@ export default {
     },
     methods: {
       loadAllQuestions() {
-        axios.get('http://211.213.225.87:8086/api/problems/probs/')
+        axios.get('/api/problems/probs/')
         .then(res => {
           this.questions = res.data
         })
       },
       deleteQuestion(id) {
         if (confirm('문제를 삭제하시겠습니까?')) {
-          axios.delete(`http://211.213.225.87:8086/api/problems/delete_prob/${id}/`)
+          axios.delete(`/api/problems/delete_prob/${id}/`)
           .then(res => {
             this.questions.splice(this.questions.findIndex(p => p.p_id === id), 1)
           })
