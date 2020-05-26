@@ -1,13 +1,17 @@
 <template>
   <div>
     <nav>
-      <span @click="openSideBar">hamburger</span>
+      <div class="hamburger-btn" @click="openSideBar">
+        <div class="hamburger hamburger-top"></div>
+        <div class="hamburger hamburger-mid"></div>
+        <div class="hamburger hamburger-bot"></div>
+      </div>
     </nav>
     <div class="side-bar-background display-none opacity-0" @click="closeSideBar"></div>
     <div class="side-bar" :class="{'side-bar-transform': showSideBar}">
       <div class="sidde-bar-top">
         <h2>서비스 이름</h2>
-        <span class="close-btn" @click="closeSideBar">X</span> <!-- 나중에 x 아이콘으로?-->
+        <span class="close-btn" @click="closeSideBar"></span> <!-- 나중에 x 아이콘으로?-->
       </div>
       <div class="side-bar-content">
         <ul>
@@ -84,6 +88,42 @@ export default {
     color: white;
     text-decoration: none;
   }
+  .hamburger-btn {
+    width: 20px;
+    height: 15px;
+    display: inline-block;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  .hamburger {
+    width: 100%;
+    height: 10%;
+    background-color: #FAFAFA;
+    border-radius: 2px;
+    position: absolute;
+    right:0;
+    transition: all 0.1s linear;
+  }
+  .hamburger-top {
+    top: 0;
+  }
+  .hamburger-mid {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .hamburger-bot {
+    bottom: 0;
+  }
+  .hamburger-btn:hover .hamburger-top{
+    width: 70%;
+    transform: rotate(45deg) translateX(20%) translateY(30%);
+  }
+  .hamburger-btn:hover .hamburger-bot{
+    width: 70%;
+    transform: rotate(-45deg) translateX(20%)  translateY(-30%);
+  }
   .side-bar-background {
     position:fixed;
     top:0;bottom:0;left:0;right:0;
@@ -110,6 +150,14 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
+  .close-btn {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    background-image: url('../assets/icons/close.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   .display-none{
     display: none;
   }
@@ -118,5 +166,25 @@ export default {
   }
   .side-bar-transform {
     transform: translateX(0);
+  }
+
+  @media (min-width:1024px) {
+    nav {
+      height: 52px;
+      line-height: 52px;
+    }
+    .hamburger-btn {
+      width: 30px;
+      height: 20px;
+    }
+    .hamburger {
+      height: 14%;
+    }
+    .hamburger-btn:hover .hamburger-top{
+      transform: rotate(45deg) translateX(20%) translateY(-60%);
+    }
+    .hamburger-btn:hover .hamburger-bot{
+      transform: rotate(-45deg) translateX(20%) translateY(60%);
+    }
   }
 </style>

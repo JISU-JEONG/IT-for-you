@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import axios from "@/api/api.service.js";
 
 export default {
   name: "QuestionForm",
@@ -133,9 +133,8 @@ export default {
       };
       if (this.showCodeBox) question["problems"]["p_code"] = this.codeText;
       if (this.questionId == 2) question["examples"] = this.examples;
-      // axios.post('http://k02b1011.p.ssafy.io/api/problems/create_prob/', question)
       axios
-        .post("http://211.213.225.87:8086/api/problems/create_prob/", question)
+        .post("/api/problems/create_prob/", question)
         .then(res => {
           let successMessage = document.querySelector(".success-message");
           successMessage.classList.add("ani-show");
