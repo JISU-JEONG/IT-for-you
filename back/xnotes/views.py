@@ -24,11 +24,23 @@ class MyNote(APIView):
         # embed()
         serializer = MyNoteListSerializer(mynotes, many=True)
         return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = XnoteSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return JsonResponse({'message': 'Success'})
 
 class MyNoteDetail(APIView):
     def get(self, request, note_id):
-        pass
+        mynote = get_object_or_404(Xnote, pk=note_id)
+        serializer = MyNoteDetailSerializer(mynote)
+        return Response(serializer.data)
     
+    def delete(self, request, note_id):
+        mynote = get_object_or_404(Xnote, pk=note_id)
+        mynote.delete()
+        return JsonResponse({'message': 'Success'})
 
 # class MyNote2(APIView):
 #     def get(self, request, user_id, prob_id):
