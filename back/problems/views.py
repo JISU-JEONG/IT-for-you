@@ -129,6 +129,6 @@ class SpecProb(APIView):
 
   # Delete
   def delete(self, request, problem_id):
-    prob = Problem.objects.get(p_id=problem_id)
+    prob = get_object_or_404(Problem, p_id=problem_id)
     prob.delete()
     return JsonResponse({'message': 'Success'})
