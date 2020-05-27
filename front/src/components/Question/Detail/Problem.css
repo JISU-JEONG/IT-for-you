@@ -124,3 +124,8 @@ svg:not(:root) {
   text-decoration: none;
   color: #8c8c8c;
 }
+
+.questionContent {
+  display: flex;
+  justify-content: space-between;
+}

@@ -14,12 +14,14 @@ const routes = [
       {
         path: "category",
         name: "Category",
-        component: () => import("../views/Question/Category.vue"),
+        component: () => import("../components/Category/Category.vue"),
+        // component: () => import("../views/Question/Category.vue"),
       },
       {
         path: "detail",
         name: "Detail",
-        component: () => import("../views/Question/Detail.vue"),
+        component: () => import("../components/Category/Detail.vue"),
+        // component: () => import("../views/Question/Detail.vue")
       },
       {
         path: "testmic",
@@ -28,57 +30,45 @@ const routes = [
       },
     ]
   },
-
-  // {
-  //   path: "/category",
-  //   name: "Category",
-  //   component: () => import("../views/Question/Category.vue"),
-  // },
-  // {
-
-  //   path: "/detail",
-  //   name: "Detail",
-  //   component: () => import("../views/Question/Detail.vue"),
-  // },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue"),
+    component: () => import("../views/Login.vue")
   },
   {
-    path: '/profile',
-    name: 'profile',
+    path: "/profile",
+    name: "profile",
     component: Profile
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    redirect: '/admin/user',
+    path: "/admin",
+    name: "Admin",
+    redirect: "/admin/user",
     component: () => import("../views/Admin.vue"),
     children: [
       {
         path: "user",
         name: "User",
-        component: () => import("../views/User.vue"),
+        component: () => import("../views/User.vue")
       },
       {
         path: "make",
         name: "MakeQuestion",
-        component: () => import("../views/MakeQuestion.vue"),
+        component: () => import("../views/MakeQuestion.vue")
       },
       {
         path: "edit",
         name: "EditQuestion",
-        component: () => import("../views/EditQuestion.vue"),
-      },
-    ],
-  },
+        component: () => import("../views/EditQuestion.vue")
+      }
+    ]
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 export default router;
