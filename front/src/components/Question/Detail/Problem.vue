@@ -3,6 +3,14 @@
   <div id="subhead"></div>
   <ul id="questionsList">
     <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in questionList" :key="i">
+      <p class="questionContent">
+        <span>{{questionType[q.pt_id]}}</span>
+        <span>{{questionCategory[q.pc_id]}}</span>
+        <span>{{q.pd_id}}</span>
+      </p>
+
+      <br />
+      <br />
       <p class="problem_question">{{ q.p_question }}</p>
 
       <div v-highlight v-if="q.p_code !== null">
@@ -24,8 +32,9 @@
       </div>
       <a
         class="nextButton"
+        v-if="buttonFlag"
         @click="
-            nextQuestion(
+            checkAnswer(
               i,
               questionList.length - 1,
               q.currentAnswer,
@@ -34,6 +43,17 @@
             )
           "
       >정답 확인</a>
+
+      <a
+        class="nextButton"
+        v-else
+        @click="
+            nextQuestion(
+              i,
+              questionList.length - 1,
+            )
+          "
+      >다음 문제</a>
     </section>
   </ul>
 </body>
@@ -51,15 +71,26 @@ export default {
     return {
       questions: document.getElementsByTagName("section"),
       index: 0,
-      shortAnswer: ""
+      shortAnswer: "",
+      buttonFlag: true
     };
   },
 
   computed: {
     questionList() {
       return this.$store.getters.questionList;
+    },
+    questionType() {
+      return this.$store.getters.questionType;
+    },
+    questionCategory() {
+      return this.$store.getters.questionCategory;
     }
   },
+
+  // watch: {
+  //   buttonFlag() {}
+  // },
 
   // destroyed() {
   //   unrequire("./Promise.css");
@@ -72,11 +103,22 @@ export default {
   },
 
   beforeMount() {
-    console.log(this.$store.getters.questionList);
+    console.log(this.questionList);
+    console.log(this.questionType);
+    console.log(this.questionCategory);
   },
 
   methods: {
-    nextQuestion(i, size, currentAnswer, currentIndex, flag) {
+    nextQuestion(i, size) {
+      this.buttonFlag = !this.buttonFlag;
+      this.shortAnswer = "";
+      if (i !== size) {
+        this.questions[i].className = "";
+        this.questions[i + 1].className = "current";
+      }
+    },
+
+    checkAnswer(i, size, currentAnswer, currentIndex, flag) {
       let answer = this.questions[i].getElementsByTagName("input");
       // let button = document.getElementsByClassName("nextButton");
       let problems = document.getElementsByClassName("questionItem");
@@ -113,13 +155,12 @@ export default {
           alert("틀림");
         }
       }
-      setTimeout(() => {
-        this.shortAnswer = "";
-        if (i !== size) {
-          this.questions[i].className = "";
-          this.questions[i + 1].className = "current";
-        }
-      }, 3000);
+
+      if (i === size) {
+        this.questions[i].querySelector("a").innerText = "마지막 문제입니다.";
+      } else {
+        this.buttonFlag = !this.buttonFlag;
+      }
     }
   }
 };
