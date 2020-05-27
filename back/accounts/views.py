@@ -8,7 +8,7 @@ from problems.models import Problem
 from .serializers import UserSerializers
 
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
-
+from IPython import embed
 
 # Create your views here.
 @api_view(['POST'])
