@@ -14,18 +14,41 @@ const routes = [
     path: "/testhome",
     name: "TestHome",
     component: () => import("../views/TestHome.vue"),
+    children: [
+      {
+        path: "category",
+        name: "Category",
+        component: () => import("../views/Question/Category.vue"),
+      },
+      {
+        path: "detail",
+        name: "Detail",
+        component: () => import("../views/Question/Detail.vue"),
+      },
+      {
+        path: "edit",
+        name: "EditQuestion",
+        component: () => import("../views/EditQuestion.vue"),
+      },
+      {
+        path: "testmic",
+        name: "TestMIC",
+        component: () => import("../views/TestMIC.vue"),
+      },
+    ]
   },
-  {
-    path: "/category",
-    name: "Category",
-    component: () => import("../views/Question/Category.vue"),
-  },
-  {
 
-    path: "/detail",
-    name: "Detail",
-    component: () => import("../views/Question/Detail.vue"),
-  },
+  // {
+  //   path: "/category",
+  //   name: "Category",
+  //   component: () => import("../views/Question/Category.vue"),
+  // },
+  // {
+
+  //   path: "/detail",
+  //   name: "Detail",
+  //   component: () => import("../views/Question/Detail.vue"),
+  // },
   {
     path: "/login",
     name: "login",

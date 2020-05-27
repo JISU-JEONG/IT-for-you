@@ -159,11 +159,11 @@ export default {
     padding: 35px;
     background-color: rgba(29, 29, 31, 0.7);
   }
-  .desc-background-color>h2 {
+  .desc-background-color h2 {
     font-size: 25px;
     margin-bottom: 13px;
   }
-  .desc-background-color>p {
+  .desc-background-color p {
     line-height: 40px;
     margin-bottom: 30px;
   }

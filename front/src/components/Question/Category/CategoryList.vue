@@ -198,7 +198,7 @@ export default {
       });
 
       // Problems Get
-      await axios.get("/api/problems/probs_detail/").then(({ data }) => {
+      await axios.get("/api/problems/probs/").then(({ data }) => {
         this.questionData = data;
         data.forEach(({ pt_id, pc_id, pd_id }) => {
           // Type, Category
