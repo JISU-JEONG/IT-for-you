@@ -5,27 +5,46 @@ import Profile from "../views/Profile.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   component: () => import("../views/Home.vue"),
+  // },
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue"),
-  },
-  {
-    path: "/testhome",
-    name: "TestHome",
+    redirect: '/category',
     component: () => import("../views/TestHome.vue"),
+    children: [
+      {
+        path: "category",
+        name: "Category",
+        component: () => import("../views/Question/Category.vue"),
+      },
+      {
+        path: "detail",
+        name: "Detail",
+        component: () => import("../views/Question/Detail.vue"),
+      },
+      {
+        path: "testmic",
+        name: "TestMIC",
+        component: () => import("../views/TestMIC.vue"),
+      },
+    ]
   },
-  {
-    path: "/category",
-    name: "Category",
-    component: () => import("../views/Question/Category.vue"),
-  },
-  {
 
-    path: "/detail",
-    name: "Detail",
-    component: () => import("../views/Question/Detail.vue"),
-  },
+  // {
+  //   path: "/category",
+  //   name: "Category",
+  //   component: () => import("../views/Question/Category.vue"),
+  // },
+  // {
+
+  //   path: "/detail",
+  //   name: "Detail",
+  //   component: () => import("../views/Question/Detail.vue"),
+  // },
   {
     path: "/login",
     name: "login",
