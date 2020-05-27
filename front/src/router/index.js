@@ -5,14 +5,15 @@ import Profile from "../views/Profile.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  // {
+  //   path: "/",
+  //   name: "Home",
+  //   component: () => import("../views/Home.vue"),
+  // },
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue"),
-  },
-  {
-    path: "/testhome",
-    name: "TestHome",
+    redirect: '/category',
     component: () => import("../views/TestHome.vue"),
     children: [
       {
@@ -24,11 +25,6 @@ const routes = [
         path: "detail",
         name: "Detail",
         component: () => import("../views/Question/Detail.vue"),
-      },
-      {
-        path: "edit",
-        name: "EditQuestion",
-        component: () => import("../views/EditQuestion.vue"),
       },
       {
         path: "testmic",

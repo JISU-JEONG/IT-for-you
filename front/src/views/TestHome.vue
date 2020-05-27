@@ -15,9 +15,9 @@
       </div>
       <div class="side-bar-content">
         <ul @click="onClickEvent">
-          <li><router-link to="/testhome/category">category</router-link></li>
-          <li><router-link to="/testhome/detail">Detail</router-link></li>
-          <li><router-link to="/testhome/testmic">TestMIC</router-link></li>
+          <li><router-link to="/category">category</router-link></li>
+          <li><router-link to="/detail">Detail</router-link></li>
+          <li><router-link to="/testmic">TestMIC</router-link></li>
           <li><router-link to="/Admin">Admin</router-link></li>
           <li><router-link to="/login">login</router-link></li>
         </ul>
