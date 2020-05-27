@@ -19,7 +19,7 @@ class ProbDiffSerializer(serializers.ModelSerializer):
 class ProblemSerializer(serializers.ModelSerializer):
   class Meta:
     model = Problem
-    fields = ('p_id', 'p_question', 'p_code', 'pc_id', 'pt_id', 'pd_id')
+    fields = ('p_id', 'p_question', 'p_commentary', 'p_code', 'pc_id', 'pt_id', 'pd_id')
 
 class AnswerSerializer(serializers.ModelSerializer):
   class Meta:

@@ -13,7 +13,7 @@ class MyNoteListSerializer(XnoteSerializer):
     p_question = serializers.SerializerMethodField()
     p_code = serializers.SerializerMethodField()
     class Meta(XnoteSerializer.Meta):
-        fields = ('id', 'pc_value', 'p_question', 'p_code')
+        fields = ('id', 'pc_value', 'p_question', 'p_code',)
 
     def get_pc_value(self, obj):
         return obj.prob.pc_id.pc_value
@@ -26,11 +26,11 @@ class MyNoteListSerializer(XnoteSerializer):
 
 class MyNoteDetailSerializer(XnoteSerializer):
     p_answer = serializers.SerializerMethodField()
+    problems = ProblemSerializer(source='prob')
     answers = AnswerSerializer(source='prob.answer_set', many=True)
     class Meta(XnoteSerializer.Meta):
-        fields = XnoteSerializer.Meta.fields + ('p_answer', 'answers',)
+        fields = XnoteSerializer.Meta.fields + ('p_answer', 'problems', 'answers',)
 
     def get_p_answer(self, obj):
         p_answer = obj.prob.answer_set.filter(a_correct=True)[0].a_value
         return p_answer
-            

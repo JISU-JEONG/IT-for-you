@@ -138,7 +138,6 @@ class SpecProb(APIView):
 class ProbSearch(APIView):
   @swagger_auto_schema(tags=['Problem Search'])
   def get(self, request):
-    pt_id = request.data.get('pt_id')
     pd_id = request.data.get('pd_id')
     pc_id = []
     p_number = request.data.get('p_number')
@@ -147,21 +146,19 @@ class ProbSearch(APIView):
     
     if not pc_id:
       pc_id = [i for i in range(1, len(ProbCate.objects.all()) + 1)]
-    if not pt_id:
-      pt_id = [i for i in range(1, len(ProbType.objects.all()) + 1)]
     if not pd_id:
       pd_id = [i for i in range(1, len(ProbDiff.objects.all()) + 1)]
     
-    problems = Problem.objects.filter(pc_id__in=pc_id, pt_id__in=pt_id, pd_id__in=pd_id)
+    problems = Problem.objects.filter(pc_id__in=pc_id, pd_id__in=pd_id)
 
     random_index = [prob.p_id for prob in problems]
     if len(problems) > p_number:
       random_index = random.sample(random_index, p_number)
-      embed()
+      problems = Problem.objects.filter(p_id__in=random_index)
+    else:
+      random_index = random.sample(random_index, len(problems))
       problems = Problem.objects.filter(p_id__in=random_index)
       
-      
-    # embed()
     serializer = ProblemDetailSerializer(problems, many=True)
 
     return Response(serializer.data)
