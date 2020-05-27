@@ -154,6 +154,7 @@ export default {
 
     questionDetail() {
       let questionlist = this.list;
+
       let index = 0;
       this.list.forEach(({ answers }, i) => {
         answers.forEach(({ a_value, a_correct }, j) => {
@@ -166,9 +167,12 @@ export default {
             questionlist[i].currentIndex = index + j;
           }
         });
+
         index += answers.length;
       });
       this.$store.dispatch("questionList", questionlist);
+      this.$store.dispatch("questionType", this.questionType);
+      this.$store.dispatch("questionCategory", this.questionCategory);
       this.$router.push("/detail");
     },
 
