@@ -8,24 +8,27 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue")
-  },
-  {
-    path: "/testhome",
-    name: "TestHome",
-    component: () => import("../views/TestHome.vue")
-  },
-  {
-    path: "/category",
-    name: "Category",
-    // component: () => import("../views/Question/Category.vue"),
-    component: () => import("../components/Category/Category.vue")
-  },
-  {
-    path: "/detail",
-    name: "Detail",
-    component: () => import("../components/Category/Detail.vue")
-    // component: () => import("../views/Question/Detail.vue")
+    redirect: '/category',
+    component: () => import("../views/TestHome.vue"),
+    children: [
+      {
+        path: "category",
+        name: "Category",
+        component: () => import("../components/Category/Category.vue"),
+        // component: () => import("../views/Question/Category.vue"),
+      },
+      {
+        path: "detail",
+        name: "Detail",
+        component: () => import("../components/Category/Detail.vue"),
+        // component: () => import("../views/Question/Detail.vue")
+      },
+      {
+        path: "testmic",
+        name: "TestMIC",
+        component: () => import("../views/TestMIC.vue"),
+      },
+    ]
   },
   {
     path: "/login",
