@@ -19,14 +19,15 @@ from drf_yasg.utils import swagger_auto_schema
 #         return JsonResponse({'message': 'Success'})
 
 class MyNote(APIView):
-    def get(self, request):
-        mynotes = Xnote.objects.filter(user_id=request.data.get('user_id'))
+    def get(self, request, user_id):
+        mynotes = Xnote.objects.filter(user_id=user_id)
         # embed()
         serializer = MyNoteListSerializer(mynotes, many=True)
         return Response(serializer.data)
     
-    def post(self, request):
+    def post(self, request, user_id):
         serializer = XnoteSerializer(data=request.data)
+        embed()
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return JsonResponse({'message': 'Success'})
