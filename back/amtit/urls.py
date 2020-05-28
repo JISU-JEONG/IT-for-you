@@ -19,7 +19,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework_jwt.views import obtain_jwt_token
-
 schema_view = get_schema_view(
    openapi.Info(
       title="AMT3",
@@ -34,7 +33,8 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
     path('api/problems/', include('problems.urls')),
+    path('api/xnotes/', include('xnotes.urls')),
     path('admin/', admin.site.urls),
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger'),
-    path('api-token-auth/', obtain_jwt_token),
+    path('api/token/', obtain_jwt_token),
 ]

@@ -1,5 +1,4 @@
 from django.db import models
-
 # Create your models here.
 class ProbCate(models.Model):
     pc_id = models.AutoField(primary_key=True)
@@ -28,6 +27,7 @@ class ProbDiff(models.Model):
 class Problem(models.Model):
     p_id = models.AutoField(primary_key=True)
     p_question = models.TextField()
+    p_commentary = models.TextField()
     p_code = models.TextField(null=True)
     pc_id = models.ForeignKey(ProbCate, db_column='pc_id', on_delete=models.CASCADE)
     pt_id = models.ForeignKey(ProbType, db_column='pt_id', on_delete=models.CASCADE)
