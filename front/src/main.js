@@ -5,13 +5,18 @@ import router from "./router";
 import store from "./store";
 import VueSession from "vue-session";
 import VueCodeHighlight from "vue-code-highlight";
-import AudioRecorder from 'vue-audio-recorder'
+import VueResource from "vue-resource";
+import AudioRecorder from "./components/index";
 
+
+Vue.use(AudioRecorder);
 Vue.config.productionTip = false;
+
+
+
 Vue.use(VueSession);
 Vue.use(VueCodeHighlight);
-Vue.use(AudioRecorder);
-
+Vue.use(VueResource);
 
 
 new Vue({
