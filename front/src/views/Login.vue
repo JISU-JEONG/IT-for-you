@@ -91,6 +91,21 @@ export default {
             // })
             router.push('/profile')
         },
+        addProblem(){
+            this.$session.start()
+            const token = this.$session.get('jwt')
+            const data = {
+                token : token
+            }
+            // sibal에 문제 번호를 넣어 주세요
+            axios.post('http://127.0.0.1:8000/api/accounts/add_problem/{sibal}/', data)
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+      }
     },
     updated() {
         this.isAuthenticated = this.$session.has('jwt')

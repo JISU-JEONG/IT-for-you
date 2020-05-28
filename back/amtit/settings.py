@@ -31,6 +31,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'xnotes.apps.XnotesConfig',
+    'myprobs.apps.MyprobsConfig',
+    'interprobs.apps.InterprobsConfig',
     'accounts.apps.AccountsConfig',
     'problems.apps.ProblemsConfig',
     'rest_framework',
