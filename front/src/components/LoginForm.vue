@@ -26,6 +26,7 @@ export default {
   },
   methods:{
     login(){
+      console.log(this.credentials)
       axios.post('/api/token/',this.credentials)
         .then(response => {
           console.log(response.data.token)
