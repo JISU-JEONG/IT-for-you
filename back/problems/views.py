@@ -137,7 +137,8 @@ class SpecProb(APIView):
 
 class ProbSearch(APIView):
   @swagger_auto_schema(tags=['Problem Search'])
-  def post(self, request):
+  def get(self, request):
+    embed()
     pd_id = request.data.get('pd_id')
     pc_id = []
     p_number = request.data.get('p_number')
