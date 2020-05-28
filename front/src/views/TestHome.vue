@@ -243,11 +243,6 @@ a.router-link-active {
   align-items: center;
 }
 
-/* .side-bar-content {
-  height: 80vmax;
-  width: 100%;
-} */
-
 .side-bar-nav {
   display: inline-block;
   padding-top: 20px;
