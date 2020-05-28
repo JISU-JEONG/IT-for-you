@@ -27,14 +27,19 @@
       <!-- 단답식 -->
       <div v-if="q.pt_id === 4">
         <span>
-          <input :name="`problem${q.p_id}`" class="questionAnswer" type="text" />
+          <input
+            v-model="shortAnswer"
+            :name="`problem${q.p_id}`"
+            class="questionAnswer"
+            type="text"
+          />
         </span>
       </div>
 
       <div
         class="currentButton"
         v-if="buttonFlag"
-        @click="checkProblem(`problem${q.p_id}`, q.pt_id)"
+        @click="checkProblem(`problem${q.p_id}`, q.pt_id, q.answers)"
       >
         <span>정답 확인</span>
       </div>
@@ -56,7 +61,8 @@ export default {
     return {
       buttonFlag: true,
       correctAnswer: null,
-      oldAnswer: null
+      oldAnswer: null,
+      shortAnswer: null
     };
   },
   methods: {
@@ -67,13 +73,21 @@ export default {
       event.target.classList.add("active");
       this.oldAnswer = event.target;
     },
-    checkProblem(problemNumber, type) {
-      // 객관식, O/X
-      if (type === 2 || type === 3) {
-        const div = document.getElementsByName(problemNumber);
+    checkProblem(problemNumber, type, Answer) {
+      // 인터뷰
+      if (type === 1) {
+        console.log("인터뷰");
+      }
 
+      // 객관식, O/X
+      else if (type === 2 || type === 3) {
+        if (this.oldAnswer === null) {
+          alert("보기를 선택해주세요.");
+          return;
+        }
+        const div = document.getElementsByName(problemNumber);
         if (this.oldAnswer.id === "true") {
-          alert("맞음");
+          console.log("맞음");
         } else {
           const res =
             "틀림 : " +
@@ -83,24 +97,27 @@ export default {
               })
             ].innerHTML;
 
-          alert(res);
+          console.log(res);
         }
+        this.oldAnswer = null;
+        this.shortAnswer = null;
       }
       // 단답형
-      //   else if (type === 4) {
-      //     const div = document.querySelector(problemNumber);
-      //     let answer = null;
-      //     const correctCheck = this.questionList[i].answers.some(
-      //       ({ a_value }) => {
-      //         return a_value.toLowerCase() === div.value.toLowerCase();
-      //       }
-      //     );
+      else if (type === 4) {
+        if (this.shortAnswer === null) {
+          alert("답변을 입력해주세요.");
+          return;
+        }
 
-      //     this.correctAnswer =
-      //       correctCheck === true
-      //         ? "맞음"
-      //         : "틀림(" + this.questionList[i].answers[0].a_value + ")";
-      //   }
+        const check = Answer.some(({ a_value }) => {
+          return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
+        });
+
+        const res = check === true ? "맞음" : "틀림 : " + Answer[0].a_value;
+        this.oldAnswer = null;
+        this.shortAnswer = null;
+        console.log(res);
+      }
       this.buttonFlag = !this.buttonFlag;
     },
     nextProblem(i, size) {
