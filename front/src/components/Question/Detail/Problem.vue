@@ -2,18 +2,58 @@
 <body>
   <div id="subhead"></div>
   <ul id="questionsList">
-    <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in question" :key="i">
-      코드블럭 : {{ q.problems.p_code }} 레벨 :
-      {{ q.problems.pd_id }} 카데고리 : {{ q.problems.pc_id }} 유형 :
-      {{ questionType[q.problems.pt_id] }}
-      <li>
-        <p class="problem_question">{{ q.problems.p_question }}</p>
-        <span class="questionItem" v-for="a in q.answers" :key="a">
-          <input :id="a" type="radio" :name="q.answers" :value="a" />
-          <label :for="a">{{ a }}</label>
+    <section :class="i === 0 ? 'current' : ''" v-for="(q, i) in questionList" :key="i">
+      <p class="questionContent">
+        <span>{{questionType[q.pt_id]}}</span>
+        <span>{{questionCategory[q.pc_id]}}</span>
+        <span>{{q.pd_id}}</span>
+      </p>
+
+      <br />
+      <br />
+      <p class="problem_question">{{ q.p_question }}</p>
+
+      <div v-highlight v-if="q.p_code !== null">
+        <pre class="language-javascript">
+          <code>
+            {{q.p_code}}
+          </code>
+        </pre>
+      </div>
+      <div v-if="q.pt_id !== 4">
+        <span class="questionItem" v-for="a in q.answers" :key="a.a_id">
+          <input :id="a.a_id" type="radio" :name="q.p_id" :value="a.a_value" />
+          <label :for="a.a_id">{{ a.a_value }}</label>
         </span>
-      </li>
-      <a class="nextButton" @click="nextQuestion(i, question.length - 1, q.correct_ans)">정답 확인</a>
+      </div>
+      <div v-else>
+        <br />
+        <input class="questionItem" type="text" v-model="shortAnswer" />
+      </div>
+      <a
+        class="nextButton"
+        v-if="buttonFlag"
+        @click="
+            checkAnswer(
+              i,
+              questionList.length - 1,
+              q.currentAnswer,
+              q.currentIndex,
+              q.pt_id === 4
+            )
+          "
+      >정답 확인</a>
+
+      <a
+        class="nextButton"
+        v-else
+        @click="
+            nextQuestion(
+              i,
+              questionList.length - 1,
+            )
+          "
+      >다음 문제</a>
     </section>
   </ul>
 </body>
@@ -21,28 +61,36 @@
 
 <script>
 import * as utils from "./Problem.js";
-import * as Question from "../QuestionData.js";
-import axios from "axios";
+import "@/utils/prism.css";
+import axios from "@/api/api.service.js";
 
 export default {
   name: "Problem",
 
   data() {
     return {
-      question: Question.data2(),
       questions: document.getElementsByTagName("section"),
-      questionType: ["OX퀴즈", "객관식", "주관식", "단답형", "녹음"]
+      index: 0,
+      shortAnswer: "",
+      buttonFlag: true
     };
   },
 
   computed: {
-    questionData() {
-      return this.$store.getters.questionData;
+    questionList() {
+      return this.$store.getters.questionList;
     },
-    filters() {
-      return this.$store.getters.filters;
+    questionType() {
+      return this.$store.getters.questionType;
+    },
+    questionCategory() {
+      return this.$store.getters.questionCategory;
     }
   },
+
+  // watch: {
+  //   buttonFlag() {}
+  // },
 
   // destroyed() {
   //   unrequire("./Promise.css");
@@ -54,23 +102,65 @@ export default {
     utils.drow();
   },
 
+  beforeMount() {
+    console.log(this.questionList);
+    console.log(this.questionType);
+    console.log(this.questionCategory);
+  },
+
   methods: {
-    nextQuestion(i, size, currentAnswer) {
+    nextQuestion(i, size) {
+      this.buttonFlag = !this.buttonFlag;
+      this.shortAnswer = "";
       if (i !== size) {
         this.questions[i].className = "";
         this.questions[i + 1].className = "current";
       }
+    },
 
+    checkAnswer(i, size, currentAnswer, currentIndex, flag) {
       let answer = this.questions[i].getElementsByTagName("input");
-      answer.forEach(v => {
-        if (v.checked) {
-          if (v.value === currentAnswer) {
-            alert("맞음");
-          } else {
-            alert("틀림");
+      // let button = document.getElementsByClassName("nextButton");
+      let problems = document.getElementsByClassName("questionItem");
+
+      if (!flag) {
+        answer.forEach((v, i) => {
+          if (v.checked) {
+            if (v.value === currentAnswer[0]) {
+              problems[this.index + i].setAttribute(
+                "style",
+                "background:#99f19e"
+              );
+            } else {
+              problems[this.index + i].setAttribute(
+                "style",
+                "background:#ff4e50"
+              );
+              problems[currentIndex].setAttribute(
+                "style",
+                "background:#99f19e"
+              );
+            }
           }
+        });
+        this.index += answer.length;
+      } else {
+        const res = currentAnswer.some(v => {
+          return v.toLowerCase() === this.shortAnswer.toLowerCase();
+        });
+
+        if (res) {
+          alert("맞음");
+        } else {
+          alert("틀림");
         }
-      });
+      }
+
+      if (i === size) {
+        this.questions[i].querySelector("a").innerText = "마지막 문제입니다.";
+      } else {
+        this.buttonFlag = !this.buttonFlag;
+      }
     }
   }
 };

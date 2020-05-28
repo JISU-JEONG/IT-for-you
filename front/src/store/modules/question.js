@@ -1,29 +1,37 @@
 const state = {
-  questionData: null,
-  filters: null
+  questionList: null,
+  questionType: null,
+  questionCategory: null
 };
 
 const mutations = {
-  setQuestionData(state, values) {
-    state.questionData = values;
+  setQuestionList(state, values) {
+    state.questionList = values;
   },
-  setFilters(state, values) {
-    state.filters = values;
+  setQuestionType(state, values) {
+    state.questionType = values;
+  },
+  setQuestionCategory(state, values) {
+    state.questionCategory = values;
   }
 };
 
 const actions = {
-  questionData(context, values) {
-    context.commit("setQuestionData", values);
+  questionList(context, values) {
+    context.commit("setQuestionList", values);
   },
-  filters(context, values) {
-    context.commit("setFilters", values);
+  questionType(context, values) {
+    context.commit("setQuestionType", values);
+  },
+  questionCategory(context, values) {
+    context.commit("setQuestionCategory", values);
   }
 };
 
 const getters = {
-  questionData: state => state.questionData,
-  filters: state => state.filters
+  questionList: state => state.questionList,
+  questionType: state => state.questionType,
+  questionCategory: state => state.questionCategory
 };
 
 export default {

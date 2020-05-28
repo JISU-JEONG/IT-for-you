@@ -7,10 +7,10 @@
           v-for="(active, menu) in menus"
           class="nav__label"
           :class="{
-          'nav__label--active': active,
-          'nav__label--filter': activeFilters[menu].length
-        }"
-          :key="menu+0"
+            'nav__label--active': active,
+            'nav__label--filter': activeFilters[menu].length
+          }"
+          :key="menu + 0"
           @click="setMenu(menu, active)"
         >{{ menu }}</div>
         <div class="nav__label nav__label--clear" @click="clearAllFilters">Clear all</div>
@@ -23,7 +23,7 @@
         class="filters"
         v-show="menus[filter]"
         ref="menu"
-        :key="filter+0"
+        :key="filter + 0"
       >
         <div v-if="filter === 'level'" class="filters__level">
           <output>
@@ -47,19 +47,14 @@
             class="filters__item"
             :class="{ 'filters__item--active': active }"
             @click="setFilter(filter, option)"
-            :key="option+0"
+            :key="option + 0"
           >{{ option }}</div>
         </template>
       </menu>
     </transition-group>
 
     <transition-group name="question" tag="ul" class="content__list">
-      <div
-        class="question"
-        v-for="question in list"
-        :key="question.p_id"
-        @click="questionDetail(question.p_id)"
-      >
+      <div class="question" v-for="question in list" :key="question.p_id">
         <div class="question__info">
           <h2 class="question__name">{{ question.p_question }}</h2>
           <blockquote class="question__slogan">{{ questionType[question.pt_id] }}</blockquote>
@@ -71,6 +66,8 @@
         </ul>
       </div>
     </transition-group>
+
+    <button @click="questionDetail()">문제 풀러 가기</button>
   </main>
 </template>
 
@@ -79,7 +76,6 @@ import axios from "@/api/api.service.js";
 
 export default {
   name: "CategoryList",
-
   data() {
     return {
       questionType: [],
@@ -156,7 +152,27 @@ export default {
       }
     },
 
-    questionDetail(p_id) {
+    questionDetail() {
+      let questionlist = this.list;
+
+      let index = 0;
+      this.list.forEach(({ answers }, i) => {
+        answers.forEach(({ a_value, a_correct }, j) => {
+          if (a_correct) {
+            if (questionlist[i].currentAnswer === undefined) {
+              questionlist[i].currentAnswer = [a_value];
+            } else {
+              questionlist[i].currentAnswer.push(a_value);
+            }
+            questionlist[i].currentIndex = index + j;
+          }
+        });
+
+        index += answers.length;
+      });
+      this.$store.dispatch("questionList", questionlist);
+      this.$store.dispatch("questionType", this.questionType);
+      this.$store.dispatch("questionCategory", this.questionCategory);
       this.$router.push("/detail");
     },
 
@@ -188,7 +204,6 @@ export default {
       // Problems Get
       await axios.get("/api/problems/probs/").then(({ data }) => {
         this.questionData = data;
-        this.$store.dispatch("questionData", data);
         data.forEach(({ pt_id, pc_id, pd_id }) => {
           // Type, Category
           this.$set(this.filters.type, this.questionType[pt_id], false);
@@ -201,8 +216,6 @@ export default {
           }
         });
       });
-
-      this.$store.dispatch("filters", this.filters);
     }
   },
 
@@ -212,5 +225,8 @@ export default {
 };
 </script>
 
-<style lang="scss" src="@/components/Question/Category/CategoryList.scss" scoped>
-</style>
+<style
+  lang="scss"
+  src="@/components/Question/Category/CategoryList.scss"
+  scoped
+></style>
