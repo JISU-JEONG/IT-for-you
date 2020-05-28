@@ -17,15 +17,29 @@
         <h2>서비스 이름</h2>
         <span class="close-btn" @click="closeSideBar"></span>
       </div>
-      <div class="side-bar-content">
-        <ul @click="onClickEvent">
-          <li><router-link to="/category">category</router-link></li>
-          <li><router-link to="/detail">Detail</router-link></li>
-          <li><router-link to="/testmic">TestMIC</router-link></li>
-          <li><router-link to="/Admin">Admin</router-link></li>
-          <li><router-link to="/login">login</router-link></li>
-          <li><a @click="logout">로그아웃</a></li>
-        </ul>
+      <div class="sidde-bar-profile">
+        <span class="avata"></span>
+        <div>
+          <span class="username">
+            {{ user.username }}
+          </span>
+          <span class="email">
+            {{ user.email }}
+          </span>
+        </div>
+      </div>
+
+      <div class="side-bar-nav">
+        <li><router-link to="/category">문제풀기</router-link></li>
+        <li><router-link to="/Admin">문제관리</router-link></li>
+        <li><router-link to="/testmic">면접대비</router-link></li>
+        <li><router-link to="/testmic">오답노트</router-link></li>
+        <li><router-link to="/testmic">단어장</router-link></li>
+      </div>
+      <div class="side-bar-logout">
+        <div>
+          <li class=""><a @click="logout">로그아웃</a></li>
+        </div>
       </div>
     </div>
     <div class="router-wrapper">
@@ -35,12 +49,15 @@
 </template>
 
 <script>
+import axios from "@/api/api.service.js";
+
 export default {
   name: "Home",
   data() {
     return {
       showSideBar: false,
-      isAuthenticated: this.$session.has("jwt")
+      isAuthenticated: this.$session.has("jwt"),
+      user: {}
     };
   },
   methods: {
@@ -83,7 +100,28 @@ export default {
       this.$session.clear();
       this.$store.dispatch("logout");
       this.$router.push("/login");
+    },
+    getUser() {
+      // axios 요청시마다 헤더를 추가해서 보내야 함!
+      const token = this.$session.get("jwt");
+      const options = {
+        headers: {
+          Authorization: `JWT ${token}` // JWT 다음에 공백있음.
+        }
+      };
+      axios
+        .post("/api/accounts/user/", {}, options)
+        .then(({ data }) => {
+          console.log(data);
+          this.user = data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
+  },
+  beforeMount() {
+    this.getUser();
   }
 };
 </script>
@@ -104,12 +142,14 @@ nav {
 }
 ul,
 li {
+  font-family: "Recipekorea";
   width: 100%;
   list-style: none;
 }
 li {
   height: 50px;
   line-height: 50px;
+  margin: 10px 0;
 }
 a {
   width: 100%;
@@ -175,6 +215,7 @@ a.router-link-active {
   top: 0;
   left: 0;
   bottom: 0;
+  height: 100vh;
   width: 300px;
   color: white;
   opacity: 1 !important;
@@ -184,13 +225,64 @@ a.router-link-active {
   transition: all 0.2s ease-out;
   z-index: 3;
 }
+
 .sidde-bar-top {
-  height: 70px;
+  height: 8vmax;
   padding: 0 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+.sidde-bar-profile {
+  height: 10vmax;
+  /* background-color: darkslategray; */
+  background-color: #4d4d4d;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+}
+
+/* .side-bar-content {
+  height: 80vmax;
+  width: 100%;
+} */
+
+.side-bar-nav {
+  display: inline-block;
+  padding-top: 20px;
+  height: 40vmax;
+  width: 100%;
+}
+
+.side-bar-logout {
+  display: flex;
+  align-items: flex-end;
+  height: 42vmax;
+  width: 100%;
+}
+
+.sidde-bar-profile .avata {
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 80px;
+  margin-right: 20px;
+  width: 70px;
+  height: 70px;
+
+  background: url("https://w7.pngwing.com/pngs/510/349/png-transparent-computer-icons-teacher-avatar-miscellaneous-child-heroes-thumbnail.png");
+  /* background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQ5Ty-UEu2iUE1doS-p_hcMFkLKElpJETI8c268ZGNIhRjDN5N&usqp=CAU"); */
+  background-size: contain;
+}
+
+.sidde-bar-profile .username {
+  font-family: "Recipekorea";
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 .close-btn {
   width: 28px;
   height: 28px;
@@ -235,5 +327,13 @@ a.router-link-active {
   .router-wrapper {
     padding-top: 52px;
   }
+}
+
+@font-face {
+  font-family: "Recipekorea";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Recipekorea.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>
