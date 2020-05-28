@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CategoryList from "@/components/Question/Category/CategoryList.vue";
+import CategoryList from "@/components/Question/Category.vue";
 
 export default {
   name: "Category",

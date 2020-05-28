@@ -1,12 +1,16 @@
 <template>
   <div class="main-content">
-    <div :class="i===0 ? 'now' : ''" v-for="(q, i) in questionList" :key="q.p_id">
+    <div
+      :class="i === 0 ? 'now' : ''"
+      v-for="(q, i) in questionList"
+      :key="q.p_id"
+    >
       <div class="questionInfo">
-        <span>{{q.category.pc_value}}</span>
-        <span>{{questionType[q.pt_id-1].pt_value}}</span>
-        <span>{{q.pd_id}}</span>
+        <span>{{ q.category.pc_value }}</span>
+        <span>{{ questionType[q.pt_id - 1].pt_value }}</span>
+        <span>{{ q.pd_id }}</span>
       </div>
-      <div class="question">{{q.p_question}}</div>
+      <div class="question">{{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null">
         <pre class="language-javascript">
           <code>
@@ -21,7 +25,13 @@
       <!-- 객관식, O/X -->
       <div v-if="q.pt_id === 2 || q.pt_id === 3">
         <div v-for="a in q.answers" :key="a.a_id" @click="selected()">
-          <div :id="a.a_correct" :name="`problem${q.p_id}`" class="questionAnswer">{{a.a_value}}</div>
+          <div
+            :id="a.a_correct"
+            :name="`problem${q.p_id}`"
+            class="questionAnswer"
+          >
+            {{ a.a_value }}
+          </div>
         </div>
       </div>
       <!-- 단답식 -->
@@ -43,9 +53,15 @@
       >
         <span>정답 확인</span>
       </div>
-      <div class="current" v-if="!buttonFlag">{{correctAnswer}}</div>
-      <div class="commentary" v-if="!buttonFlag">해설 : {{q.p_commentary}}</div>
-      <div class="currentButton" v-if="!buttonFlag" @click="nextProblem(i, questionList.length -1)">
+      <div class="current" v-if="!buttonFlag">{{ correctAnswer }}</div>
+      <div class="commentary" v-if="!buttonFlag">
+        해설 : {{ q.p_commentary }}
+      </div>
+      <div
+        class="currentButton"
+        v-if="!buttonFlag"
+        @click="nextProblem(i, questionList.length - 1)"
+      >
         <span>다음 문제</span>
       </div>
     </div>
