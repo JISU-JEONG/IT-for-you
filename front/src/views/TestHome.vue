@@ -6,6 +6,9 @@
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
       </div>
+      <p>서비스 이름</p>
+      {{isAuthenticated}}
+      <p v-if="isAuthenticated" style="color:white">로그인상태</p>
     </nav>
     <div class="side-bar-background display-none opacity-0" @click="closeSideBar"></div>
     <div class="side-bar" :class="{'side-bar-transform': showSideBar}">
@@ -20,6 +23,7 @@
           <li><router-link to="/testmic">TestMIC</router-link></li>
           <li><router-link to="/Admin">Admin</router-link></li>
           <li><router-link to="/login">login</router-link></li>
+          <li><a @click="logout">로그아웃</a></li>
         </ul>
       </div>
     </div>
@@ -35,6 +39,7 @@ export default {
   data() {
     return {
       showSideBar: false,
+      isAuthenticated: this.$session.has('jwt') 
     }
   },
   methods: {
@@ -66,6 +71,11 @@ export default {
     onCLickLink(path) {
       this.$router.push(`/testhome/${path}`)
       this.closeSideBar()
+    },
+    logout() {
+      this.$session.clear()
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
     }
   }
 };
@@ -77,6 +87,7 @@ export default {
     height: 44px;
     line-height: 44px;
     padding-left: 10px;
+    text-align: center;
     position:fixed;
     top: 0;
     left: 0;
@@ -99,6 +110,7 @@ export default {
     font-size: 20px;
     color: rgb(162, 161, 161);
     text-decoration: none;
+    cursor: pointer;
   }
   a.router-link-active {
     color: white
@@ -108,6 +120,7 @@ export default {
     height: 15px;
     display: inline-block;
     position: absolute;
+    left: 10px;
     top:50%;
     transform: translateY(-50%);
     cursor: pointer;
