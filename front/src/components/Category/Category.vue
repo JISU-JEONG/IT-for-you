@@ -15,7 +15,7 @@
       <input type="text" placeholder="1~50" v-model="p_number" />
     </div>
     <div class="send-button">
-      <span @click="selectedData()">Send</span>
+      <span @click="selectedData()">문제 풀러가기</span>
     </div>
   </div>
 </template>
@@ -73,8 +73,6 @@ export default {
       this.questionData["p_number"] =
         this.p_number === null ? 10 : Number(this.p_number);
 
-      //   console.log(this.questionData);
-
       axios
         .post("/api/problems/search/", this.questionData)
         .then(({ data }) => {
@@ -94,22 +92,22 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 .main-content {
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
 }
 
-.question-content {
+.question-content,
+.question-content-count {
   width: 100%;
 }
 
+.question-content-count,
 .send-button {
-  margin: 50px;
-}
-
-.send-button {
-  margin-top: 70px;
+  display: flex;
+  justify-content: center;
 }
 
 .category-contaienr,
@@ -129,12 +127,58 @@ export default {
   padding: 10px;
 }
 
-input {
-  text-align: center;
-
-  height: 50px;
+.active,
+.send-button:hover {
+  background-color: black;
+  color: white;
 }
-.active {
-  background-color: gold;
+
+input {
+  height: 50px;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 30px;
+  text-align: center;
+}
+
+h1,
+input,
+.question-content span {
+  font-family: "Recipekorea";
+}
+
+.send-button {
+  font-family: "Openas";
+  border: 5px black solid;
+  border-radius: 50px;
+  font-size: 2rem;
+  padding: 15px;
+  margin: 50px;
+}
+
+@font-face {
+  font-family: "Recipekorea";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Recipekorea.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CookieRunOTF-Black";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Black00.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Openas";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/Openas.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>
