@@ -28,6 +28,11 @@ const routes = [
         name: "TestMIC",
         component: () => import("../views/TestMIC.vue"),
       },
+      {
+        path: "interview",
+        name: "Interview",
+        component: () => import("../views/Interview.vue"),
+      }
     ]
   },
   {
