@@ -50,6 +50,7 @@
           </li>
         </ul>
       </div>
+      <div class="arrow-bottom"></div>
     </div>
   </div>
 </template>
@@ -222,6 +223,28 @@ li {
 .logo > h1 {
   font-size: 35px;
 }
+.arrow-bottom {
+  width:0;
+  height:0;
+  border: 13px solid white;
+  border-color: white transparent transparent;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: moving 1s linear infinite;
+}
+@keyframes moving {
+  0% {
+    bottom: 40px; 
+  }
+  50% {
+    bottom: 30px;
+  }
+  100% {
+    bottom: 40px; 
+  }
+}
 
 @media (min-width: 1024px) {
   .container {
@@ -234,6 +257,9 @@ li {
   .desc-container,
   .desc-background-color {
     padding: 70px;
+  }
+  .arrow-bottom {
+    display: none;
   }
 }
 </style>
