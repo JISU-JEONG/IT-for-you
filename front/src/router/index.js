@@ -17,11 +17,6 @@ const routes = [
         component: () => import("../views/Question/Category.vue")
       },
       {
-        path: "detail",
-        name: "Detail",
-        component: () => import("../views/Question/Detail.vue")
-      },
-      {
         path: "testmic",
         name: "TestMIC",
         component: () => import("../views/TestMIC.vue")
@@ -37,14 +32,6 @@ const routes = [
     component: () => import("../views/Login.vue"),
     meta: {
       needAuthUser: false
-    }
-  },
-  {
-    path: "/profile",
-    name: "profile",
-    component: import("../views/Profile.vue"),
-    meta: {
-      needAuthUser: true
     }
   },
   {
@@ -78,7 +65,10 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  }
 });
 
 router.beforeEach((to, from, next) => {
