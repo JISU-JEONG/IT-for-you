@@ -57,7 +57,7 @@ const routes = [
       }
     ],
     meta: {
-      needAuthUser: true
+      needAuthUser: false
     }
   }
 ];
