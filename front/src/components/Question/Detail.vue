@@ -11,8 +11,8 @@
         <span>{{ q.pd_id }}</span>
       </div>
       <div class="question">{{ q.p_question }}</div>
-      <div v-highlight v-if="q.p_code !== null">
-        <pre class="language-javascript">
+      <div v-highlight v-if="q.p_code !== null" class="codeDIV">
+        <pre>
           <code>
             {{q.p_code}}
           </code>
@@ -70,6 +70,7 @@
 
 <script>
 import axios from "@/api/api.service.js";
+import "@/utils/prism.css";
 
 export default {
   name: "Category",
@@ -216,6 +217,14 @@ export default {
 div {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.codeDIV {
+  overflow-x: scroll;
+}
+
+pre {
+  white-space: pre;
 }
 
 .active {
