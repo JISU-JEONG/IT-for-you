@@ -18,7 +18,6 @@ Vue.use(VueSession);
 Vue.use(VueCodeHighlight);
 Vue.use(VueResource);
 
-
 new Vue({
   router,
   store,
