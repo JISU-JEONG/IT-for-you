@@ -3,13 +3,13 @@ export function calculateLineHeadPosition (ev, element) {
   const leftPosition = ev.target.getBoundingClientRect().left
   let pos = (ev.clientX - leftPosition) / progressWidth
 
-  try {
-    if (!ev.target.className.match(/^ar\-line\-control/)) {
-      return
-    }
-  } catch (err) {
-    return
-  }
+  // try {
+  //   if (!ev.target.className.match(/^ar\-line\-control/)) {
+  //     return
+  //   }
+  // } catch (err) {
+  //   return
+  // }
 
   pos = pos < 0 ? 0 : pos
   pos = pos > 1 ? 1 : pos
