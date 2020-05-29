@@ -11,7 +11,7 @@
 
     <audio-recorder v-if="showRecorder"
       upload-url="http://127.0.0.1:8000/api/accounts/voice/"
-      filename="interview"
+      filename="interview" 
       format="wav"
       :attempts="3"
       :time="2"

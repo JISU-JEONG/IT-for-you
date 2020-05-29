@@ -19,7 +19,12 @@ const routes = [
       {
         path: "testmic",
         name: "TestMIC",
-        component: () => import("../views/TestMIC.vue")
+        component: () => import("../views/TestMIC.vue"),
+      },
+      {
+        path: "interview",
+        name: "Interview",
+        component: () => import("../views/Interview.vue"),
       }
     ]
   },

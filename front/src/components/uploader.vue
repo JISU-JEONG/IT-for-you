@@ -10,6 +10,7 @@
   import IconButton from './icon-button'
   import UploaderPropsMixin from '@/mixins/uploader-props'
   import axios from 'axios'
+import router from '../router'
   export default {
     mixins: [UploaderPropsMixin],
     props: {
@@ -33,6 +34,7 @@
         headers['Content-Type'] = `multipart/form-data; boundary=${data._boundary}`
         axios.post(this.uploadUrl, data, { headers: headers }).then(resp => {
           this.$eventBus.$emit('end-upload', { status: 'success', response: resp })
+          router.push('/interview')
         }).catch(error => {
           this.$eventBus.$emit('end-upload', { status: 'fail', response: error })
         })
