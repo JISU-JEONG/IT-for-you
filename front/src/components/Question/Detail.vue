@@ -1,14 +1,18 @@
 <template>
   <div class="main-content">
-    <div :class="i===0 ? 'now' : ''" v-for="(q, i) in questionList" :key="q.p_id">
+    <div
+      :class="i === 0 ? 'now' : ''"
+      v-for="(q, i) in questionList"
+      :key="q.p_id"
+    >
       <div class="questionInfo">
-        <span>{{q.category.pc_value}}</span>
-        <span>{{questionType[q.pt_id-1].pt_value}}</span>
-        <span>{{q.pd_id}}</span>
+        <span>{{ q.category.pc_value }}</span>
+        <span>{{ questionType[q.pt_id - 1].pt_value }}</span>
+        <span>{{ q.pd_id }}</span>
       </div>
-      <div class="question">{{q.p_question}}</div>
-      <div v-highlight v-if="q.p_code !== null">
-        <pre class="language-javascript">
+      <div class="question">{{ q.p_question }}</div>
+      <div v-highlight v-if="q.p_code !== null" class="codeDIV">
+        <pre>
           <code>
             {{q.p_code}}
           </code>
@@ -21,26 +25,43 @@
       <!-- 객관식, O/X -->
       <div v-if="q.pt_id === 2 || q.pt_id === 3">
         <div v-for="a in q.answers" :key="a.a_id" @click="selected()">
-          <div :id="a.a_correct" :name="`problem${q.p_id}`" class="questionAnswer">{{a.a_value}}</div>
+          <div
+            :id="a.a_correct"
+            :name="`problem${q.p_id}`"
+            class="questionAnswer"
+          >
+            {{ a.a_value }}
+          </div>
         </div>
       </div>
       <!-- 단답식 -->
       <div v-if="q.pt_id === 4">
         <span>
-          <input :name="`problem${q.p_id}`" class="questionAnswer" type="text" />
+          <input
+            v-model="shortAnswer"
+            :name="`problem${q.p_id}`"
+            class="questionAnswer"
+            type="text"
+          />
         </span>
       </div>
 
       <div
         class="currentButton"
         v-if="buttonFlag"
-        @click="checkProblem(`problem${q.p_id}`, q.pt_id)"
+        @click="checkProblem(`problem${q.p_id}`, q.pt_id, q.answers)"
       >
         <span>정답 확인</span>
       </div>
-      <div class="current" v-if="!buttonFlag">{{correctAnswer}}</div>
-      <div class="commentary" v-if="!buttonFlag">해설 : {{q.p_commentary}}</div>
-      <div class="currentButton" v-if="!buttonFlag" @click="nextProblem(i, questionList.length -1)">
+      <div class="current" v-if="!buttonFlag">{{ correctAnswer }}</div>
+      <div class="commentary" v-if="!buttonFlag">
+        해설 : {{ q.p_commentary }}
+      </div>
+      <div
+        class="currentButton"
+        v-if="!buttonFlag"
+        @click="nextProblem(i, questionList.length - 1)"
+      >
         <span>다음 문제</span>
       </div>
     </div>
@@ -49,6 +70,7 @@
 
 <script>
 import axios from "@/api/api.service.js";
+import "@/utils/prism.css";
 
 export default {
   name: "Category",
@@ -56,7 +78,8 @@ export default {
     return {
       buttonFlag: true,
       correctAnswer: null,
-      oldAnswer: null
+      oldAnswer: null,
+      shortAnswer: null
     };
   },
   methods: {
@@ -67,13 +90,21 @@ export default {
       event.target.classList.add("active");
       this.oldAnswer = event.target;
     },
-    checkProblem(problemNumber, type) {
-      // 객관식, O/X
-      if (type === 2 || type === 3) {
-        const div = document.getElementsByName(problemNumber);
+    checkProblem(problemNumber, type, Answer) {
+      // 인터뷰
+      if (type === 1) {
+        console.log("인터뷰");
+      }
 
+      // 객관식, O/X
+      else if (type === 2 || type === 3) {
+        if (this.oldAnswer === null) {
+          alert("보기를 선택해주세요.");
+          return;
+        }
+        const div = document.getElementsByName(problemNumber);
         if (this.oldAnswer.id === "true") {
-          alert("맞음");
+          console.log("맞음");
         } else {
           const res =
             "틀림 : " +
@@ -83,24 +114,27 @@ export default {
               })
             ].innerHTML;
 
-          alert(res);
+          console.log(res);
         }
+        this.oldAnswer = null;
+        this.shortAnswer = null;
       }
       // 단답형
-      //   else if (type === 4) {
-      //     const div = document.querySelector(problemNumber);
-      //     let answer = null;
-      //     const correctCheck = this.questionList[i].answers.some(
-      //       ({ a_value }) => {
-      //         return a_value.toLowerCase() === div.value.toLowerCase();
-      //       }
-      //     );
+      else if (type === 4) {
+        if (this.shortAnswer === null) {
+          alert("답변을 입력해주세요.");
+          return;
+        }
 
-      //     this.correctAnswer =
-      //       correctCheck === true
-      //         ? "맞음"
-      //         : "틀림(" + this.questionList[i].answers[0].a_value + ")";
-      //   }
+        const check = Answer.some(({ a_value }) => {
+          return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
+        });
+
+        const res = check === true ? "맞음" : "틀림 : " + Answer[0].a_value;
+        this.oldAnswer = null;
+        this.shortAnswer = null;
+        console.log(res);
+      }
       this.buttonFlag = !this.buttonFlag;
     },
     nextProblem(i, size) {
@@ -183,6 +217,14 @@ export default {
 div {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.codeDIV {
+  overflow-x: scroll;
+}
+
+pre {
+  white-space: pre;
 }
 
 .active {
