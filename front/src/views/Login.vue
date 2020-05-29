@@ -136,7 +136,6 @@ export default {
       //     console.log(error)
       // })
       router.push("/profile");
-    }
   },
   updated() {
     console.log(this);

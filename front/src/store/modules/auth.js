@@ -36,7 +36,7 @@ const getters = {
   },
   userState(state) {
     return state.token;
-  }
+  },
 };
 
 export default {

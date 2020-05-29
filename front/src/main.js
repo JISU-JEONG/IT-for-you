@@ -13,7 +13,6 @@ Vue.use(VueCodeHighlight);
 Vue.use(AudioRecorder);
 
 
-
 new Vue({
   router,
   store,
