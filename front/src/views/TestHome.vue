@@ -6,7 +6,7 @@
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
       </div>
-      <p>서비스 이름 {{ isAuthenticated }}</p>
+      <p>서비스 이름</p>
     </nav>
     <div
       class="side-bar-background display-none opacity-0"
@@ -31,10 +31,10 @@
 
       <div class="side-bar-nav">
         <li><router-link to="/category">문제풀기</router-link></li>
-        <li><router-link to="/Admin">문제관리</router-link></li>
+        <li><router-link to="/admin">관리자페이지</router-link></li>
         <li><router-link to="/testmic">면접대비</router-link></li>
-        <li><router-link to="/testmic">오답노트</router-link></li>
-        <li><router-link to="/testmic">단어장</router-link></li>
+        <!-- <li><router-link to="/testmic">오답노트</router-link></li>
+        <li><router-link to="/testmic">단어장</router-link></li> -->
       </div>
       <div class="side-bar-logout">
         <div>

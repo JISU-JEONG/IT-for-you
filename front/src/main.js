@@ -15,7 +15,7 @@ Vue.use(VueSession);
 Vue.use(VueCodeHighlight);
 Vue.use(VueResource);
 
-export default new Vue({
+new Vue({
   router,
   store,
   render: h => h(App)

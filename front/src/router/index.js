@@ -34,6 +34,14 @@ const routes = [
     component: () => import("../components/Question/Detail.vue")
   },
   {
+    path: "/detail",
+    name: "detail",
+    component: () => import("../components/Question/Detail.vue"),
+    meta: {
+      needAuthUser: true
+    }
+  },
+  {
     path: "/admin",
     name: "Admin",
     redirect: "/admin/user",
