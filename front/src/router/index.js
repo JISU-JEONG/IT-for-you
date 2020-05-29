@@ -21,18 +21,17 @@ const routes = [
         name: "TestMIC",
         component: () => import("../views/TestMIC.vue")
       }
-    ],
-    meta: {
-      needAuthUser: true
-    }
+    ]
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue"),
-    meta: {
-      needAuthUser: false
-    }
+    component: () => import("../views/Login.vue")
+  },
+  {
+    path: "/detail",
+    name: "detail",
+    component: () => import("../components/Question/Detail.vue")
   },
   {
     path: "/admin",
@@ -55,10 +54,7 @@ const routes = [
         name: "EditQuestion",
         component: () => import("../views/EditQuestion.vue")
       }
-    ],
-    meta: {
-      needAuthUser: true
-    }
+    ]
   }
 ];
 
@@ -72,22 +68,22 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const flag = to.matched.some(m => m.meta.needAuthUser);
-  // // 로그인 제외 페이지 이동
-  if (flag) {
-    if (store.getters.userState === null) {
-      return next("/login");
-    } else {
-      return next();
-    }
+  const token = JSON.parse(sessionStorage.getItem("vue-session-key"))["jwt"];
+  let isLogin = false;
+
+  if (token !== undefined) {
+    isLogin = store.dispatch("loginCheck", token);
   }
-  // // 로그인 되어있다면
-  else {
-    if (store.getters.userState === null) {
+
+  if (isLogin === false) {
+    if (to.path === "/login") {
       return next();
     } else {
-      return next("category");
+      return next("/login");
     }
+  } else {
+    console.log(store.getters.getUserInfo);
+    return next();
   }
 });
 

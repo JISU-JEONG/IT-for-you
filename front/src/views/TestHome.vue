@@ -121,13 +121,14 @@ export default {
     }
   },
   beforeMount() {
+    // console.log(this.$session);
+    // this.$store.dispatch("getUser");
     this.getUser();
   }
 };
 </script>
 
 <style scoped>
-/* nav */
 nav {
   height: 44px;
   line-height: 44px;
