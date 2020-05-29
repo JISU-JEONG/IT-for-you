@@ -35,6 +35,14 @@ const routes = [
     }
   },
   {
+    path: "/detail",
+    name: "detail",
+    component: () => import("../components/Question/Detail.vue"),
+    meta: {
+      needAuthUser: true
+    }
+  },
+  {
     path: "/admin",
     name: "Admin",
     redirect: "/admin/user",
@@ -57,7 +65,7 @@ const routes = [
       }
     ],
     meta: {
-      needAuthUser: false
+      needAuthUser: true
     }
   }
 ];
@@ -86,7 +94,7 @@ router.beforeEach((to, from, next) => {
     if (store.getters.userState === null) {
       return next();
     } else {
-      return next("category");
+      return next("/");
     }
   }
 });
