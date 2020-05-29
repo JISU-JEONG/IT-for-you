@@ -65,8 +65,8 @@ export default {
   name: "Login",
   data() {
     return {
-      showLogin: true,
-      isAuthenticated: this.$session.has("jwt")
+      showLogin: true
+      // isAuthenticated: this.$session.has("jwt")
     };
   },
   components: {
@@ -114,11 +114,11 @@ export default {
           console.log(error);
         });
     }
-  },
-  updated() {
-    console.log(this);
-    this.isAuthenticated = this.$session.has("jwt");
   }
+  // updated() {
+  //   console.log(this);
+  //   this.isAuthenticated = this.$session.has("jwt");
+  // }
 };
 </script>
 

@@ -1,6 +1,9 @@
+import api from "../../utils/api";
+
 // state : data와 유사
 const state = {
-  token: null
+  token: null,
+  userInfo: null
 };
 // mutations : state를 변화시키기 위한 메서드(함수)
 const mutations = {
@@ -8,6 +11,10 @@ const mutations = {
   // 이후 인자는 payload(즉, 임의의 매개변수)
   setToken(state, token) {
     state.token = token;
+  },
+
+  setUserInfo(state, userInfo) {
+    state.userInfo = userInfo;
   }
 };
 
@@ -18,11 +25,20 @@ const actions = {
     // mutation 호출 -> commit
     context.commit("setToken", token);
   },
+
   logout(context) {
     context.commit("setToken", null);
+  },
+
+  async loginCheck(context, token) {
+    const logincheck = await api.loginCheck(token);
+    context.commit("setUserInfo", logincheck);
+    return logincheck;
   }
 };
+
 import jwtDecode from "jwt-decode";
+
 const getters = {
   options(state) {
     return {
@@ -31,12 +47,14 @@ const getters = {
       }
     };
   },
+
   user(state) {
     return jwtDecode(state.token).user_id;
   },
-  userState(state) {
-    return state.token;
-  },
+
+  getUserInfo(state) {
+    return state.userInfo;
+  }
 };
 
 export default {
