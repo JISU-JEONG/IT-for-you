@@ -19,12 +19,12 @@ const routes = [
       {
         path: "testmic",
         name: "TestMIC",
-        component: () => import("../views/TestMIC.vue"),
+        component: () => import("../views/TestMIC.vue")
       },
       {
         path: "interview",
         name: "Interview",
-        component: () => import("../views/Interview.vue"),
+        component: () => import("../views/Interview.vue")
       }
     ]
   },
@@ -32,11 +32,6 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue")
-  },
-  {
-    path: "/detail",
-    name: "detail",
-    component: () => import("../components/Question/Detail.vue")
   },
   {
     path: "/detail",
@@ -83,6 +78,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (sessionStorage.getItem("vue-session-key") === null) {
+    if (to.path === "/login") {
+      return next();
+    } else {
+      return next("/login");
+    }
+  }
   const token = JSON.parse(sessionStorage.getItem("vue-session-key"))["jwt"];
   let isLogin = false;
 
@@ -103,3 +105,4 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
+//
