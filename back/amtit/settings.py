@@ -137,15 +137,18 @@ AUTH_USER_MODEL = 'accounts.User'
 CORS_ORIGIN_ALLOW_ALL = True # 편의상 CORS 모든 도메인에서 허용
 CORS_ORIGIN_WHITELIST = [
     # 추후에 배포시 vue에서만 요청 보낼 수 있도록 정의!!
+    'http://localhost',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # JWT
 # DRS : 모든 views.py에서 적용되는 데코레이터 선언
 REST_FRAMEWORK = {
-    # 모든 views.py : 반드시 인증되어야 한다. (IsAuthenticated)
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #      'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
-    # ),
+#     # 모든 views.py : 반드시 인증되어야 한다. (IsAuthenticated)
+#     # 'DEFAULT_PERMISSION_CLASSES': (
+#     #      'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
+#     # ),
     # 모든 views.py : 인증을 JWT 혹은 Session 등을 통해서 인증된다.
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -156,5 +159,5 @@ REST_FRAMEWORK = {
 import datetime
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=1),
 }

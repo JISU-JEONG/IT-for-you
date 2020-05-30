@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Problem from "@/components/Question/Detail/Problem.vue";
+import Problem from "@/components/Question/Detail.vue";
 
 export default {
   name: "Detail",
