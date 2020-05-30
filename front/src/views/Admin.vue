@@ -1,40 +1,45 @@
 <template>
   <div class="wrapper">
-    <section>
-      <h1>서비스이름</h1>
-      <ul>
-        <li>
-          <router-link to="/admin/user">
-            <i><img :src="addIcon('account')"></i>
-            <span>회원 관리</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/admin/make">
-            <i><img :src="addIcon('plus')"></i>
-            <span>문제 생성</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/admin/edit">
-            <i><img :src="addIcon('book')"></i>
-            <span>문제 수정</span>
-          </router-link>
-        </li>
-      </ul>
-    </section>
-    <div class="admin-content">
-      <nav>
-        <span>{{routerName[this.$router.history.current.name]}}</span>
-        <div class="admin-btn" @click="$router.push('/')">서비스로 돌아가기</div>
-      </nav>
-      <div class="content-top">
-        <div>여기에</div>
-        <div>쓸 정보가</div>
-        <div>있을까</div>
-      </div>
-      <div class="content-layout">
-        <router-view></router-view>
+    <div class="mobile">
+      <span>관리자 페이지는 pc환경에서만 지원합니다.</span>
+    </div>
+    <div class="pc">
+      <section>
+        <h1>서비스이름</h1>
+        <ul>
+          <li>
+            <router-link to="/admin/user">
+              <i><img :src="addIcon('account')"></i>
+              <span>회원 관리</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/admin/make">
+              <i><img :src="addIcon('plus')"></i>
+              <span>문제 생성</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/admin/edit">
+              <i><img :src="addIcon('book')"></i>
+              <span>문제 수정</span>
+            </router-link>
+          </li>
+        </ul>
+      </section>
+      <div class="admin-content">
+        <nav>
+          <span>{{routerName[this.$router.history.current.name]}}</span>
+          <div class="admin-btn" @click="$router.push('/')">서비스로 돌아가기</div>
+        </nav>
+        <div class="content-top">
+          <div>여기에</div>
+          <div>쓸 정보가</div>
+          <div>있을까</div>
+        </div>
+        <div class="content-layout">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +67,33 @@ export default {
 </script>
 <style scoped lang='scss'>
 @font-face { font-family: 'HangeulNuri-Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/HangeulNuri-Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
+.wrapper .pc {
+  display: none;
+}
+.wrapper .mobile {
+  width: 100vw;
+  height: 100vh;
+  /* text-align: center; */
+  background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%);
+  color: white;
+  font-size: 4.5vw;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper .mobile span {
+  height: 30px;
+}
+@media (min-width: 1024px) {
+  .wrapper .pc {
+  display: block;
+  min-width: 1300px;
+}
+.wrapper .mobile {
+  display: none;
+}
+}
 section {
 * {font-family: HangeulNuri-Bold;}
   width: 250px;

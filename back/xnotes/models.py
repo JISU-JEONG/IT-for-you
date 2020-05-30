@@ -6,3 +6,4 @@ class Xnote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)    
     prob = models.ForeignKey(Problem, on_delete=models.CASCADE)    
     u_answer = models.CharField(max_length=500)
+

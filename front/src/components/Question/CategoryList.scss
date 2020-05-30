@@ -3,7 +3,7 @@
   font-family: "Nunito", sans-serif;
   font-weight: 300;
   color: #3d5358;
-  max-width: 780px;
+  max-width: 800px;
   margin: 0 auto;
 
   &__list {
@@ -80,11 +80,13 @@
   }
 
   &__name {
-    font-family: "CookieRunOTF-Bold";
-    text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
-    height: 2.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    font-family: "CookieRunOTF-Bold";
+    height: 4rem;
     margin: 0.75rem 0;
     font-size: 1rem;
     font-weight: 200;
@@ -268,12 +270,6 @@
       background-image: linear-gradient(to right, white, #46d2c4);
     }
   }
-}
-
-h1 {
-  font-family: "godoMaum";
-  padding: 20px 0 0 20px;
-  color: #fe7c96;
 }
 
 @font-face {

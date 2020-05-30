@@ -66,6 +66,8 @@
       <div v-if="questionId===4">
         <input type="text" placeholder="정답 입력" class="input-default" v-model="answer" />
       </div>
+      <h2>해설</h2>
+        <input type="text" placeholder="해설 입력" class="input-default" v-model="p_commentary" />
       <div class="float-right">
         <span class="success-message">문제가 등록되었습니다.</span>
         <button id="submit-btn" class="submit-btn btn" @click="onClickSubmit">문제 등록</button>
@@ -103,7 +105,8 @@ export default {
       codeText: "",
       answer: "",
       examples: ["", "", "", ""],
-      recentOXButton:''
+      recentOXButton:'',
+      p_commentary: ""
     };
   },
   methods: {
@@ -127,7 +130,8 @@ export default {
           p_question: this.questionText,
           pc_value: this.category,
           pt_id: this.questionId,
-          pd_id: this.difficulty
+          pd_id: this.difficulty,
+          p_commentary: this.p_commentary
         },
         answer: this.answer
       };
