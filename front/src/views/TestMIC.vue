@@ -1,15 +1,8 @@
-<style lang="scss">
-  .toggle {
-    cursor: pointer;
-    margin: 20px;
-  }
-</style>
+
 
 <template>
   <div class="row">
-    <div class="toggle" @click="toggle">TOGGLE</div>
-
-    <audio-recorder v-if="showRecorder"
+    <audio-recorder
       upload-url="http://127.0.0.1:8000/api/accounts/voice/"
       filename="interview" 
       format="wav"
@@ -23,8 +16,6 @@
       :successful-upload="callback"
       :failed-upload="callback"
       :bit-rate="192"/>
-
-    <audio-player :src="mp3" v-if="!showRecorder"/>
   </div>
 </template>
 
@@ -44,9 +35,6 @@
       callback (msg) {
         console.debug('Event: ', msg)
       },
-      toggle () {
-        this.showRecorder = !this.showRecorder
-      }
     }
   }
 </script>
