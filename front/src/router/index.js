@@ -41,10 +41,12 @@ const routes = [
   {
     path: "/detail",
     name: "detail",
-    component: () => import("../components/Question/Detail.vue"),
-    meta: {
-      needAuthUser: true
-    }
+    component: () => import("../components/Question/Detail.vue")
+  },
+  {
+    path: "/wrongAnswerNote",
+    name: "wrongAnswerNote",
+    component: () => import("../components/Question/WrongAnswerNote.vue")
   },
   {
     path: "/admin",
