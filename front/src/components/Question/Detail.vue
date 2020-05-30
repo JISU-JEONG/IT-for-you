@@ -6,11 +6,12 @@
       :key="q.p_id"
     >
       <div class="questionInfo">
-        <span>{{ q.category.pc_value }}</span>
-        <span>{{ questionType[q.pt_id - 1].pt_value }}</span>
-        <span>{{ q.pd_id }}</span>
+        <span class="info-badge color-info">{{ q.category.pc_value }}</span>
+        <span class="info-badge color-info">{{ questionType[q.pt_id - 1].pt_value }}</span>
+        <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
+        <span class="info-badge color-warning float-right">즐겨찾기?</span>
       </div>
-      <div class="question">{{ q.p_question }}</div>
+      <div class="question">{{i}}. {{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null" class="codeDIV">
         <pre>
           <code>
@@ -23,19 +24,18 @@
       <div v-if="q.pt_id === 1">인터뷰</div>
 
       <!-- 객관식, O/X -->
-      <div v-if="q.pt_id === 2 || q.pt_id === 3">
-        <div v-for="a in q.answers" :key="a.a_id" @click="selected()">
-          <div
-            :id="a.a_correct"
-            :name="`problem${q.p_id}`"
-            class="questionAnswer"
-          >
-            {{ a.a_value }}
-          </div>
+      <div v-if="q.pt_id === 2 || q.pt_id === 3" class="answer-container">
+        <div
+          v-for="a in q.answers" :key="a.a_id" @click="selected()"
+          :id="a.a_correct"
+          :name="`problem${q.p_id}`"
+          class="questionAnswer"
+        >
+          {{ a.a_value }}
         </div>
       </div>
       <!-- 단답식 -->
-      <div v-if="q.pt_id === 4">
+      <div v-if="q.pt_id === 4" class="answer-container">
         <span>
           <input
             v-model="shortAnswer"
@@ -163,25 +163,39 @@ export default {
 }
 
 .main-content {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
   margin: 0 auto;
 }
 
 .main-content > div {
   display: none;
-  margin: 30px;
+  padding: 20px;
 }
 
 .main-content > div.now {
   display: block;
 }
-
-.questionInfo {
-  font-family: "Recipekorea";
-  font-size: 1.5rem;
-  display: flex;
-  justify-content: space-between;
+.questionInfo{
+  width: 100%;
+  height: 40px;
+}
+.info-badge {
+  padding: 6px;
+  margin-right: 6px;
+  font-size: 15px;
+  border-radius: 5px;
+  color: white;
+  font-family: Openas;
+  float: left;
+}
+.color-info {
+  background-color: #17a2b8;
+}
+.color-warning {
+  background-color: #ffc107;
+}
+.float-right {
+  float: right;
 }
 
 .questionAnswer,
@@ -189,16 +203,19 @@ export default {
 .question,
 .commentary,
 .currentButton span {
-  font-family: "BMDOHYEON";
+  font-family: ChosunSm;
 }
 
 .questionAnswer {
-  border: 5px black solid;
+  border: 2px black solid;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .question {
-  font-size: 2rem;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  margin-bottom: 20px;
 }
 
 .currentButton {
@@ -213,14 +230,13 @@ export default {
   padding: 15px;
   margin: 50px;
 }
-
-div {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.answer-container {
+  /* marg */
 }
 
 .codeDIV {
   overflow-x: scroll;
+  margin-bottom: 20px;
 }
 
 pre {
@@ -254,4 +270,6 @@ pre {
   font-weight: normal;
   font-style: normal;
 }
+@font-face { font-family: 'ChosunSm'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff') format('woff'); font-weight: normal; font-style: normal; }
+
 </style>

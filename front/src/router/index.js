@@ -25,18 +25,18 @@ const routes = [
         path: "interview",
         name: "Interview",
         component: () => import("../views/Interview.vue")
-      }
+      },
+      {
+        path: "detail",
+        name: "detail",
+        component: () => import("../components/Question/Detail.vue")
+      },
     ]
   },
   {
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue")
-  },
-  {
-    path: "/detail",
-    name: "detail",
-    component: () => import("../components/Question/Detail.vue")
   },
   {
     path: "/wrongAnswerNote",
