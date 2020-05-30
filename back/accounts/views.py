@@ -84,7 +84,8 @@ def voice(request):
         interview.content = text
         interview.file = audio
         interview.save()
-        
+    interview.path = interview.file.path
+    interview.save()
     return Response({'message': '추가되었습니다.'})
 
 @api_view(['GET'])
