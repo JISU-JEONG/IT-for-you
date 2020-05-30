@@ -83,6 +83,7 @@ export default {
   margin-bottom: 20px;
   padding: 5px;
   font-size: 16px;
+  transition: all 1s;
 }
 .input:placeholder-shown {
   border: none;

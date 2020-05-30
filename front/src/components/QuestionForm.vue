@@ -66,6 +66,8 @@
       <div v-if="questionId===4">
         <input type="text" placeholder="정답 입력" class="input-default" v-model="answer" />
       </div>
+      <h2>해설</h2>
+        <input type="text" placeholder="해설 입력" class="input-default" v-model="해설" />
       <div class="float-right">
         <span class="success-message">문제가 등록되었습니다.</span>
         <button id="submit-btn" class="submit-btn btn" @click="onClickSubmit">문제 등록</button>
@@ -103,7 +105,8 @@ export default {
       codeText: "",
       answer: "",
       examples: ["", "", "", ""],
-      recentOXButton:''
+      recentOXButton:'',
+      해설: ''
     };
   },
   methods: {
