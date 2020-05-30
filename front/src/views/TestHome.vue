@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="side-bar-nav">
+      <div class="side-bar-nav" @click="onClickEvent">
         <li><router-link to="/category">문제풀기</router-link></li>
         <li><router-link to="/admin">관리자페이지</router-link></li>
         <li><router-link to="/testmic">면접대비</router-link></li>
@@ -37,9 +37,7 @@
         <li><router-link to="/testmic">단어장</router-link></li> -->
       </div>
       <div class="side-bar-logout">
-        <div>
-          <li class=""><a @click="logout">로그아웃</a></li>
-        </div>
+        <li><a @click="logout">로그아웃</a></li>
       </div>
     </div>
     <div class="router-wrapper">
@@ -228,7 +226,7 @@ a.router-link-active {
 }
 
 .sidde-bar-top {
-  height: 8vmax;
+  height: 80px;
   padding: 0 8px;
   display: flex;
   justify-content: space-between;
@@ -236,28 +234,23 @@ a.router-link-active {
 }
 
 .sidde-bar-profile {
-  height: 10vmax;
+  height: 100px;
   /* background-color: darkslategray; */
   background-color: #4d4d4d;
   padding: 15px;
   display: flex;
   align-items: center;
 }
-
 .side-bar-nav {
   display: inline-block;
-  padding-top: 20px;
-  height: 40vmax;
+  padding-top: 20px;;
   width: 100%;
 }
-
 .side-bar-logout {
-  display: flex;
-  align-items: flex-end;
-  height: 42vmax;
+  position:absolute;
+  bottom: 10px;
   width: 100%;
 }
-
 .sidde-bar-profile .avata {
   display: inline-block;
   border: 1px solid white;

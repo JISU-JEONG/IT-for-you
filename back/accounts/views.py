@@ -10,7 +10,11 @@ from .serializers import UserSerializers
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from IPython import embed
 from interprobs.models import Interview
+from interprobs.serializers import InterviewSerializers
 import speech_recognition as sr
+
+import os
+
 # Create your views here.
 @api_view(['POST'])
 def user_signup(request):
@@ -64,10 +68,37 @@ def voice(request):
     with sr.AudioFile(audio) as source:
         audio_source = r.record(source) 
     text = r.recognize_google(audio_data = audio_source,language = "ko-KR")
-    interview = Interview()
-    interview.user = get_object_or_404(User, pk=1)
-    interview.prob = get_object_or_404(Problem, p_id=2)
-    interview.content = text
-    interview.file = audio
-    interview.save()
+    user = get_object_or_404(User, pk=1)
+    prob = get_object_or_404(Problem, p_id=2)
+    interview = Interview.objects.filter(user=user.pk).filter(prob=prob.p_id)
+    if interview:
+        interview = interview[0]
+        os.remove(interview.file.path)
+        interview.content = text
+        interview.file = audio
+        interview.save()
+    else:
+        interview = Interview()
+        interview.user = user
+        interview.prob = prob
+        interview.content = text
+        interview.file = audio
+        interview.save()
+        
     return Response({'message': '추가되었습니다.'})
+
+@api_view(['GET'])
+def users(request):
+    users = User.objects.all()
+    serializers = UserSerializers(users, many = True)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def get_interview(request, p_id):
+    user = get_object_or_404(User, pk=1)
+    prob = get_object_or_404(Problem, p_id=p_id)
+    interview = Interview.objects.filter(user=user.pk).filter(prob=prob.p_id)[0]
+    serializers = InterviewSerializers(interview)
+    # serializers.path = serializers.file.path
+    # serializers.save()
+    return Response(serializers.data)
