@@ -33,7 +33,6 @@ const actions = {
   async loginCheck(context, token) {
     const logincheck = await api.loginCheck(token);
     context.commit("setUserInfo", logincheck);
-    return logincheck;
   }
 };
 
