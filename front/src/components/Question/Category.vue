@@ -1,5 +1,14 @@
 <template>
-  <div class="main-content">
+  <div class="main-container">
+    <div class="categoty-container">
+      <h3>카테고리 선택</h3>
+      <hr>
+      <div v-for="c in questionCategory" :key="c" class="category">
+        <span>{{c}}</span>
+      </div>      
+    </div>
+  </div>
+  <!-- <div class="main-content">
     <div class="question-content" @click="select()">
       <h1>카테고리</h1>
       <div v-for="c in questionCategory" :key="c" class="category-contaienr">
@@ -12,12 +21,12 @@
     </div>
     <h1>문제갯수</h1>
     <div class="question-content-count">
-      <input type="text" placeholder="1~50" v-model="p_number" />
+      <input type="number" placeholder="1~50" v-model="p_number" />
     </div>
     <div class="send-button">
       <span @click="selectedData()">문제 풀러가기</span>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -50,7 +59,7 @@ export default {
     },
     selectedData() {
       const category = document.querySelectorAll(
-        ".question-content .category-contaienr span"
+        ".question-content .category span"
       );
       const level = document.querySelectorAll(
         ".question-content .level-contaienr span"
@@ -93,11 +102,20 @@ export default {
   box-sizing: border-box;
 }
 
-.main-content {
-  width: 100vw;
-  height: 100vh;
+.main-container {
+  width: 100%;
   margin: 0 auto;
+  padding: 12px;
 }
+.categoty-container {
+  width:100%;
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+
+
 
 .question-content,
 .question-content-count {
@@ -110,14 +128,14 @@ export default {
   justify-content: center;
 }
 
-.category-contaienr,
+.category,
 .level-contaienr {
   display: inline-block;
   width: 50%;
   padding: 10px;
 }
 
-.category-contaienr > span,
+.category > span,
 .level-contaienr > span {
   display: inline-block;
   width: 100%;
