@@ -6,6 +6,7 @@ from IPython import embed
 from .models import *
 from accounts.models import *
 from .serializers import *
+from myprobs.serializers import *
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.views import APIView
@@ -138,6 +139,7 @@ class SpecProb(APIView):
 class ProbSearch(APIView):
   @swagger_auto_schema(tags=['Problem Search'])
   def post(self, request):
+    user_id = request.data.get('user_id')
     pd_id = request.data.get('pd_id')
     pc_id = []
     p_number = request.data.get('p_number')
@@ -159,7 +161,7 @@ class ProbSearch(APIView):
       random_index = random.sample(random_index, len(problems))
       problems = Problem.objects.filter(p_id__in=random_index)
       
-    serializer = ProblemDetailSerializer(problems, many=True)
+    serializer = ProblemDetailSerializer(problems, many=True, context={'user_id': user_id})
 
     return Response(serializer.data)
     

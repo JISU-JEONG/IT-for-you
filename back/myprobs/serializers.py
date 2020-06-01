@@ -17,3 +17,5 @@ class MyProbDetailSerializer(MyProbSerializer):
     answers = AnswerSerializer(source='prob.answer_set', many=True)
     class Meta(MyProbSerializer.Meta):
         fields = MyProbSerializer.Meta.fields + ('problems', 'answers',)
+
+    
