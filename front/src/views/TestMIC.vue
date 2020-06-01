@@ -3,7 +3,7 @@
 <template>
   <div class="row">
     <audio-recorder
-      upload-url="http://127.0.0.1:8000/api/accounts/voice/"
+      :upload-url="uploadurl"
       filename="interview" 
       format="wav"
       :attempts="3"
@@ -20,11 +20,13 @@
 </template>
 
 <script>
+  import { API_URL } from "@/api/config";
   export default {
     name: 'app',
     data () {
       return {
         mp3: '/demo/example.mp3',
+        uploadurl : API_URL+"/api/accounts/voice/",
         showRecorder: true,
         headers: {
           'X-Custom-Header': 'some data'
