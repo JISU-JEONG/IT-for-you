@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import *
+from IPython import embed
+from myprobs.models import *
 
 class ProbCateSerializer(serializers.ModelSerializer):
   class Meta:
@@ -29,9 +31,19 @@ class AnswerSerializer(serializers.ModelSerializer):
 class ProblemDetailSerializer(ProblemSerializer):
   category = ProbCateSerializer(source='pc_id')
   answers = AnswerSerializer(source='answer_set', many=True)
+  myprob_check = serializers.SerializerMethodField()
   
   class Meta(ProblemSerializer.Meta):
-    fields = ProblemSerializer.Meta.fields + ('answers', 'category',)
+    fields = ProblemSerializer.Meta.fields + ('answers', 'category', 'myprob_check',)
+
+  def get_myprob_check(self, obj):
+    user_id = self.context.get('user_id')
+    myprob = MyProb.objects.filter(user=user_id, prob=obj.p_id)
+    if myprob:
+      return True
+    else:
+      return False
+
 
 class ProbPostSerializer(serializers.ModelSerializer):
   TestHere = serializers.CharField()
