@@ -15,7 +15,7 @@
 
 <script>
 
-import axios from 'axios'
+import axios from "../api/api.service.js"
 import VueAudio from 'vue-audio';
 
 export default {
@@ -39,13 +39,11 @@ export default {
                 token : token
             }
             // sibal에 문제 번호를 넣어 주세요
-            axios.post('http://127.0.0.1:8000/api/accounts/get_interview/2/', data)
+            axios.post('/api/accounts/get_interview/2/', data)
                 .then(response => {
                     const data = response.data
                     this.text = data.content
-                    this.path = data.file
-                    this.selected.id = 1
-                    this.selected.url = data.path
+                    this.path = data.path
                     console.log(data)
                 })
                 .catch(error => {
