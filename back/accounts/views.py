@@ -96,7 +96,9 @@ def users(request):
 
 @api_view(['POST'])
 def get_interview(request, p_id):
-    user = get_object_or_404(User, pk=1)
+    data = request.data
+    valid_data = VerifyJSONWebTokenSerializer().validate(data)
+    user = valid_data['user']
     prob = get_object_or_404(Problem, p_id=p_id)
     interview = Interview.objects.filter(user=user.pk).filter(prob=prob.p_id)[0]
     serializers = InterviewSerializers(interview)
