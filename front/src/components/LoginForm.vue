@@ -54,7 +54,10 @@ export default {
           router.push("/");
         })
         .catch(error => {
-          console.log(error);
+          this.credentials.username = "";
+          this.credentials.password = "";
+          document.querySelector("#username").focus();
+          alert("로그인 정보가 없습니다.");
         });
     }
   }
