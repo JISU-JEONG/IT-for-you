@@ -30,7 +30,7 @@ const routes = [
         path: "detail",
         name: "detail",
         component: () => import("../components/Question/Detail.vue")
-      },
+      }
     ]
   },
   {
@@ -92,15 +92,35 @@ router.beforeEach((to, from, next) => {
     isLogin = store.dispatch("loginCheck", token);
   }
 
+  // 토큰이 없을경우
   if (isLogin === false) {
+    // 이동할 페이지가 login일경우 이동가능하게(무한루프 방지)
     if (to.path === "/login") {
       return next();
-    } else {
+    }
+
+    // 이동할 페이지가 login이 아닐경우 login페이지로 변경
+    else {
       return next("/login");
     }
-  } else {
+  }
+
+  // 토큰이 있을경우
+  else {
+    // 이전페이지가 로그인이였을 경우 다음페이지로
+    if (from.path === "/login") {
+      return next();
+    }
+
+    // 토큰으로 정보를 찾지 못했다면 세션값 지우고 login으로 이동
     store.dispatch("loginCheck", token);
-    // console.log(store.getters.getUserInfo);
+    console.log(store.getters.getUserInfo);
+    if (store.getters.getUserInfo === null) {
+      sessionStorage.clear();
+      return next("/login");
+    }
+
+    // 찾았을경우 다음페이지로 이동
     return next();
   }
 });

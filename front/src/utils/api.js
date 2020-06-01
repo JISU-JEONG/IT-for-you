@@ -13,7 +13,7 @@ const getLoginCheck = token => {
       return data;
     })
     .catch(error => {
-      console.log(error);
+      return error.response;
     });
 };
 
