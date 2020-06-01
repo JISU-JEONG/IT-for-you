@@ -49,7 +49,7 @@
       <div
         class="currentButton"
         v-if="buttonFlag"
-        @click="checkProblem(`problem${q.p_id}`, q.pt_id, q.answers)"
+        @click="checkProblem(`problem${q.p_id}`, q.pt_id, q.answers, q.p_id)"
       >
         <span>정답 확인</span>
       </div>
@@ -83,14 +83,16 @@ export default {
     };
   },
   methods: {
-    selected(problemNumber) {
+    selected() {
       if (this.oldAnswer !== null) {
         this.oldAnswer.classList.remove("active");
       }
       event.target.classList.add("active");
       this.oldAnswer = event.target;
     },
-    checkProblem(problemNumber, type, Answer) {
+    checkProblem(problemNumberClass, type, Answer, problemNumber) {
+      let WrongAnswer = null; // 맞았는지 틀렸는지 판단
+
       // 인터뷰
       if (type === 1) {
         console.log("인터뷰");
@@ -102,19 +104,19 @@ export default {
           alert("보기를 선택해주세요.");
           return;
         }
-        const div = document.getElementsByName(problemNumber);
+        const div = document.getElementsByName(problemNumberClass);
         if (this.oldAnswer.id === "true") {
           console.log("맞음");
         } else {
-          const res =
-            "틀림 : " +
-            div[
-              [...div].findIndex(v => {
-                return v.id === "true";
-              })
-            ].innerHTML;
+          WrongAnswer = div[[...div].findIndex(v => v.id === "true")].innerHTML;
+          // "틀림 : " +
+          // div[
+          //   [...div].findIndex(v => {
+          //     return v.id === "true";
+          //   })
+          // ].innerHTML;
 
-          console.log(res);
+          console.log("틀림 : " + WrongAnswer);
         }
         this.oldAnswer = null;
         this.shortAnswer = null;
@@ -126,14 +128,29 @@ export default {
           return;
         }
 
-        const check = Answer.some(({ a_value }) => {
+        const AnswerFlag = Answer.some(({ a_value }) => {
           return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
         });
 
-        const res = check === true ? "맞음" : "틀림 : " + Answer[0].a_value;
+        WrongAnswer = AnswerFlag === true ? null : Answer[0].a_value;
         this.oldAnswer = null;
         this.shortAnswer = null;
-        console.log(res);
+        console.log("틀림 : " + WrongAnswer);
+      }
+
+      if (WrongAnswer !== null) {
+        const user_id = this.$store.state["auth"]["userInfo"]["id"];
+        console.log(user_id);
+        console.log(WrongAnswer);
+
+        axios
+          .post(`/api/xnotes/mynote/${user_id}/`, {
+            prob: problemNumber,
+            u_answer: WrongAnswer.trim()
+          })
+          .then(({ data }) => {
+            console.log(data);
+          });
       }
       this.buttonFlag = !this.buttonFlag;
     },

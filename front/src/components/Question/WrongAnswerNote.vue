@@ -177,6 +177,18 @@ export default {
       });
 
       // Problems Get
+      //   const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      //   await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
+      //     console.log(data);
+      //     this.questionData = data;
+      //     data.forEach(({ pt_id, pc_id, pd_id }) => {
+      //       // Type, Category
+      //       this.$set(this.filters.type, this.questionType[pt_id], false);
+      //       this.$set(this.filters.category, this.questionCategory[pc_id], false);
+      //       this.$set(this.filters.level, this.level[pd_id], false);
+      //     });
+      //   });
+      //   console.log(this.filters);
       await axios.get("/api/problems/probs/").then(({ data }) => {
         this.questionData = data;
         data.forEach(({ pt_id, pc_id, pd_id }) => {

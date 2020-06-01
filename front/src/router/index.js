@@ -99,10 +99,10 @@ router.beforeEach((to, from, next) => {
       return next("/login");
     }
   } else {
-    console.log(store.getters.getUserInfo);
+    store.dispatch("loginCheck", token);
+    // console.log(store.getters.getUserInfo);
     return next();
   }
 });
 
 export default router;
-//

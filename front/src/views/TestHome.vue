@@ -33,8 +33,8 @@
         <li><router-link to="/category">문제풀기</router-link></li>
         <li><router-link to="/admin">관리자페이지</router-link></li>
         <li><router-link to="/testmic">면접대비</router-link></li>
-        <!-- <li><router-link to="/testmic">오답노트</router-link></li>
-        <li><router-link to="/testmic">단어장</router-link></li> -->
+        <li><router-link to="/wrongAnswerNote">오답노트</router-link></li>
+        <!-- <li><router-link to="/testmic">단어장</router-link></li> -->
       </div>
       <div class="side-bar-logout">
         <div>
