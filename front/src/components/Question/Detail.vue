@@ -9,7 +9,7 @@
         <span class="info-badge color-info">{{ q.category.pc_value }}</span>
         <span class="info-badge color-info">{{ questionType[q.pt_id - 1].pt_value }}</span>
         <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
-        <span class="info-badge color-warning float-right">즐겨찾기?</span>
+        <span class="info-badge color-warning float-right" id="like-btn" @click="addMyNote(q.p_id)">즐겨찾기?</span>
       </div>
       <div class="question">{{i}}. {{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null" class="codeDIV">
@@ -161,6 +161,14 @@ export default {
         div[i + 1].className = "now";
         this.buttonFlag = !this.buttonFlag;
       }
+    },
+    addMyNote(p_id) {
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      console.log('문제', p_id)
+      console.log('유저', user_id)
+      // axios
+      //   .post(`/api/myprobs/myprob/${user_id}/`, { // 찜한문제 어떻게?
+      //   })
     }
   },
   computed: {
@@ -204,6 +212,9 @@ export default {
   color: white;
   font-family: Openas;
   float: left;
+}
+#like-btn {
+  cursor: pointer;
 }
 .color-info {
   background-color: #17a2b8;
