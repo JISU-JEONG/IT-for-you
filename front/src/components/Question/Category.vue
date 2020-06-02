@@ -7,61 +7,48 @@
     </div>
     <div style="margin-top:-60px">
       <div class="card">
-        <div class="selected category flex-center" @click="onClickShow">
+        <div class="selected category flex flex-center flex-wrap" style="cursor: pointer;" @click="onClickShow">
           <p v-if="selectedCategory.length === 0">카테고리을 선택해주세요</p>
-          <p v-else v-for="c in selectedCategory" :key="c+1">{{c}}</p>
-        </div>
-        <!-- <div class="setting">
-          <button @click="onClickShow" class="btn">열려라</button>
-        </div> -->
-      </div>
-      <div class="card">
-        <div class="selected difficulty">
-          <p>난이도</p>
-        </div>
-        <div class="setting">
-          <button @click="onClickShow">열려라</button>
+          <transition-group name="badge" class="flex flex-center flex-wrap">
+            <p v-for="c in selectedCategory" :key="c+1" class="badge">{{c}}</p>
+          </transition-group>
         </div>
       </div>
       <div class="card">
         <div class="selected difficulty">
-          <p>난이도</p>
+          <p style="text-align: center; margin-bottom: 10px">난이도</p>
+          <div class="flex flex-wrap number-box">
+            <div class="difficulty-option" v-for="i in 5" :key="i">
+              <input type="checkbox" name="difficulty" :value="i" :id="i" v-model="selectedDifficulty" >
+              <label class="difficulty-btn flex flex-center flex-wrap" :for="i"><span>{{i}}</span></label>
+            </div>
+          </div>
         </div>
-        <input type="number" placeholder="1~50" v-model="p_number" />
+      </div>
+      <div class="card last-card">
+        <input type="number" placeholder="문제 개수 입력(1~50)"  min="0" v-model="p_number" />
+        <div class="submit-btn flex flex-center" @click="submitData">
+          <span>문제풀러가자</span>
+        </div>
       </div>
       <div class="select-container">
         <div class="select-nav">
           <span>카테고리 선택</span>
-          <span>X</span>
+          <div class="close-btn" @click="onClickShow"></div>
         </div>
-        <div class="select-content" @click="onClickCategory">
-          <div v-for="c in questionCategory" :key="c" class="category-option ">
+        <div class="select-content">
+          <div class="category-option" v-for="c in questionCategory" :key="c" >
             <input type="checkbox" name="category" :value="c" :id="c" v-model="selectedCategory">
-            <label :for="c">{{c}}</label>
+            <label class="flex flex-center flex-wrap" :for="c">{{c}}</label>
           </div>
         </div>
       </div>
     </div>
+    <footer>
+      <h3>기본값</h3>
+      <span>카테고리 - 전체 | 난이도 - 전체 | 문제 개수 - 10개</span>
+    </footer>
   </div>
-  <!-- <div class="main-content">
-    <div class="question-content" @click="select()">
-      <h1>카테고리</h1>
-      <div v-for="c in questionCategory" :key="c" class="category-contaienr">
-        <span>{{c}}</span>
-      </div>
-      <h1>레벨</h1>
-      <div v-for="l in 5" :key="l" class="level-contaienr">
-        <span>{{l}}</span>
-      </div>
-    </div>
-    <h1>문제갯수</h1>
-    <div class="question-content-count">
-      <input type="number" placeholder="1~50" v-model="p_number" />
-    </div>
-    <div class="send-button">
-      <span @click="selectedData()">문제 풀러가기</span>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -72,9 +59,10 @@ export default {
   data() {
     return {
       selectedCategory: [],
+      selectedDifficulty: [],
+      p_number: null,
       questionData: {},
       questionCategory: [],
-      p_number: null
     };
   },
   methods: {
@@ -93,31 +81,11 @@ export default {
         event.target.classList.toggle("active");
       }
     },
-    selectedData() {
-      const category = document.querySelectorAll(
-        ".question-content .category span"
-      );
-      const level = document.querySelectorAll(
-        ".question-content .level-contaienr span"
-      );
-
-      this.questionData.pc_value = [...category].reduce((arr, v) => {
-        if (v.classList.value === "active") {
-          arr.push(v.innerText);
-        }
-        return arr;
-      }, []);
-
-      this.questionData.pd_id = [...level].reduce((arr, v) => {
-        if (v.classList.value === "active") {
-          arr.push(Number(v.innerText));
-        }
-        return arr;
-      }, []);
-
+    submitData() {
+      this.questionData.pc_value = this.selectedCategory
+      this.questionData.pd_id = this.selectedDifficulty
       this.questionData["p_number"] =
-        this.p_number === null ? 10 : Number(this.p_number);
-
+        this.p_number === null ? 10 : this.p_number*1;
       axios
         .post("/api/problems/search/", this.questionData)
         .then(({ data }) => {
@@ -125,9 +93,6 @@ export default {
           this.$store.dispatch("questionList", data);
           this.$router.push("/detail");
         });
-    },
-    onClickCategory() {
-      console.log(this.selectedCategory)
     },
     onClickShow() {
       document.querySelector('.select-container').classList.toggle('show')
@@ -139,7 +104,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 * {
   box-sizing: border-box;
   font-family: MapoPeacefull;
@@ -147,6 +112,18 @@ export default {
 }
 p {
   font-size: 20px;
+}
+footer {
+  width: 100%;
+  height: 90px;
+  position: absolute;;
+  bottom:0;
+  padding: 10px;
+  color: white;
+  background-color: rgb(107, 107, 107);
+}
+footer > h3 {
+  margin-bottom: 10px;
 }
 .main-container {
   width: 100%;
@@ -162,13 +139,34 @@ p {
   text-align: center;
 }
 .card {
-  min-height: 150px;
+  height: 150px;
   margin: 20px;
   position: relative;
   display: flex;
   background-color: white;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
   border-radius: 5px;
+}
+.last-card {
+  height: 100px;
+}
+.last-card input {
+  outline: none;
+  text-align: right;
+  width: 70%;
+  padding: 10px;
+  font-size: 20px;
+  border: 2px solid #3e4149;
+  transition: border 1s linear;
+}
+.last-card input:placeholder-shown {
+  border: 2px inset;
+}
+.submit-btn {
+  width: 30%;
+  color: white;
+  cursor: pointer;
+  background-color: #3e4149;
 }
 .selected {
   width: 100%;
@@ -186,16 +184,18 @@ p {
   left: 0;
   right: 0;
   bottom: 0;
+  border-radius: 20px 20px 0 0;
   background-color: rgba(var(--b3f,250,250,250),1);
+  box-shadow: 0px -2px 4px lightgray;
   transform: translateY(450px);
   transition: all 0.3s ease;
-  border-top: 1px solid #888;
+  z-index: 1;
 }
 .select-nav {
-  padding: 16px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #888;
+  border-bottom: 2px solid rgb(209, 209, 209);
 }
 .select-content {
   padding: 12px;
@@ -207,8 +207,53 @@ p {
   width: 30%;
   margin: 3px;
 }
+.difficulty-option > input,
 .category-option > input {
   display: none;
+}
+.difficulty-option > label {
+  width: 50px;
+  height: 50px;
+  position:relative;
+  border: 1.5px #333030 solid;
+  border-radius: 100%;
+  font-size: 20px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.difficulty-option > label > span {
+  transition: color 0.25s linear;
+} 
+.difficulty-option > label::before {
+  content:'';
+  width: 100%;
+  height: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: height 0.25s linear;
+}
+.difficulty-option:nth-child(1) > label::before {
+  background-color: #5CAB7D;
+}
+.difficulty-option:nth-child(2) > label::before {
+  background-color: #5A9367;
+}
+.difficulty-option:nth-child(3) > label::before {
+  background-color: #44633F;
+}
+.difficulty-option:nth-child(4) > label::before {
+  background-color: #3F4B3B;
+}
+.difficulty-option:nth-child(5) > label::before {
+  background-color: rgb(43, 48, 42);
+}
+.difficulty-option > input:checked+label>span {
+  color: white;
+  z-index: 1;
+}
+.difficulty-option > input:checked+label::before {
+  height: 100%;
 }
 .category-option > input:checked+label {
   background-color: rgb(29, 29, 31);
@@ -218,9 +263,6 @@ p {
   width: 100%;
   height: 60px;
   margin-bottom: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 10px;
   box-shadow: 4px 4px 8px #cbced1,
                   -4px -4px 8px #ffffff;
@@ -229,85 +271,54 @@ p {
   font-weight: bold;
   transition: all 0.2s;
 }
-.flex-center {
+.flex {
   display: flex;
+}
+.flex-center {
   justify-content: center;
   align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.badge {
+  padding: 4px;
+  margin: 4px;
+  color: white;
+  background-color: #274c5e;
+  border-radius: 5px;
+}
+.badge:nth-child(2n) {
+  background-color: #7f9eb2;
+}
+.badge-enter-active, .badge-leave-active {
+  transition: all 0.3s;
+}
+.badge-enter, .badge-leave-to {
+  opacity: 0;
+  transform: scale(0);
 }
 .btn {
   
 }
+.number-box {
+  justify-content:space-between;
+  align-items: center;
+  height: 70px;
+}
+.close-btn {
+  display: inline-block;
+  cursor: pointer;
+  width: 21px;
+  height: 21px;
+  border-radius: 5px;
+  background-image: url("../../assets/icons/close.png");
+  background-color: rgb(29, 29, 31);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .show {
   transform: translateY(0);
 }
-/* .categoty-container {
-  width:100%;
-  padding: 12px;
-  border: 1px solid black;
-  border-radius: 5px;
-}
-
-
-
-
-.question-content,
-.question-content-count {
-  width: 100%;
-}
-
-.question-content-count,
-.send-button {
-  display: flex;
-  justify-content: center;
-}
-
-.category,
-.level-contaienr {
-  display: inline-block;
-  width: 50%;
-  padding: 10px;
-}
-
-.category > span,
-.level-contaienr > span {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  border: 1px black solid;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.active,
-.send-button:hover {
-  background-color: black;
-  color: white;
-}
-
-input {
-  height: 50px;
-  text-align: center;
-}
-
-h1 {
-  margin-top: 30px;
-  text-align: center;
-}
-
-h1,
-input,
-.question-content span {
-  font-family: "Recipekorea";
-}
-
-.send-button {
-  font-family: "Openas";
-  border: 5px black solid;
-  border-radius: 50px;
-  font-size: 2rem;
-  padding: 15px;
-  margin: 50px;
-} */
-
 @font-face { font-family: 'MapoPeacefull'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff') format('woff'); font-weight: normal; font-style: normal; }
 </style>
