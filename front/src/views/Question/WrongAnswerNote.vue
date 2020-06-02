@@ -202,8 +202,4 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  src="@/components/Question/CategoryList.scss"
-  scopred
-></style>
+<style lang="scss" scopred src="@/scss/wrong-answer-note.scss"></style>
