@@ -295,6 +295,7 @@ a.router-link-active {
 }
 .router-wrapper {
   padding-top: 44px;
+  height: 100vh;
   min-width: 100vw;
   min-height: 100vh;
 }

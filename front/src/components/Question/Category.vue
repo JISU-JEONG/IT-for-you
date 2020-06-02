@@ -44,10 +44,6 @@
         </div>
       </div>
     </div>
-    <footer>
-      <h3>기본값</h3>
-      <span>카테고리 - 전체 | 난이도 - 전체 | 문제 개수 - 10개</span>
-    </footer>
   </div>
 </template>
 
@@ -119,21 +115,12 @@ export default {
 p {
   font-size: 20px;
 }
-footer {
-  width: 100%;
-  height: 90px;
-  position: absolute;;
-  bottom:0;
-  padding: 10px;
-  color: white;
-  background-color: rgb(107, 107, 107);
-}
-footer > h3 {
-  margin-bottom: 10px;
-}
+
 .main-container {
   width: 100%;
+  height: 100%;
   margin: 0 auto;
+  position:relative;
 }
 .info {
   height: 200px;
