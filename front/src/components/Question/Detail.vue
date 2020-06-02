@@ -9,7 +9,7 @@
         <span class="info-badge color-info">{{ q.category.pc_value }}</span>
         <span class="info-badge color-info">{{ questionType[q.pt_id - 1].pt_value }}</span>
         <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
-        <span class="info-badge color-secondary float-right" id="like-btn" @click="addMyNote(q.p_id)">문제 저장하기</span>
+        <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id)">문제 저장하기</span>
       </div>
       <div class="question">{{i}}. {{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null" class="codeDIV">
@@ -162,13 +162,14 @@ export default {
         this.buttonFlag = !this.buttonFlag;
       }
     },
-    addMyNote(p_id) {
+    onClickMyNote(p_id) {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
-      console.log('문제', p_id)
-      console.log('유저', user_id)
-      // axios.post(`/api/myprobs/myprob/${user_id}/`, {
-      //     "prob": p_id // 찜한문제 어떻게?
-      //   })
+      axios.post(`/api/myprobs/myprob/${user_id}/`, {
+          "prob": p_id
+        })
+        .catch(err => {
+          console.error(err)
+        })
     }
   },
   computed: {
@@ -178,6 +179,9 @@ export default {
     questionType() {
       return this.$store.getters.questionType;
     }
+  },
+  mounted() {
+    console.log(this.questionList)
   }
 };
 </script>

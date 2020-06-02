@@ -72,7 +72,7 @@ export default {
 
       this.questionData["p_number"] =
         this.p_number === null ? 10 : Number(this.p_number);
-
+      this.questionData.user_id = this.user_id
       axios
         .post("/api/problems/search/", this.questionData)
         .then(({ data }) => {
@@ -80,6 +80,11 @@ export default {
           this.$store.dispatch("questionList", data);
           this.$router.push("/detail");
         });
+    }
+  },
+  computed: {
+    user_id() {
+      return this.$store.getters.user
     }
   },
   beforeMount() {
