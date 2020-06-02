@@ -86,6 +86,7 @@ export default {
       this.questionData.pd_id = this.selectedDifficulty
       this.questionData["p_number"] =
         this.p_number === null ? 10 : this.p_number*1;
+      this.questionData.user_id = this.user_id
       axios
         .post("/api/problems/search/", this.questionData)
         .then(({ data }) => {
@@ -97,6 +98,11 @@ export default {
     onClickShow() {
       document.querySelector('.select-container').classList.toggle('show')
     } 
+  },
+  computed: {
+    user_id() {
+      return this.$store.getters.user
+    }
   },
   beforeMount() {
     this.init();

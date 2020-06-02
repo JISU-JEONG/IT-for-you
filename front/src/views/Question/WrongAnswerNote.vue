@@ -1,5 +1,6 @@
 <template>
   <main id="app" class="content">
+    <div class="setting-content" @click="clickSettingButton(settingFlag)"></div>
     <nav class="nav">
       <menu class="nav__controls">
         <div
@@ -12,10 +13,10 @@
           :key="menu + 0"
           @click="setMenu(menu, active)"
         >
-          {{ menu }}
+          {{ menuName[menu] }}
         </div>
         <div class="nav__label nav__label--clear" @click="clearAllFilters">
-          Clear all
+          초기화
         </div>
       </menu>
     </nav>
@@ -45,35 +46,27 @@
       </menu>
     </transition-group>
 
-    <transition-group name="question" tag="ul" class="content__list">
-      <div
-        class="question"
-        v-for="question in list"
-        :key="question.p_id"
-        @click="questionDetail(question.p_id)"
-      >
-        <div class="question__info">
-          <h2 class="question__name">{{ question.p_question }}</h2>
-          <blockquote class="question__slogan">
-            {{ questionType[question.pt_id] }}
-          </blockquote>
-        </div>
-
-        <ul class="question__details">
-          <label class="question__label">난이도</label>
-          <p class="question__level">{{ level[question.pd_id] }}</p>
-        </ul>
-      </div>
-    </transition-group>
+    <tumbnail
+      :list="list"
+      :questionType="questionType"
+      :level="level"
+      v-if="settingFlag"
+    />
+    <list :list="list" v-else />
   </main>
 </template>
 
 <script>
 import axios from "@/api/api.service.js";
+import tumbnail from "@/components/Question/thumblist.vue";
+import list from "@/components/Question/list.vue";
 
 export default {
   name: "WrongAnswerNote",
-
+  components: {
+    tumbnail,
+    list
+  },
   data() {
     return {
       questionType: [],
@@ -82,7 +75,9 @@ export default {
       level: ["", "매우 쉬움", "쉬움", "보통", "어려움", "매우 어려움"],
       filters: { type: {}, category: {}, level: {} },
       menus: { type: false, category: false, level: false },
-      dropdown: { height: 0 }
+      menuName: { type: "문제유형", category: "문제주제", level: "난이도" },
+      dropdown: { height: 0 },
+      settingFlag: false
     };
   },
   computed: {
@@ -103,16 +98,17 @@ export default {
     },
     list() {
       let { type, category, level } = this.activeFilters;
-      return this.questionData.filter(({ pt_id, pc_id, pd_id }) => {
+      return this.questionData.filter(({ problems }) => {
         let a = type.length === 0;
         let b = type.length === 0;
         let c = type.length === 0;
         if (
           (type.length === 0 ||
-            type.indexOf(this.questionType[pt_id]) !== -1) &&
+            type.indexOf(this.questionType[problems.pt_id]) !== -1) &&
           (category.length === 0 ||
-            category.indexOf(this.questionCategory[pc_id]) !== -1) &&
-          (level.length === 0 || level.indexOf(this.level[pd_id]) !== -1)
+            category.indexOf(this.questionCategory[problems.pc_id]) !== -1) &&
+          (level.length === 0 ||
+            level.indexOf(this.level[problems.pd_id]) !== -1)
         ) {
           return true;
         }
@@ -144,15 +140,7 @@ export default {
     },
 
     setFilter(filter, option) {
-      console.log(filter);
       this.filters[filter][option] = !this.filters[filter][option];
-      //   if (filter === "type") {
-      //     this.filters[filter][option] = !this.filters[filter][option];
-      //   } else {
-      //     setTimeout(() => {
-      //       this.clearFilter(filter, option, this.filters[filter][option]);
-      //     }, 100);
-      //   }
     },
 
     setMenu(menu, active) {
@@ -177,28 +165,34 @@ export default {
       });
 
       // Problems Get
-      //   const user_id = this.$store.state["auth"]["userInfo"]["id"];
-      //   await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
-      //     console.log(data);
-      //     this.questionData = data;
-      //     data.forEach(({ pt_id, pc_id, pd_id }) => {
-      //       // Type, Category
-      //       this.$set(this.filters.type, this.questionType[pt_id], false);
-      //       this.$set(this.filters.category, this.questionCategory[pc_id], false);
-      //       this.$set(this.filters.level, this.level[pd_id], false);
-      //     });
-      //   });
-      //   console.log(this.filters);
-      await axios.get("/api/problems/probs/").then(({ data }) => {
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
         this.questionData = data;
-        data.forEach(({ pt_id, pc_id, pd_id }) => {
+        data.forEach(({ problems }) => {
           // Type, Category
-          this.$set(this.filters.type, this.questionType[pt_id], false);
-          this.$set(this.filters.category, this.questionCategory[pc_id], false);
-          this.$set(this.filters.level, this.level[pd_id], false);
+          this.$set(
+            this.filters.type,
+            this.questionType[problems.pt_id],
+            false
+          );
+          this.$set(
+            this.filters.category,
+            this.questionCategory[problems.pc_id],
+            false
+          );
+          this.$set(this.filters.level, this.level[problems.pd_id], false);
         });
       });
-      console.log(this.filters);
+    },
+    clickSettingButton(settingFlag) {
+      this.settingFlag = !settingFlag;
+      if (settingFlag === true) {
+        event.target.classList.remove("background2");
+        event.target.classList.add("background1");
+      } else {
+        event.target.classList.remove("background1");
+        event.target.classList.add("background2");
+      }
     }
   },
 
@@ -208,4 +202,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="@/components/Question/CategoryList.scss" scoped></style>
+<style lang="scss" scopred src="@/scss/wrong-answer-note.scss"></style>
