@@ -3,11 +3,11 @@
     <div class="question-content" @click="select()">
       <h1>카테고리</h1>
       <div v-for="c in questionCategory" :key="c" class="category-contaienr">
-        <span>{{c}}</span>
+        <span>{{ c }}</span>
       </div>
       <h1>레벨</h1>
       <div v-for="l in 5" :key="l" class="level-contaienr">
-        <span>{{l}}</span>
+        <span>{{ l }}</span>
       </div>
     </div>
     <h1>문제갯수</h1>

@@ -303,3 +303,34 @@
   font-weight: normal;
   font-style: normal;
 }
+
+.setting-content {
+  position: fixed;
+  z-index: 10;
+  bottom: 30px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+  border-radius: 75px;
+  background: url("../../assets/icons/list.png") no-repeat;
+  background-size: 40px;
+  background-color: white;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.background1 {
+  background: url("../../assets/icons/list.png") no-repeat;
+  background-size: 40px;
+  background-color: white;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.background2 {
+  background: url("../../assets/icons/thumbnail.png") no-repeat;
+  background-size: 30px;
+  background-color: white;
+  background-position: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

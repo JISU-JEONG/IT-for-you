@@ -7,11 +7,13 @@
     >
       <div class="questionInfo">
         <span class="info-badge color-info">{{ q.category.pc_value }}</span>
-        <span class="info-badge color-info">{{ questionType[q.pt_id - 1].pt_value }}</span>
+        <span class="info-badge color-info">{{
+          questionType[q.pt_id - 1].pt_value
+        }}</span>
         <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
         <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id)">문제 저장하기</span>
       </div>
-      <div class="question">{{i}}. {{ q.p_question }}</div>
+      <div class="question">{{ i }}. {{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null" class="codeDIV">
         <pre>
           <code>
@@ -26,7 +28,9 @@
       <!-- 객관식, O/X -->
       <div v-if="q.pt_id === 2 || q.pt_id === 3" class="answer-container">
         <div
-          v-for="a in q.answers" :key="a.a_id" @click="selected()"
+          v-for="a in q.answers"
+          :key="a.a_id"
+          @click="selected()"
           :id="a.a_correct"
           :name="`problem${q.p_id}`"
           class="questionAnswer"
@@ -132,7 +136,7 @@ export default {
           return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
         });
 
-        WrongAnswer = AnswerFlag === true ? null : Answer[0].a_value;
+        WrongAnswer = AnswerFlag === true ? Answer[0].a_value : null;
         this.oldAnswer = null;
         this.shortAnswer = null;
         console.log("틀림 : " + WrongAnswer);
@@ -204,7 +208,7 @@ export default {
 .main-content > div.now {
   display: block;
 }
-.questionInfo{
+.questionInfo {
   width: 100%;
   height: 40px;
 }
@@ -305,6 +309,11 @@ pre {
   font-weight: normal;
   font-style: normal;
 }
-@font-face { font-family: 'ChosunSm'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff') format('woff'); font-weight: normal; font-style: normal; }
-
+@font-face {
+  font-family: "ChosunSm";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 </style>
