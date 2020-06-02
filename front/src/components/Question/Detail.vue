@@ -11,7 +11,7 @@
           questionType[q.pt_id - 1].pt_value
         }}</span>
         <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
-        <span class="info-badge color-warning float-right">즐겨찾기?</span>
+        <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id)">문제 저장하기</span>
       </div>
       <div class="question">{{ i }}. {{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null" class="codeDIV">
@@ -165,6 +165,15 @@ export default {
         div[i + 1].className = "now";
         this.buttonFlag = !this.buttonFlag;
       }
+    },
+    onClickMyNote(p_id) {
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      axios.post(`/api/myprobs/myprob/${user_id}/`, {
+          "prob": p_id
+        })
+        .catch(err => {
+          console.error(err)
+        })
     }
   },
   computed: {
@@ -174,6 +183,9 @@ export default {
     questionType() {
       return this.$store.getters.questionType;
     }
+  },
+  mounted() {
+    console.log(this.questionList)
   }
 };
 </script>
@@ -209,11 +221,17 @@ export default {
   font-family: Openas;
   float: left;
 }
+#like-btn {
+  cursor: pointer;
+}
 .color-info {
   background-color: #17a2b8;
 }
 .color-warning {
   background-color: #ffc107;
+}
+.color-secondary {
+  background-color: #6c757d;
 }
 .float-right {
   float: right;

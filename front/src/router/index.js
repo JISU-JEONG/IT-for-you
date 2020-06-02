@@ -35,6 +35,11 @@ const routes = [
         path: "/wrongAnswerNote",
         name: "wrongAnswerNote",
         component: () => import("../views/Question/WrongAnswerNote.vue")
+      },
+      {
+        path: "mynote",
+        name: "mynote",
+        component: () => import("../views/MyNote.vue")
       }
     ]
   },
