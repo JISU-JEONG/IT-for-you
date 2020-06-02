@@ -32,6 +32,11 @@ const routes = [
         component: () => import("../components/Question/Detail.vue")
       },
       {
+        path: "/wrongAnswerNote",
+        name: "wrongAnswerNote",
+        component: () => import("../views/Question/WrongAnswerNote.vue")
+      },
+      {
         path: "mynote",
         name: "mynote",
         component: () => import("../views/MyNote.vue")
@@ -42,11 +47,6 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue")
-  },
-  {
-    path: "/wrongAnswerNote",
-    name: "wrongAnswerNote",
-    component: () => import("../views/Question/WrongAnswerNote.vue")
   },
   {
     path: "/admin",

@@ -6,7 +6,7 @@
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
       </div>
-      <p>서비스 이름</p>
+      <p class="title">IT For You</p>
     </nav>
     <div
       class="side-bar-background display-none opacity-0"
@@ -14,7 +14,7 @@
     ></div>
     <div class="side-bar" :class="{ 'side-bar-transform': showSideBar }">
       <div class="sidde-bar-top">
-        <h2>서비스 이름</h2>
+        <h2 class="title">IT For You</h2>
         <span class="close-btn" @click="closeSideBar"></span>
       </div>
       <div class="sidde-bar-profile">
@@ -127,6 +127,10 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  font-family: "godoMaum";
+  font-size: 2.5em;
+}
 nav {
   height: 44px;
   line-height: 44px;
@@ -243,11 +247,11 @@ a.router-link-active {
 }
 .side-bar-nav {
   display: inline-block;
-  padding-top: 20px;;
+  padding-top: 20px;
   width: 100%;
 }
 .side-bar-logout {
-  position:absolute;
+  position: absolute;
   bottom: 10px;
   width: 100%;
 }
@@ -321,6 +325,13 @@ a.router-link-active {
 @font-face {
   font-family: "Recipekorea";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Recipekorea.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "godoMaum";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/godoMaum.woff")
     format("woff");
   font-weight: normal;
   font-style: normal;
