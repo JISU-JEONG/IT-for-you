@@ -22,7 +22,7 @@
           <li>
             <router-link to="/admin/edit">
               <i><img :src="addIcon('book')"></i>
-              <span>문제 수정</span>
+              <span>문제 삭제</span>
             </router-link>
           </li>
         </ul>
