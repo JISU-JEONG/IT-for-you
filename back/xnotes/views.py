@@ -13,7 +13,7 @@ from drf_yasg.utils import swagger_auto_schema
 class MyNote(APIView):
     def get(self, request, user_id):
         mynotes = Xnote.objects.filter(user_id=user_id)
-        serializer = MyNoteListSerializer(mynotes, many=True)
+        serializer = MyNoteDetailSerializer(mynotes, many=True)
         return Response(serializer.data)
     
     def post(self, request, user_id):
