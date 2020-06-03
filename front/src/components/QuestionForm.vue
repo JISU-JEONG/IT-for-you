@@ -38,7 +38,7 @@
       <textarea
         id="question-box"
         placeholder="코드 입력"
-        style="min-height:100px"
+        style="min-height:100px; font-size:16px;"
         class="input-default"
         v-if="showCodeBox"
         @keydown="setInputDefault"
