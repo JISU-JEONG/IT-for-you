@@ -68,7 +68,19 @@ class Prob(APIView):
         serializer = AnswerSerializer(data=ans_data)
         if serializer.is_valid(raise_exception=True):
           serializer.save()
-    # 주관식(1), OX Quiz(3), 단답식(4)
+    # OX Quiz(3)
+    elif problems.get('pt_id') == 3:
+      ox = ['O', 'X']
+      for i in ox:
+        if answer == i:
+          ans_data['a_correct'] = True
+        else:
+          ans_data['a_correct'] = False
+        ans_data['a_value'] = i
+        serializer = AnswerSerializer(data=ans_data)
+        if serializer.is_valid(raise_exception=True):
+          serializer.save()
+    # 주관식(1), 단답식(4)
     else:
       ans_data['a_value'] = answer
       ans_data['a_correct'] = True
