@@ -6,7 +6,6 @@
         v-for="question in list"
         :key="question.problems.p_id"
       >
-        {{ question }}
         <div class="card">
           <!-- 카드 헤더 -->
           <div class="card-header">
@@ -22,10 +21,13 @@
             <div class="card-body-header">
               {{ question.problems.p_question }}
             </div>
-
+            {{question.problems.p_code}}
             <!--  카드 바디 본문 -->
-            <div class="card-body-body">
-              {{ question.u_answer }}
+            <div class="card-body-body-right">
+              <del>{{ question.u_answer }}</del>
+            </div>
+            <div class="card-body-body-wrong">
+              {{ question.p_answer }}
             </div>
 
             <!--  카드 바디 푸터 -->
@@ -56,6 +58,9 @@ export default {
     level: {
       type: Array
     }
+  },
+  beforeMount(){
+    console.log(this.list)
   }
 };
 </script>
@@ -107,7 +112,15 @@ hr {
   border: 1px;
 }
 
-.card-body-body {
+.card-body-body-right {
+  font-weight: bold;
+  line-height: 20px;
+  font-size: 17px;
+  padding: 10px;
+  color: gray;
+}
+
+.card-body-body-wrong {
   font-weight: bold;
   line-height: 20px;
   font-size: 17px;
