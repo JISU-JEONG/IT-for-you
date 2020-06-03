@@ -273,6 +273,7 @@ li {
   text-align: initial;
   font-size: 20px;
   font-weight: 500;
+  overflow: scroll;
 }
 .input-default {
   width: 100%;
