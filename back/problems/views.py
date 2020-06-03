@@ -151,7 +151,8 @@ class ProbSearch(APIView):
     if not pd_id:
       pd_id = [i for i in range(1, len(ProbDiff.objects.all()) + 1)]
     
-    problems = Problem.objects.filter(pc_id__in=pc_id, pd_id__in=pd_id)
+    problems = Problem.objects.exclude(pt_id=1)
+    problems = problems.filter(pc_id__in=pc_id, pd_id__in=pd_id)
 
     random_index = [prob.p_id for prob in problems]
     if len(problems) > p_number:

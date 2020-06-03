@@ -12,7 +12,6 @@
             <span>{{ questionType[question.problems.pt_id] }} </span>
             <span>{{ questionCategory[question.problems.pc_id] }}</span>
             <span>{{ level[question.problems.pd_id] }}</span>
-            <span>X</span>
           </div>
 
           <!--  카드 바디 -->
@@ -134,4 +133,5 @@ hr {
   font-size: 15px;
   padding: 10px;
 }
+
 </style>

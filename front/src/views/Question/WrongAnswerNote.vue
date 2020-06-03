@@ -1,5 +1,10 @@
 <template>
   <main id="app" class="content">
+    <div class="turorial">
+      <span>
+        오른쪽으로 드래그하여 오답노트 문제를 삭제할 수 있습니다.
+      </span>
+    </div>
     <div class="setting-content" @click="clickSettingButton(settingFlag)"></div>
     <nav class="nav">
       <menu class="nav__controls">
