@@ -11,7 +11,16 @@
           questionType[q.pt_id - 1].pt_value
         }}</span>
         <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
-        <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id)">문제 저장하기</span>
+        <span
+          class="info-badge float-right"
+          :class="{
+            'color-secondary': !q.myprob_check,
+            'color-warning': q.myprob_check
+          }"
+          id="like-btn"
+          @click="onClickMyNote(q.p_id)"
+          >문제 저장하기</span
+        >
       </div>
       <div class="question">{{ i }}. {{ q.p_question }}</div>
       <div v-highlight v-if="q.p_code !== null" class="codeDIV">
@@ -93,6 +102,7 @@ export default {
       }
       event.target.classList.add("active");
       this.oldAnswer = event.target;
+      console.log(this.oldAnswer);
     },
     checkProblem(problemNumberClass, type, Answer, problemNumber) {
       let WrongAnswer = null; // 맞았는지 틀렸는지 판단
@@ -113,17 +123,9 @@ export default {
           console.log("맞음");
         } else {
           WrongAnswer = div[[...div].findIndex(v => v.id === "true")].innerHTML;
-          // "틀림 : " +
-          // div[
-          //   [...div].findIndex(v => {
-          //     return v.id === "true";
-          //   })
-          // ].innerHTML;
-
           console.log("틀림 : " + WrongAnswer);
+          this.wrongAnswer(this.oldAnswer.innerHTML, problemNumber);
         }
-        this.oldAnswer = null;
-        this.shortAnswer = null;
       }
       // 단답형
       else if (type === 4) {
@@ -136,27 +138,31 @@ export default {
           return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
         });
 
-        WrongAnswer = AnswerFlag === true ? Answer[0].a_value : null;
-        this.oldAnswer = null;
-        this.shortAnswer = null;
-        console.log("틀림 : " + WrongAnswer);
+        WrongAnswer = AnswerFlag === true ? null : Answer[0].a_value;
+        if (WrongAnswer !== null) {
+          console.log("틀림 : " + WrongAnswer);
+          this.wrongAnswer(this.shortAnswer, problemNumber);
+        } else {
+          console.log("맞음");
+        }
       }
 
-      if (WrongAnswer !== null) {
-        const user_id = this.$store.state["auth"]["userInfo"]["id"];
-        console.log(user_id);
-        console.log(WrongAnswer);
-
-        axios
-          .post(`/api/xnotes/mynote/${user_id}/`, {
-            prob: problemNumber,
-            u_answer: WrongAnswer.trim()
-          })
-          .then(({ data }) => {
-            console.log(data);
-          });
-      }
+      this.oldAnswer = null;
+      this.shortAnswer = null;
       this.buttonFlag = !this.buttonFlag;
+    },
+    wrongAnswer(problem, problemNumber) {
+      console.log(problem);
+      console.log(problemNumber);
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      axios
+        .post(`/api/xnotes/mynote/${user_id}/`, {
+          prob: problemNumber,
+          u_answer: problem
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
     },
     nextProblem(i, size) {
       if (i !== size) {
@@ -168,12 +174,13 @@ export default {
     },
     onClickMyNote(p_id) {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
-      axios.post(`/api/myprobs/myprob/${user_id}/`, {
-          "prob": p_id
+      axios
+        .post(`/api/myprobs/myprob/${user_id}/`, {
+          prob: p_id
         })
         .catch(err => {
-          console.error(err)
-        })
+          console.error(err);
+        });
     }
   },
   computed: {
@@ -185,7 +192,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.questionList)
+    console.log(this.questionList);
   }
 };
 </script>
