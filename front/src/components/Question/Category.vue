@@ -31,6 +31,12 @@
           <span>문제풀러가자</span>
         </div>
       </div>
+      <div class="default-info">
+        <p>기본값</p>
+        <p>카테고리 - 전체 선택</p>
+        <p>난이도 - 전체 선택</p>
+        <p>문제 개수 - 10개</p>
+      </div>
       <div class="select-container">
         <div class="select-nav">
           <span>카테고리 선택</span>
@@ -118,6 +124,7 @@ p {
 
 .main-container {
   width: 100%;
+  max-width: 500px;
   height: 100%;
   margin: 0 auto;
   position:relative;
@@ -142,6 +149,13 @@ p {
 }
 .last-card {
   height: 100px;
+}
+.default-info {
+  margin: 10px 30px;
+}
+.default-info p {
+  font-size: 14px;
+  color: #888;
 }
 .last-card input {
   outline: none;
