@@ -35,7 +35,9 @@
   font-family: "Nunito", sans-serif;
   font-weight: 300;
   color: #3d5358;
-  max-width: 800px;
+  height: 100vh;
+  width: 100vw;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -59,6 +61,27 @@
     width: calc(100% / 3 - 1rem);
   }
 
+  &-move {
+    transition: all 600ms ease-in-out 50ms;
+  }
+  &-enter-active {
+    transition: all 300ms ease-out;
+  }
+
+  &-leave-active {
+    transition: all 200ms ease-in;
+    position: absolute;
+    z-index: 0;
+  }
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+  &-enter {
+    transform: scale(0.9);
+  }
+
   &__label {
     font-family: "MapoPeacefull";
     font-size: 0.8rem;
@@ -71,16 +94,6 @@
   &__info {
     padding: 0 0.75rem;
     text-align: center;
-  }
-
-  &__slogan {
-    font-family: "MapoPeacefull";
-    height: 2rem;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 400;
-    margin-top: 30px;
-    text-transform: capitalize;
   }
 }
 

@@ -46,13 +46,20 @@
       </menu>
     </transition-group>
 
-    <tumbnail
+    <list
       :list="list"
       :questionType="questionType"
+      :questionCategory="questionCategory"
       :level="level"
       v-if="settingFlag"
     />
-    <list :list="list" v-else />
+    <tumbnail
+      :list="list"
+      :questionType="questionType"
+      :questionCategory="questionCategory"
+      :level="level"
+      v-else
+    />
   </main>
 </template>
 
