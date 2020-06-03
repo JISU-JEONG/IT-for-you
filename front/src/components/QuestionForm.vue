@@ -38,7 +38,7 @@
       <textarea
         id="question-box"
         placeholder="코드 입력"
-        style="min-height:150px"
+        style="min-height:100px"
         class="input-default"
         v-if="showCodeBox"
         @keydown="setInputDefault"
@@ -185,8 +185,9 @@ export default {
 * {
   font-family: HangeulNuri-Bold;
 }
-h1 {
+h2 {
   text-align: center;
+  font-size: 22px;
 }
 textarea {
   font-size: 20px;
@@ -278,7 +279,7 @@ li {
   height: 40px;
   outline: none;
   padding: 0 8px;
-  margin: 4px 0;
+  margin: 2px 0;
 }
 .ox-label {
   width: 100px;
