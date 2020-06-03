@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="login-container">
+    <div class="login-container" id="login-section">
       <h1>서비스 이름</h1>
       <div class="login-or-signup">
         <span>
@@ -50,7 +50,7 @@
           </li>
         </ul>
       </div>
-      <div class="arrow-bottom"></div>
+      <a class="arrow-bottom" href="#login-section"></a>
     </div>
   </div>
 </template>
@@ -226,7 +226,7 @@ li {
 .arrow-bottom {
   width:0;
   height:0;
-  border: 13px solid white;
+  border: 15px solid white;
   border-color: white transparent transparent;
   position: absolute;
   bottom: 40px;

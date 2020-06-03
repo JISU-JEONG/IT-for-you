@@ -30,6 +30,16 @@ const routes = [
         path: "detail",
         name: "detail",
         component: () => import("../components/Question/Detail.vue")
+      },
+      {
+        path: "/wrongAnswerNote",
+        name: "wrongAnswerNote",
+        component: () => import("../views/Question/WrongAnswerNote.vue")
+      },
+      {
+        path: "mynote",
+        name: "mynote",
+        component: () => import("../views/MyNote.vue")
       }
     ]
   },
@@ -37,11 +47,6 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue")
-  },
-  {
-    path: "/wrongAnswerNote",
-    name: "wrongAnswerNote",
-    component: () => import("../components/Question/WrongAnswerNote.vue")
   },
   {
     path: "/admin",
@@ -87,13 +92,8 @@ router.beforeEach((to, from, next) => {
   }
   const token = JSON.parse(sessionStorage.getItem("vue-session-key"))["jwt"];
   let isLogin = false;
-
-  if (token !== undefined) {
-    isLogin = store.dispatch("loginCheck", token);
-  }
-
-  // 토큰이 없을경우
-  if (isLogin === false) {
+  // 세션이 없을경우 로그인페이지로
+  if (token === undefined) {
     // 이동할 페이지가 login일경우 이동가능하게(무한루프 방지)
     if (to.path === "/login") {
       return next();
@@ -104,25 +104,25 @@ router.beforeEach((to, from, next) => {
       return next("/login");
     }
   }
+  store.dispatch("loginCheck", token);
+  setTimeout(() => {
+    isLogin = store.getters.getUserInfo;
 
-  // 토큰이 있을경우
-  else {
-    // 이전페이지가 로그인이였을 경우 다음페이지로
-    if (from.path === "/login") {
+    // 토큰만료시
+    if (isLogin === null) {
+      if (to.path === "/login") {
+        return next();
+      }
+
+      // 이동할 페이지가 login이 아닐경우 login페이지로 변경
+      return next("/login");
+    } else {
+      if (to.path === "/login") {
+        return next("/");
+      }
       return next();
     }
-
-    // 토큰으로 정보를 찾지 못했다면 세션값 지우고 login으로 이동
-    store.dispatch("loginCheck", token);
-    console.log(store.getters.getUserInfo);
-    if (store.getters.getUserInfo === null) {
-      sessionStorage.clear();
-      return next("/login");
-    }
-
-    // 찾았을경우 다음페이지로 이동
-    return next();
-  }
+  }, 300);
 });
 
 export default router;

@@ -8,7 +8,8 @@
     <div>
         <h2>이거는 저장된 녹음 파일을 다시 들어 볼껍니다.</h2>
         <h2>{{path}}</h2>
-        <vue-audio :file="path" />
+        <!-- <vue-audio :file="mp3" /> -->
+        <audio v-if="mp3" controls :src="mp3"></audio>
     </div>
   </div>
 </template>
@@ -22,14 +23,14 @@ export default {
     name : 'interview',
     data() {
         return {
-            mp3: 'interview.mp3',
+            mp3: null,
             text : '',
             path : '',
             selected:{}
         }
     },
     components: {
-     'vue-audio': VueAudio
+    //  'vue-audio': VueAudio
     },
     methods : {
         Getinterview(){
@@ -49,11 +50,27 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-      }
+      },
+      Getaudio(){
+            this.$session.start()
+            const token = this.$session.get('jwt')
+            const data = {
+                token : token
+            }
+            // sibal에 문제 번호를 넣어 주세요
+            axios.post('/api/accounts/get_audio/2/', data)
+                .then(response => {
+                    this.mp3 = response.data
+                    console.log(data)
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+      },
     },
     mounted() {
         this.Getinterview()
-        
+        this.Getaudio()
     },
 }
 </script>

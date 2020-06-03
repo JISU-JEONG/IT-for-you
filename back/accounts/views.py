@@ -94,6 +94,8 @@ def users(request):
     serializers = UserSerializers(users, many = True)
     return Response(serializers.data)
 
+
+
 @api_view(['POST'])
 def get_interview(request, p_id):
     data = request.data
@@ -105,3 +107,15 @@ def get_interview(request, p_id):
     # serializers.path = serializers.file.path
     # serializers.save()
     return Response(serializers.data)
+
+import base64
+@api_view(['POST'])
+def get_audio(request, p_id):
+    data = request.data
+    valid_data = VerifyJSONWebTokenSerializer().validate(data)
+    user = valid_data['user']
+    prob = get_object_or_404(Problem, p_id=p_id)
+    interview = Interview.objects.filter(user=user.pk).filter(prob=prob.p_id)[0]
+    audio_data = interview.file.read()
+    audio_data = 'data:audio/mpeg;base64,' + base64.b64encode(audio_data).decode('utf-8')
+    return HttpResponse(audio_data)
