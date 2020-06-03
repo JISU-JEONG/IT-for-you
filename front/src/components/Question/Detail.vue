@@ -1,20 +1,24 @@
 <template>
   <div class="main-content">
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
     <div
+      class="question-box"
       :class="i === 0 ? 'now' : ''"
       v-for="(q, i) in questionList"
       :key="q.p_id"
     >
-      <div class="questionInfo">
+      <div class="questionInfo"> <!-- 카테고리, 유형, 난이도, 문제 찜하기-->
         <span class="info-badge color-info">{{ q.category.pc_value }}</span>
         <span class="info-badge color-info">{{
           questionType[q.pt_id - 1].pt_value
         }}</span>
         <span class="info-badge color-info">난이도 - {{ q.pd_id }}</span>
-        <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id)">문제 저장하기</span>
+        <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id, i)">문제 저장하기</span>
       </div>
-      <div class="question">{{ i }}. {{ q.p_question }}</div>
-      <div v-highlight v-if="q.p_code !== null" class="codeDIV">
+      <div class="question">{{ i+1 }}. {{ q.p_question }}</div> <!-- 문제 -->
+      <div v-highlight v-if="q.p_code !== null" class="codeDIV"> <!-- 코드 -->
         <pre>
           <code>
             {{q.p_code}}
@@ -22,7 +26,8 @@
         </pre>
       </div>
 
-      <!-- 인터뷰 -->
+      <!-- 답 작성하는 부분 -->
+      <!-- 인터뷰 - 어차피 뺀다. -->
       <div v-if="q.pt_id === 1">인터뷰</div>
 
       <!-- 객관식, O/X -->
@@ -78,6 +83,7 @@ import "@/utils/prism.css";
 
 export default {
   name: "Category",
+  components: {},
   data() {
     return {
       buttonFlag: true,
@@ -87,12 +93,17 @@ export default {
     };
   },
   methods: {
+    progressInit() { // progress bar 처음 한칸 설정
+      const progress = document.querySelector('.progress')
+      progress.style.width = `${1/(this.questionList.length) *100}%`
+    },
     selected() {
       if (this.oldAnswer !== null) {
         this.oldAnswer.classList.remove("active");
       }
       event.target.classList.add("active");
       this.oldAnswer = event.target;
+      console.log(this.oldAnswer);
     },
     checkProblem(problemNumberClass, type, Answer, problemNumber) {
       let WrongAnswer = null; // 맞았는지 틀렸는지 판단
@@ -113,17 +124,9 @@ export default {
           console.log("맞음");
         } else {
           WrongAnswer = div[[...div].findIndex(v => v.id === "true")].innerHTML;
-          // "틀림 : " +
-          // div[
-          //   [...div].findIndex(v => {
-          //     return v.id === "true";
-          //   })
-          // ].innerHTML;
-
           console.log("틀림 : " + WrongAnswer);
+          this.wrongAnswer(this.oldAnswer.innerHTML, problemNumber);
         }
-        this.oldAnswer = null;
-        this.shortAnswer = null;
       }
       // 단답형
       else if (type === 4) {
@@ -136,44 +139,60 @@ export default {
           return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
         });
 
-        WrongAnswer = AnswerFlag === true ? Answer[0].a_value : null;
-        this.oldAnswer = null;
-        this.shortAnswer = null;
-        console.log("틀림 : " + WrongAnswer);
+        WrongAnswer = AnswerFlag === true ? null : Answer[0].a_value;
+        if (WrongAnswer !== null) {
+          console.log("틀림 : " + WrongAnswer);
+          this.wrongAnswer(this.shortAnswer, problemNumber);
+        } else {
+          console.log("맞음");
+        }
       }
 
-      if (WrongAnswer !== null) {
-        const user_id = this.$store.state["auth"]["userInfo"]["id"];
-        console.log(user_id);
-        console.log(WrongAnswer);
-
-        axios
-          .post(`/api/xnotes/mynote/${user_id}/`, {
-            prob: problemNumber,
-            u_answer: WrongAnswer.trim()
-          })
-          .then(({ data }) => {
-            console.log(data);
-          });
-      }
+      this.oldAnswer = null;
+      this.shortAnswer = null;
       this.buttonFlag = !this.buttonFlag;
+    },
+    wrongAnswer(problem, problemNumber) {
+      console.log(problem);
+      console.log(problemNumber);
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      axios
+        .post(`/api/xnotes/mynote/${user_id}/`, {
+          prob: problemNumber,
+          u_answer: problem
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
     },
     nextProblem(i, size) {
       if (i !== size) {
-        const div = document.querySelectorAll(".main-content > div");
-        div[i].className = "";
-        div[i + 1].className = "now";
+        const div = document.querySelectorAll(".question-box");
+        div[i].classList.remove('now');
+        div[i + 1].classList.add('now');
         this.buttonFlag = !this.buttonFlag;
+
+        // progress bar 색 채우기
+        const progress = document.querySelector('.progress')
+        console.log(i+2, size+2)
+        console.log((i+2)/(size+2)*100)
+        progress.style.width = `${(i+2)/(size+1)*100}%`
       }
     },
-    onClickMyNote(p_id) {
+    onClickMyNote(p_id, index) {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
-      axios.post(`/api/myprobs/myprob/${user_id}/`, {
+      const question = this.questionList[index]
+      if (!question.myprob_check) {
+        axios.post(`/api/myprobs/myprob/${user_id}/`, {
           "prob": p_id
+        })
+        .then(res => {
+          question.myprob_check = true
         })
         .catch(err => {
           console.error(err)
-        })
+        }) 
+      }
     }
   },
   computed: {
@@ -186,6 +205,7 @@ export default {
   },
   mounted() {
     console.log(this.questionList)
+    this.progressInit()
   }
 };
 </script>
@@ -194,18 +214,35 @@ export default {
 * {
   box-sizing: border-box;
 }
-
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  box-shadow: 0 0 4px rgb(59, 59, 59);
+  /* box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.534); */
+  position: relative;
+}
+.progress {
+  width: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;  
+  transition: width 0.5s linear;
+  background-color: #30A9DE
+}
 .main-content {
   width: 100%;
+  max-width: 500px;
   margin: 0 auto;
+  position: relative;
 }
 
-.main-content > div {
+.question-box {
   display: none;
   padding: 20px;
 }
 
-.main-content > div.now {
+.question-box.now {
   display: block;
 }
 .questionInfo {

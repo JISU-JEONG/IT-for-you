@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition-group class="content__list">
+    <transition-group>
       <div
         class="question"
         v-for="question in list"
@@ -32,6 +32,9 @@ export default {
     questionType: {
       type: Array
     },
+    questionCategory: {
+      type: Array
+    },
     level: {
       type: Array
     }
@@ -40,33 +43,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  &__list {
-    position: relative;
-    margin-top: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 5rem;
-    backface-visibility: hidden;
-  }
+.thumblist-content {
+  width: 100%;
 }
 .question {
   position: relative;
-  width: calc(100% / 2 - 1rem);
+  width: calc(100% / 2 - 1.5rem);
   display: inline-flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 1rem;
-  margin-top: 1rem;
-  padding-top: 0.75rem;
   border-radius: 6px;
   background-color: white;
   box-shadow: 0 0 0 1px #c5d0d1;
   backface-visibility: hidden;
   transform-origin: 10% 50%;
-  z-index: 1;
+  z-index: -1;
 
-  @media (min-width: 800px) {
-    width: calc(100% / 3 - 1rem);
+  @media (min-width: 612px) {
+    width: calc(100% / 3 - 1.5rem);
   }
 
   &__label {

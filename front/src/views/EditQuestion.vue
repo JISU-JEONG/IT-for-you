@@ -32,7 +32,7 @@ export default {
       },
       deleteQuestion(id) {
         if (confirm('문제를 삭제하시겠습니까?')) {
-          axios.delete(`/api/problems/delete_prob/${id}/`)
+          axios.delete(`/api/problems/probs/${id}/`)
           .then(res => {
             this.questions.splice(this.questions.findIndex(p => p.p_id === id), 1)
           })

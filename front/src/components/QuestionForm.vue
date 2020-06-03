@@ -138,7 +138,7 @@ export default {
       if (this.showCodeBox) question["problems"]["p_code"] = this.codeText;
       if (this.questionId == 2) question["examples"] = this.examples;
       axios
-        .post("/api/problems/create_prob/", question)
+        .post("/api/problems/probs/", question)
         .then(res => {
           let successMessage = document.querySelector(".success-message");
           successMessage.classList.add("ani-show");
