@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     user_id() {
-      return this.$store.getters.user
+      return this.$store.getters.getUserInfo.id
     }
   },
   mounted() {
