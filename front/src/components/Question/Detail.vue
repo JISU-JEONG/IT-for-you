@@ -217,7 +217,7 @@ export default {
 }
 .progress-bar {
   width: 100%;
-  height: 10px;
+  height: 8px;
   box-shadow: 0 0 4px rgb(59, 59, 59);
   /* box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.534); */
   position: relative;
