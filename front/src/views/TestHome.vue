@@ -257,7 +257,9 @@ li {
 .side-bar-logout {
   position: absolute;
   bottom: 10px;
+  left: 20px;
   width: 100%;
+  cursor: pointer;
 }
 .sidde-bar-profile .avata {
   display: inline-block;
