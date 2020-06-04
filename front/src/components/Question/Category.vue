@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="card last-card">
-        <input type="number" placeholder="문제 개수 입력(1~50)"  min="0" v-model="p_number" />
+        <input type="number" placeholder="문제 개수 입력(1~20)"  min="0" max="20" v-model="p_number" />
         <div class="submit-btn flex flex-center" @click="submitData">
           <span>문제풀러가자</span>
         </div>
@@ -87,7 +87,7 @@ export default {
       this.questionData.pc_value = this.selectedCategory
       this.questionData.pd_id = this.selectedDifficulty
       this.questionData["p_number"] =
-        this.p_number === null ? 10 : this.p_number*1;
+        (this.p_number === null || this.p_number < 1) ? 10 : this.p_number > 20 ? 20 : this.p_number*1;
       this.questionData.user_id = this.user_id
       axios
         .post("/api/problems/search/", this.questionData)
@@ -248,17 +248,32 @@ p {
   bottom: 0;
   transition: height 0.25s linear;
 }
+.difficulty-option:nth-child(1) > label {
+  border-color: #5CAB7D;
+}
 .difficulty-option:nth-child(1) > label::before {
   background-color: #5CAB7D;
+}
+.difficulty-option:nth-child(2) > label{
+  border-color: #5A9367;
 }
 .difficulty-option:nth-child(2) > label::before {
   background-color: #5A9367;
 }
+.difficulty-option:nth-child(3) > label {
+  border-color: #44633F;
+}
 .difficulty-option:nth-child(3) > label::before {
   background-color: #44633F;
 }
+.difficulty-option:nth-child(4) > label {
+  border-color: #3F4B3B;
+}
 .difficulty-option:nth-child(4) > label::before {
   background-color: #3F4B3B;
+}
+.difficulty-option:nth-child(5) > label {
+  border-color: rgb(43, 48, 42);
 }
 .difficulty-option:nth-child(5) > label::before {
   background-color: rgb(43, 48, 42);
