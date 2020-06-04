@@ -113,7 +113,6 @@ class SpecProb(APIView):
 
     if prob.p_code:
       prob.p_code = None
-
     if problems.get('pt_id') == 1:
       problems['p_commentary'] = request.data.get('answer')
 
