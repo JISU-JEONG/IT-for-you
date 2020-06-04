@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
     <div class="mobile">
+      <div class="cry"></div>
       <span>관리자 페이지는 pc환경에서만 지원합니다.</span>
+      <router-link to="/">메인으로 돌아가기</router-link>
     </div>
     <div class="pc">
       <section>
@@ -22,7 +24,7 @@
           <li>
             <router-link to="/admin/edit">
               <i><img :src="addIcon('book')"></i>
-              <span>문제 수정</span>
+              <span>문제 삭제</span>
             </router-link>
           </li>
         </ul>
@@ -79,11 +81,15 @@ export default {
   font-size: 4.5vw;
   font-weight: bold;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .wrapper .mobile span {
   height: 30px;
+}
+.wrapper .mobile  a {
+  color: white;
 }
 @media (min-width: 1024px) {
   .wrapper .pc {
@@ -196,5 +202,12 @@ section {
   .admin-btn {
     cursor: pointer;
     position: relative;
+  }
+  .cry {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    background-image: url('../assets/icons/cry.png');
+    background-size: cover;
   }
 </style>

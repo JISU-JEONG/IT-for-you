@@ -58,9 +58,8 @@
       <div
         class="currentButton"
         v-if="buttonFlag"
-        @click="checkProblem(`problem${q.p_id}`, q.pt_id, q.answers, q.p_id)"
       >
-        <span>정답 확인</span>
+        <span @click="checkProblem(`problem${q.p_id}`, q.pt_id, q.answers, q.p_id)">정답 확인</span>
       </div>
       <div class="current" v-if="!buttonFlag">{{ correctAnswer }}</div>
       <div class="commentary" v-if="!buttonFlag">
@@ -98,12 +97,14 @@ export default {
       progress.style.width = `${1/(this.questionList.length) *100}%`
     },
     selected() {
+      if(this.buttonFlag === false){
+        return
+      }
       if (this.oldAnswer !== null) {
         this.oldAnswer.classList.remove("active");
       }
       event.target.classList.add("active");
       this.oldAnswer = event.target;
-      console.log(this.oldAnswer);
     },
     checkProblem(problemNumberClass, type, Answer, problemNumber) {
       let WrongAnswer = null; // 맞았는지 틀렸는지 판단
@@ -216,7 +217,7 @@ export default {
 }
 .progress-bar {
   width: 100%;
-  height: 10px;
+  height: 8px;
   box-shadow: 0 0 4px rgb(59, 59, 59);
   /* box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.534); */
   position: relative;
@@ -235,6 +236,11 @@ export default {
   max-width: 500px;
   margin: 0 auto;
   position: relative;
+}
+
+.question{
+  padding : 0;
+  margin: 0;
 }
 
 .question-box {

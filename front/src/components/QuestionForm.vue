@@ -34,11 +34,11 @@
         </span>
       </div>
       <input type="text" placeholder="문제 입력" class="input-default" v-model="questionText" />
-      <p class="btn" @click="showCodeBox=!showCodeBox">{{ showCodeBox ? '-코드 삭제' : '+코드 추가' }}</p>
+      <p class="btn" @click="showCodeBox=!showCodeBox">{{ questionId === 1 ? showCodeBox ? '-회사 삭제' : '+회사 추가' : showCodeBox ? '-코드 삭제' : '+코드 추가' }}</p>
       <textarea
         id="question-box"
-        placeholder="코드 입력"
-        style="min-height:150px"
+        :placeholder="questionId === 1 ? '회사 입력' : '코드 입력'"
+        style="min-height:100px; font-size:16px;"
         class="input-default"
         v-if="showCodeBox"
         @keydown="setInputDefault"
@@ -66,8 +66,10 @@
       <div v-if="questionId===4">
         <input type="text" placeholder="정답 입력" class="input-default" v-model="answer" />
       </div>
-      <h2>해설</h2>
+      <div v-if="questionId!==1">
+        <h2>해설</h2>
         <input type="text" placeholder="해설 입력" class="input-default" v-model="p_commentary" />
+      </div>
       <div class="float-right">
         <span class="success-message">문제가 등록되었습니다.</span>
         <button id="submit-btn" class="submit-btn btn" @click="onClickSubmit">문제 등록</button>
@@ -185,8 +187,9 @@ export default {
 * {
   font-family: HangeulNuri-Bold;
 }
-h1 {
+h2 {
   text-align: center;
+  font-size: 22px;
 }
 textarea {
   font-size: 20px;
@@ -272,13 +275,14 @@ li {
   text-align: initial;
   font-size: 20px;
   font-weight: 500;
+  overflow: scroll;
 }
 .input-default {
   width: 100%;
   height: 40px;
   outline: none;
   padding: 0 8px;
-  margin: 4px 0;
+  margin: 2px 0;
 }
 .ox-label {
   width: 100px;

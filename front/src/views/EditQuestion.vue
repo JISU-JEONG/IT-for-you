@@ -51,11 +51,9 @@ export default {
   * {font-family: 'RIDIBatang';}
   li { list-style: none; cursor: pointer;}
   th {border: 1px solid rgb(107, 107, 107)}
-  tr:nth-child(2n) {
-      background-color: rgb(230, 230, 230);
-    }
+  tr:nth-child(2n) {background-color: rgb(230, 230, 230);}
   td {text-align: center;}
-  .btn {cursor: pointer;}
+  .btn {cursor: pointer; width: 100px;}
   .wrapper {width: 100%; height: 100%;overflow: scroll;}
   .question-container {width: 60%; height: 100%; border: 1px solid black;}
 </style>

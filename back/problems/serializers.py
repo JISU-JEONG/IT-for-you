@@ -30,11 +30,15 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class ProblemDetailSerializer(ProblemSerializer):
   category = ProbCateSerializer(source='pc_id')
-  answers = AnswerSerializer(source='answer_set', many=True)
+  answers = serializers.SerializerMethodField()
   myprob_check = serializers.SerializerMethodField()
   
   class Meta(ProblemSerializer.Meta):
     fields = ProblemSerializer.Meta.fields + ('answers', 'category', 'myprob_check',)
+  
+  def get_answers(self, obj):
+    answers = obj.answer_set.all().order_by('?')
+    return AnswerSerializer(answers, many=True).data
 
   def get_myprob_check(self, obj):
     user_id = self.context.get('user_id')

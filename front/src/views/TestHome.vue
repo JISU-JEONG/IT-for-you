@@ -154,18 +154,7 @@ li {
   line-height: 50px;
   margin: 10px 0;
 }
-a {
-  width: 100%;
-  padding: 0 20px;
-  display: inline-block;
-  font-size: 20px;
-  color: rgb(162, 161, 161);
-  text-decoration: none;
-  cursor: pointer;
-}
-a.router-link-active {
-  color: white;
-}
+
 .hamburger-btn {
   width: 20px;
   height: 15px;
@@ -249,6 +238,21 @@ a.router-link-active {
   display: inline-block;
   padding-top: 20px;
   width: 100%;
+}
+.side-bar-nav a {
+  width: 100%;
+  padding: 0 20px;
+  display: inline-block;
+  font-size: 20px;
+  color: rgb(162, 161, 161);
+  text-decoration: none;
+  cursor: pointer;
+}
+.side-bar-nav a.router-link-active {
+  color: white;
+}
+.side-bar-nav a:hover {
+  color: white;
 }
 .side-bar-logout {
   position: absolute;
