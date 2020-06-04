@@ -3,6 +3,11 @@
     <div class="progress-bar">
       <div class="progress"></div>
     </div>
+    <div class="checking-container">
+      <div class="checking" v-for="i in questionList.length" :key="i">
+        <div class="checking-inner" :data-checking="i">{{i}}</div>
+      </div>
+    </div>
     <div
       class="question-box"
       :class="i === 0 ? 'now' : ''"
@@ -34,9 +39,9 @@
       </div>
       <!-- O / X -->
       <div v-if="q.pt_id === 3" class="answer-container ox-container">
-        <input type="radio" class="input" id="O" v-model="userAnswer" value="O">
+        <input type="radio" class="input" id="O" v-model="userAnswer" value="O" :disabled="!buttonFlag">
         <label for="O" class="label no_highlights">O</label>        
-        <input type="radio" class="input" id="X" v-model="userAnswer" value="X">
+        <input type="radio" class="input" id="X" v-model="userAnswer" value="X" :disabled="!buttonFlag">
         <label for="X" class="label no_highlights">X</label>
       </div>
       <!-- 단답식 -->
@@ -98,16 +103,19 @@ export default {
     },
     checkProblem(index, type, Answer, problemNumber) {
       const mainContent = document.querySelector('.main-content')
-      
+      const checking = document.querySelectorAll('.checking-inner')[index]
+    
       if (type ===2 || type ===3) {
         this.correctLabel = [...document.querySelectorAll('.now .label')].filter(q => q.innerText === this.answerList[index][0])[0]
 
         if (this.answerList[index][0] === this.userAnswer) {
+          checking.classList.add('checking-correct')
           mainContent.classList.add('correct')
         } else {
+          checking.classList.add('checking-wrong')
           mainContent.classList.add('wrong')
           this.correctLabel.classList.add('correct-label')
-          // this.wrongAnswer(this.userAnswer, problemNumber) // 오답노트 추가
+          this.wrongAnswer(this.userAnswer, problemNumber) // 오답노트 추가
         }
       }  
       
@@ -116,51 +124,15 @@ export default {
           return answer.toLowerCase() === this.userAnswer.toLowerCase().trim();
         });
         if (AnswerFlag) {
+          checking.classList.add('checking-correct')
           mainContent.classList.add('correct')
         } else {
-          console.log('틀렸다')
+          checking.classList.add('checking-wrong')
           mainContent.classList.add('wrong')
-          // this.wrongAnswer(this.userAnswer, problemNumber) // 오답노트 추가
+          this.wrongAnswer(this.userAnswer, problemNumber) // 오답노트 추가
         }
-
       }
-
       this.buttonFlag = !this.buttonFlag;
-      // let WrongAnswer = null; // 맞았는지 틀렸는지 판단
-      // // 객관식, O/X
-      // if (type === 2 || type === 3) {
-      //   const div = document.getElementsByName(problemNumberClass);
-      //   if (this.oldAnswer.id === "true") {
-      //     console.log("맞음");
-      //   } else {
-      //     WrongAnswer = div[[...div].findIndex(v => v.id === "true")].innerHTML;
-      //     console.log("틀림 : " + WrongAnswer);
-      //     this.wrongAnswer(this.oldAnswer.innerHTML, problemNumber);
-      //   }
-      // }
-      // // 단답형
-      // else if (type === 4) {
-      //   if (this.shortAnswer === null) {
-      //     alert("답변을 입력해주세요.");
-      //     return;
-      //   }
-
-      //   const AnswerFlag = Answer.some(({ a_value }) => {
-      //     return a_value.toLowerCase() === this.shortAnswer.toLowerCase();
-      //   });
-
-      //   WrongAnswer = AnswerFlag === true ? null : Answer[0].a_value;
-      //   if (WrongAnswer !== null) {
-      //     console.log("틀림 : " + WrongAnswer);
-      //     this.wrongAnswer(this.shortAnswer, problemNumber);
-      //   } else {
-      //     console.log("맞음");
-      //   }
-      // }
-
-      // this.oldAnswer = null;
-      // this.shortAnswer = null;
-      // this.buttonFlag = !this.buttonFlag;
     },
     wrongAnswer(userAnswer, problemNumber) {
       console.log(userAnswer);
@@ -370,6 +342,53 @@ export default {
   transition: width 0.5s linear;
   background-color: #30A9DE
 }
+.checking-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid block;
+}
+.checking {
+  width:10%;
+  position: relative;
+}
+.checking::after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+.checking-inner {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 2px #9E9E9E;
+}
+.checking-correct {
+  background-color: rgba(76, 175, 79, 0.3);
+  box-shadow: inset 0 0 2px #4CAF50;
+}
+.checking-correct::before {
+  position:absolute;
+  content: 'O';
+  font-size: 24px;
+  
+  color: rgba(76, 175, 79, 0.9);
+}
+.checking-wrong {
+  background-color: rgba(244, 67, 54, 0.3);
+  box-shadow: inset 0 0 2px #F44336;
+}
+.checking-wrong::before {
+  position:absolute;
+  content: 'X';
+  font-size: 24px;
+  color: rgba(244, 67, 54, 0.9);
+}
+
+
 .main-content {
   width: 100%;
   height: 100%;
