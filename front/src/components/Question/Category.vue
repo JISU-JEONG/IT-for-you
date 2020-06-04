@@ -7,10 +7,10 @@
     </div>
     <div style="margin-top:-60px">
       <div class="card">
-        <div class="selected category flex flex-center flex-wrap" style="cursor: pointer;" @click="onClickShow">
+        <div class="selected category flex flex-center flex-wrap no_highlights" style="cursor: pointer;" @click="onClickShow">
           <p v-if="selectedCategory.length === 0">카테고리을 선택해주세요</p>
           <transition-group name="badge" class="flex flex-center flex-wrap">
-            <p v-for="c in selectedCategory" :key="c+1" class="badge">{{c}}</p>
+            <p v-for="c in selectedCategory" :key="c+1" class="badge" >{{c}}</p>
           </transition-group>
         </div>
       </div>
@@ -20,7 +20,7 @@
           <div class="flex flex-wrap number-box">
             <div class="difficulty-option" v-for="i in 5" :key="i">
               <input type="checkbox" name="difficulty" :value="i" :id="i" v-model="selectedDifficulty" >
-              <label class="difficulty-btn flex flex-center flex-wrap" :for="i"><span>{{i}}</span></label>
+              <label class="difficulty-btn flex flex-center flex-wrap no_highlights" :for="i"><span>{{i}}</span></label>
             </div>
           </div>
         </div>
@@ -40,12 +40,12 @@
       <div class="select-container">
         <div class="select-nav">
           <span>카테고리 선택</span>
-          <div class="close-btn" @click="onClickShow"></div>
+          <div class="close-btn no_highlights" @click="onClickShow"></div>
         </div>
         <div class="select-content">
           <div class="category-option" v-for="c in questionCategory" :key="c" >
             <input type="checkbox" name="category" :value="c" :id="c" v-model="selectedCategory">
-            <label class="flex flex-center flex-wrap" :for="c">{{c}}</label>
+            <label class="flex flex-center flex-wrap no_highlights" style="cursor: pointer;" :for="c">{{c}}</label>
           </div>
         </div>
       </div>
@@ -115,8 +115,16 @@ export default {
 <style scoped lang='scss'>
 * {
   box-sizing: border-box;
-  font-family: MapoPeacefull;
-  
+  font-family: MapoPeacefull; 
+}
+.no_highlights{
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 p {
   font-size: 20px;
