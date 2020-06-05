@@ -23,9 +23,9 @@
         <span class="info-badge float-right" :class="{'color-secondary':!q.myprob_check , 'color-warning':q.myprob_check }" id="like-btn" @click="onClickMyNote(q.p_id, i)">문제 저장하기</span>
       </div>
       <div class="question">{{ i+1 }}. {{ q.p_question }}</div> <!-- 문제 -->
-      <div v-highlight v-if="q.p_code !== null" class="codeDIV"> <!-- 코드 -->
+      <div v-highlight v-if="q.p_code !== 'NULL' && q.p_code !== null"  class="codeDIV"> <!-- 코드 -->
         <pre>
-          <code>
+          <code style="white-space: pre-line;">
             {{q.p_code}}
           </code>
         </pre>
