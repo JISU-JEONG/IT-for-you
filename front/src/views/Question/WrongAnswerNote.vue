@@ -11,21 +11,12 @@
           }"
           :key="menu + 0"
           @click="setMenu(menu, active)"
-        >
-          {{ menuName[menu] }}
-        </div>
-        <div class="nav__label nav__label--clear" @click="clearAllFilters">
-          초기화
-        </div>
+        >{{ menuName[menu] }}</div>
+        <div class="nav__label nav__label--clear" @click="clearAllFilters">초기화</div>
       </menu>
     </nav>
 
-    <transition-group
-      name="dropdown"
-      tag="section"
-      class="dropdown"
-      :style="dropdown"
-    >
+    <transition-group name="dropdown" tag="section" class="dropdown" :style="dropdown">
       <menu
         v-for="(options, filter) in filters"
         class="filters"
@@ -39,9 +30,7 @@
           :class="{ 'filters__item--active': active }"
           @click="setFilter(filter, option)"
           :key="option + 0"
-        >
-          {{ option }}
-        </div>
+        >{{ option }}</div>
       </menu>
     </transition-group>
 
@@ -163,6 +152,9 @@ export default {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
       await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
         this.questionData = data;
+        this.$store.dispatch("wrongAnswerList", data);
+
+        console.log("mynote : ", this.questionData);
         data.forEach(({ problems }) => {
           // Type, Category
           this.$set(
