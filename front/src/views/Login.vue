@@ -8,7 +8,7 @@
           <p
             class="form-change-btn"
             :class="{ activate: showLogin }"
-            @click="showLogin = !showLogin"
+            @click="showLogin = true"
           >
             로그인
           </p>
@@ -18,7 +18,7 @@
           <p
             class="form-change-btn"
             :class="{ activate: !showLogin }"
-            @click="showLogin = !showLogin"
+            @click="showLogin = false"
           >
             회원가입
           </p>
@@ -50,7 +50,7 @@
           </li>
         </ul>
       </div>
-      <a class="arrow-bottom" href="#login-section"></a>
+      <a class="arrow-bottom no_highlights" href="#login-section"></a>
     </div>
   </div>
 </template>
@@ -134,6 +134,15 @@ export default {
   font-family: HangeulNuri-Bold;
   display: block;
   box-sizing: border-box;
+}
+.no_highlights{
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 ul,
 li {

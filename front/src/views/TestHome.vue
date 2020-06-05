@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav>
-      <div class="hamburger-btn" @click="openSideBar">
+      <div class="hamburger-btn no_highlights" @click="openSideBar">
         <div class="hamburger hamburger-top"></div>
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
@@ -29,14 +29,15 @@
         </div>
       </div>
 
-      <div class="side-bar-nav" @click="onClickEvent">
+      <div class="side-bar-nav no_highlights" @click="onClickEvent">
         <li><router-link to="/category">문제풀기</router-link></li>
         <li><router-link to="/admin">관리자페이지</router-link></li>
-        <li><router-link to="/testmic">면접대비</router-link></li>
+        <li><router-link to="/testmic">마이크테스트</router-link></li>
+        <li><router-link to="/interview">면접대비</router-link></li>
         <li><router-link to="/wrongAnswerNote">오답노트</router-link></li>
         <li><router-link to="/mynote">MyNote</router-link></li>
       </div>
-      <div class="side-bar-logout">
+      <div class="side-bar-logout no_highlights">
         <li><a @click="logout">로그아웃</a></li>
       </div>
     </div>
@@ -130,6 +131,15 @@ export default {
 .title {
   font-family: "godoMaum";
   font-size: 2.5em;
+}
+.no_highlights{
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 nav {
   height: 44px;

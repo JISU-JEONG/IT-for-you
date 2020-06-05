@@ -9,7 +9,7 @@
     <div style="margin-top:-60px">
       <div class="card">
         <div class="selected category flex flex-center flex-wrap no_highlights" style="cursor: pointer;" @click="onClickShow">
-          <p v-if="selectedCategory.length === 0">카테고리을 선택해주세요</p>
+          <p v-if="selectedCategory.length === 0">카테고리를 선택해주세요</p>
           <transition-group name="badge" class="flex flex-center flex-wrap">
             <p v-for="c in selectedCategory" :key="c+1" class="badge" >{{c}}</p>
           </transition-group>
