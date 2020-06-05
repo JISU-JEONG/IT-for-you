@@ -1,7 +1,8 @@
 const state = {
   questionList: null,
   questionType: null,
-  questionCategory: null
+  questionCategory: null,
+  answerList: [],
 };
 
 const mutations = {
@@ -31,7 +32,8 @@ const actions = {
 const getters = {
   questionList: state => state.questionList,
   questionType: state => state.questionType,
-  questionCategory: state => state.questionCategory
+  questionCategory: state => state.questionCategory,
+  answerList: state => state.questionList.map(q => q.answers).map(q2 => q2.filter(q3 => q3.a_correct).map(q4 =>q4.a_value))
 };
 
 export default {
