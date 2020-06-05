@@ -1,15 +1,11 @@
 <template>
   <div>
     <transition-group class="content__list">
-      <div
-        class="card-content"
-        v-for="(question, i) in list"
-        :key="question.problems.p_id"
-      >
+      <div class="card-content" v-for="(question, i) in list" :key="question.problems.p_id">
         <div class="card">
           <!-- 카드 헤더 -->
           <div class="card-header">
-            <span>{{ questionType[question.problems.pt_id] }} </span>
+            <span>{{ questionType[question.problems.pt_id] }}</span>
             <span>{{ questionCategory[question.problems.pc_id] }}</span>
             <span>{{ level[question.problems.pd_id] }}</span>
           </div>
@@ -18,16 +14,12 @@
           <!--  카드 바디 -->
           <div class="card-body">
             <!--  카드 바디 헤더 -->
-            <div class="card-body-header">
-              {{ question.problems.p_question }}
-            </div>
+            <div class="card-body-header">{{ question.problems.p_question }}</div>
 
             <div
               class="card-body-header-code"
               v-if="question.problems.p_code !== null"
-            >
-              {{ question.problems.p_code }}
-            </div>
+            >{{ question.problems.p_code }}</div>
 
             <!--  카드 바디 본문 -->
             <div class="card-trigger">
@@ -51,19 +43,19 @@
                 </figure>
               </span>
             </div>
-            <div :style="questionContent[i]" class="question-content">
-              <div class="card-body-body-right" v-if="userAnswerFlag[i]">
+
+            <div class="question-content">
+              <div class="card-body-body-wrong" v-if="userAnswerFlag[i]">
                 <del>{{ question.u_answer }}</del>
               </div>
 
-              <div class="card-body-body-wrong" v-if="answerFlag[i]">
-                {{ question.p_answer }}
-              </div>
+              <div class="card-body-body-right" v-if="answerFlag[i]">{{ question.p_answer }}</div>
 
               <!--  카드 바디 푸터 -->
-              <div class="card-body-footer" v-if="tipFlag[i]">
-                {{ question.problems.p_commentary }}
-              </div>
+              <div class="card-body-footer" v-if="tipFlag[i]">{{ question.problems.p_commentary }}</div>
+              <div class="tip">{{ question.problems.p_commentary }}</div>
+              <div class="userAnswer">{{ question.u_answer }}</div>
+              <div class="answer">{{ question.p_answer }}</div>
             </div>
           </div>
         </div>
@@ -73,6 +65,8 @@
 </template>
 
 <script>
+import axios from "@/api/api.service.js";
+
 export default {
   name: "list",
   data() {
@@ -80,7 +74,7 @@ export default {
       tipFlag: [...this.list].fill(false),
       userAnswerFlag: [...this.list].fill(false),
       answerFlag: [...this.list].fill(false),
-      questionContent: [...this.list].fill("height:50px")
+      tmpheight: null
     };
   },
   props: {
@@ -98,12 +92,30 @@ export default {
     }
   },
   methods: {
+    //     .card-body-body-right,
+    // .card-body-body-wrong,
+    // .card-body-footer
     getTip(i) {
       this.$set(this.tipFlag, i, !this.tipFlag[i]);
-      const div2 = document.querySelectorAll(".question-content")[i];
-      console.log(div2.style);
-      div2.style.transform = "translateY(0%)";
+      const div = document.querySelectorAll(".question-content")[i];
+      const div2 = document.querySelectorAll(".tip")[i];
+      const div3 = document.querySelectorAll(".card-body-footer")[i];
+      if (this.tipFlag[i] === true) {
+        this.tmpheight[i] += div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+      } else {
+        this.tmpheight[i] -= div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+        // div3.style.opacity = 0;
+      }
 
+      // console.log(div);
+      // this.$nextTick(() => {
+      //   this.cardcss["height"] = "200px";
+      //   console.log(this.cardcss);
+      // });
+
+      // div.style.height = div.clientHeight;
       // setTimeout(() => {
       //   console.log(div2.style);
       //   div2.style.height = div.clientHeight;
@@ -115,19 +127,47 @@ export default {
     },
     getUserAnswer(i) {
       this.$set(this.userAnswerFlag, i, !this.userAnswerFlag[i]);
-      const div2 = document.querySelectorAll(".question-content")[i];
-      console.log(div2.style);
-      div2.style.transform = "translateY(0%)";
+      const div = document.querySelectorAll(".question-content")[i];
+      const div2 = document.querySelectorAll(".userAnswer")[i];
+      const div3 = document.querySelectorAll(".card-body-body-wrong")[i];
+
+      if (this.userAnswerFlag[i] === true) {
+        this.tmpheight[i] += div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+        // div3.style.opacity = 1;
+      } else {
+        this.tmpheight[i] -= div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+        // div3.style.opacity = 0;
+      }
     },
     getAnswer(i) {
       this.$set(this.answerFlag, i, !this.answerFlag[i]);
-      const div2 = document.querySelectorAll(".question-content")[i];
-      console.log(div2.style);
-      div2.style.transform = "translateY(0%)";
+      const div = document.querySelectorAll(".question-content")[i];
+      const div2 = document.querySelectorAll(".answer")[i];
+      // const div3 = document.querySelectorAll(".card-body-body-right")[i];
+      if (this.answerFlag[i] === true) {
+        this.tmpheight[i] += div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+        // div3.style.opacity = 1;
+      } else {
+        this.tmpheight[i] -= div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+        // div3.style.opacity = 0;
+      }
+    },
+    async init() {
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
+        this.tmpheight = data;
+      });
+      this.tmpheight.fill(0);
     }
   },
+
   beforeMount() {
-    console.log(this.questionContent);
+    this.init();
+    console.log(this.tmpheight);
   }
 };
 </script>
@@ -181,34 +221,28 @@ export default {
   background-color: rgb(235, 235, 235);
 }
 
-hr {
-  background-color: #9fa5a8;
-  height: 1px;
-  border: 1px;
-}
-
 .card-body-body-right,
 .card-body-body-wrong,
 .card-body-footer {
   line-height: 20px;
   font-size: 17px;
   padding: 10px;
+  opacity: 1;
+  transition: all 2s;
   font-weight: bold;
-  top: 30px;
 }
 
 .card-body-body-right {
-  color: gray;
-}
-
-.card-body-body-wrong {
   color: red;
 }
 
+.card-body-body-wrong {
+  color: gray;
+}
+
 .question-content {
-  transform: translateY(-10em);
-  z-index: -1;
-  transition: all 2s;
+  height: 0px;
+  transition: all 0.5s;
 }
 
 .card-trigger {
@@ -218,7 +252,16 @@ hr {
   margin: 10px;
   padding: 15px;
   border-radius: 15px;
-  transition: 2s;
+}
+
+.tip,
+.answer,
+.userAnswer {
+  line-height: 20px;
+  font-size: 17px;
+  padding: 10px;
+  position: absolute;
+  visibility: hidden;
 }
 
 img {
