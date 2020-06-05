@@ -65,7 +65,7 @@ export default {
       selectedDifficulty: [],
       p_number: null,
       questionData: {},
-      questionCategory: [],
+      questionCategory: []
     };
   },
   methods: {
@@ -85,8 +85,8 @@ export default {
       }
     },
     submitData() {
-      this.questionData.pc_value = this.selectedCategory
-      this.questionData.pd_id = this.selectedDifficulty
+      this.questionData.pc_value = this.selectedCategory;
+      this.questionData.pd_id = this.selectedDifficulty;
       this.questionData["p_number"] =
         (this.p_number === null || this.p_number < 1) ? 10 : this.p_number > 20 ? 20 : this.p_number*1;
       this.questionData.user_id = this.user_id
@@ -99,12 +99,12 @@ export default {
         });
     },
     onClickShow() {
-      document.querySelector('.select-container').classList.toggle('show')
-    } 
+      document.querySelector(".select-container").classList.toggle("show");
+    }
   },
   computed: {
     user_id() {
-      return this.$store.getters.getUserInfo.id
+      return this.$store.getters.getUserInfo.id;
     }
   },
   beforeMount() {
@@ -113,7 +113,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 * {
   box-sizing: border-box;
   font-family: MapoPeacefull; 
@@ -136,7 +136,7 @@ p {
   max-width: 500px;
   height: 100%;
   margin: 0 auto;
-  position:relative;
+  position: relative;
 }
 .info {
   height: 200px;
@@ -194,14 +194,15 @@ p {
   justify-content: center;
   align-items: center;
 }
-.select-container { /*밑에서 오가는거*/
+.select-container {
+  /*밑에서 오가는거*/
   height: 450px;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   border-radius: 20px 20px 0 0;
-  background-color: rgba(var(--b3f,250,250,250),1);
+  background-color: rgba(var(--b3f, 250, 250, 250), 1);
   box-shadow: 0px -2px 4px lightgray;
   transform: translateY(450px);
   transition: all 0.3s ease;
@@ -230,7 +231,7 @@ p {
 .difficulty-option > label {
   width: 50px;
   height: 50px;
-  position:relative;
+  position: relative;
   border: 1.5px #333030 solid;
   border-radius: 100%;
   font-size: 20px;
@@ -239,9 +240,9 @@ p {
 }
 .difficulty-option > label > span {
   transition: color 0.25s linear;
-} 
+}
 .difficulty-option > label::before {
-  content:'';
+  content: "";
   width: 100%;
   height: 0;
   position: absolute;
@@ -253,25 +254,25 @@ p {
   border-color: #5CAB7D;
 }
 .difficulty-option:nth-child(1) > label::before {
-  background-color: #5CAB7D;
+  background-color: #5cab7d;
 }
 .difficulty-option:nth-child(2) > label{
   border-color: #5A9367;
 }
 .difficulty-option:nth-child(2) > label::before {
-  background-color: #5A9367;
+  background-color: #5a9367;
 }
 .difficulty-option:nth-child(3) > label {
   border-color: #44633F;
 }
 .difficulty-option:nth-child(3) > label::before {
-  background-color: #44633F;
+  background-color: #44633f;
 }
 .difficulty-option:nth-child(4) > label {
   border-color: #3F4B3B;
 }
 .difficulty-option:nth-child(4) > label::before {
-  background-color: #3F4B3B;
+  background-color: #3f4b3b;
 }
 .difficulty-option:nth-child(5) > label {
   border-color: rgb(43, 48, 42);
@@ -279,24 +280,23 @@ p {
 .difficulty-option:nth-child(5) > label::before {
   background-color: rgb(43, 48, 42);
 }
-.difficulty-option > input:checked+label>span {
+.difficulty-option > input:checked + label > span {
   color: white;
   z-index: 1;
 }
-.difficulty-option > input:checked+label::before {
+.difficulty-option > input:checked + label::before {
   height: 100%;
 }
-.category-option > input:checked+label {
+.category-option > input:checked + label {
   background-color: rgb(29, 29, 31);
   color: white;
 }
-.category-option > label{
+.category-option > label {
   width: 100%;
   height: 60px;
   margin-bottom: 12px;
   border-radius: 10px;
-  box-shadow: 4px 4px 8px #cbced1,
-                  -4px -4px 8px #ffffff;
+  box-shadow: 4px 4px 8px #cbced1, -4px -4px 8px #ffffff;
   color: rgb(29, 29, 31);
   background-color: white;
   font-weight: bold;
@@ -322,18 +322,17 @@ p {
 .badge:nth-child(2n) {
   background-color: #7f9eb2;
 }
-.badge-enter-active, .badge-leave-active {
+.badge-enter-active,
+.badge-leave-active {
   transition: all 0.3s;
 }
-.badge-enter, .badge-leave-to {
+.badge-enter,
+.badge-leave-to {
   opacity: 0;
   transform: scale(0);
 }
-.btn {
-  
-}
 .number-box {
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
   height: 70px;
 }
@@ -351,5 +350,11 @@ p {
 .show {
   transform: translateY(0);
 }
-@font-face { font-family: 'MapoPeacefull'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff') format('woff'); font-weight: normal; font-style: normal; }
+@font-face {
+  font-family: "MapoPeacefull";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 </style>
