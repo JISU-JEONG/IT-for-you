@@ -2,20 +2,16 @@
   <div class="main-container">
     <div class="info">
       <h2>문제 풀기</h2>
-      이런저런 안내문구를 작성하겠습니다. 카테고리, 난이도, 개수를 선택하세요.
+      <p><small>이런저런 안내문구를 작성하겠습니다.</small></p>
+      <p><small>카테고리, 난이도, 개수를 선택하세요.</small></p>
+      <p><small>틀린문제는 자동으로 오답노트에 저장됩니다.</small></p>
     </div>
     <div style="margin-top:-60px">
       <div class="card">
-        <div
-          class="selected category flex flex-center flex-wrap"
-          style="cursor: pointer;"
-          @click="onClickShow"
-        >
-          <p v-if="selectedCategory.length === 0">카테고리을 선택해주세요</p>
+        <div class="selected category flex flex-center flex-wrap no_highlights" style="cursor: pointer;" @click="onClickShow">
+          <p v-if="selectedCategory.length === 0">카테고리를 선택해주세요</p>
           <transition-group name="badge" class="flex flex-center flex-wrap">
-            <p v-for="c in selectedCategory" :key="c + 1" class="badge">
-              {{ c }}
-            </p>
+            <p v-for="c in selectedCategory" :key="c+1" class="badge" >{{c}}</p>
           </transition-group>
         </div>
       </div>
@@ -24,27 +20,14 @@
           <p style="text-align: center; margin-bottom: 10px">난이도</p>
           <div class="flex flex-wrap number-box">
             <div class="difficulty-option" v-for="i in 5" :key="i">
-              <input
-                type="checkbox"
-                name="difficulty"
-                :value="i"
-                :id="i"
-                v-model="selectedDifficulty"
-              />
-              <label class="difficulty-btn flex flex-center flex-wrap" :for="i"
-                ><span>{{ i }}</span></label
-              >
+              <input type="checkbox" name="difficulty" :value="i" :id="i" v-model="selectedDifficulty" >
+              <label class="difficulty-btn flex flex-center flex-wrap no_highlights" :for="i"><span>{{i}}</span></label>
             </div>
           </div>
         </div>
       </div>
       <div class="card last-card">
-        <input
-          type="number"
-          placeholder="문제 개수 입력(1~50)"
-          min="0"
-          v-model="p_number"
-        />
+        <input type="number" placeholder="문제 개수 입력(1~20)"  min="0" max="20" v-model="p_number" />
         <div class="submit-btn flex flex-center" @click="submitData">
           <span>문제풀러가자</span>
         </div>
@@ -58,18 +41,12 @@
       <div class="select-container">
         <div class="select-nav">
           <span>카테고리 선택</span>
-          <div class="close-btn" @click="onClickShow"></div>
+          <div class="close-btn no_highlights" @click="onClickShow"></div>
         </div>
         <div class="select-content">
-          <div class="category-option" v-for="c in questionCategory" :key="c">
-            <input
-              type="checkbox"
-              name="category"
-              :value="c"
-              :id="c"
-              v-model="selectedCategory"
-            />
-            <label class="flex flex-center flex-wrap" :for="c">{{ c }}</label>
+          <div class="category-option" v-for="c in questionCategory" :key="c" >
+            <input type="checkbox" name="category" :value="c" :id="c" v-model="selectedCategory">
+            <label class="flex flex-center flex-wrap no_highlights" style="cursor: pointer;" :for="c">{{c}}</label>
           </div>
         </div>
       </div>
@@ -111,8 +88,8 @@ export default {
       this.questionData.pc_value = this.selectedCategory;
       this.questionData.pd_id = this.selectedDifficulty;
       this.questionData["p_number"] =
-        this.p_number === null ? 10 : this.p_number * 1;
-      this.questionData.user_id = this.user_id;
+        (this.p_number === null || this.p_number < 1) ? 10 : this.p_number > 20 ? 20 : this.p_number*1;
+      this.questionData.user_id = this.user_id
       axios
         .post("/api/problems/search/", this.questionData)
         .then(({ data }) => {
@@ -139,7 +116,16 @@ export default {
 <style scoped lang="scss">
 * {
   box-sizing: border-box;
-  font-family: MapoPeacefull;
+  font-family: MapoPeacefull; 
+}
+.no_highlights{
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 p {
   font-size: 20px;
@@ -264,17 +250,32 @@ p {
   bottom: 0;
   transition: height 0.25s linear;
 }
+.difficulty-option:nth-child(1) > label {
+  border-color: #5CAB7D;
+}
 .difficulty-option:nth-child(1) > label::before {
   background-color: #5cab7d;
+}
+.difficulty-option:nth-child(2) > label{
+  border-color: #5A9367;
 }
 .difficulty-option:nth-child(2) > label::before {
   background-color: #5a9367;
 }
+.difficulty-option:nth-child(3) > label {
+  border-color: #44633F;
+}
 .difficulty-option:nth-child(3) > label::before {
   background-color: #44633f;
 }
+.difficulty-option:nth-child(4) > label {
+  border-color: #3F4B3B;
+}
 .difficulty-option:nth-child(4) > label::before {
   background-color: #3f4b3b;
+}
+.difficulty-option:nth-child(5) > label {
+  border-color: rgb(43, 48, 42);
 }
 .difficulty-option:nth-child(5) > label::before {
   background-color: rgb(43, 48, 42);

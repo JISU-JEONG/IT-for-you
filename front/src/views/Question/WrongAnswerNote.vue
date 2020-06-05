@@ -179,4 +179,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scopred src="@/scss/wrong-answer-note.scss"></style>
+<style lang="scss" scoped src="@/scss/wrong-answer-note.scss"></style>

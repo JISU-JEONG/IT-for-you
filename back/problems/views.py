@@ -49,32 +49,50 @@ class Prob(APIView):
     problems = request.data.get('problems')
     # 키 이름 및 값 변경(pop) pc_value -> pc_id
     problems['pc_id'] = ProbCate.objects.get(pc_value=problems.pop('pc_value')).pc_id
-    serializer = ProblemSerializer(data=problems)
-    if serializer.is_valid(raise_exception=True):
-      prob = serializer.save()
-
+    
+    if problems.get('pt_id') == 1:
+      problems['p_commentary'] = request.data.get('answer')
+      serializer = ProblemSerializer(data=problems)
+      if serializer.is_valid(raise_exception=True):
+        prob = serializer.save()
     # 보기 생성부
-    ans_data = dict()
-    ans_data['p_id'] = prob.p_id
-    answer = request.data.get('answer')
-    # 객관식(2)
-    if problems.get('pt_id') == 2:
-      examples = request.data.get('examples')
-      for example in examples:
-        ans_data['a_value'] = example
-        ans_data['a_correct'] = False
-        if example == answer:
-          ans_data['a_correct'] = True
+    else:
+      serializer = ProblemSerializer(data=problems)
+      if serializer.is_valid(raise_exception=True):
+        prob = serializer.save()
+      ans_data = dict()
+      ans_data['p_id'] = prob.p_id
+      answer = request.data.get('answer')
+      # 객관식(2)
+      if problems.get('pt_id') == 2:
+        examples = request.data.get('examples')
+        for example in examples:
+          ans_data['a_value'] = example
+          ans_data['a_correct'] = False
+          if example == answer:
+            ans_data['a_correct'] = True
+          serializer = AnswerSerializer(data=ans_data)
+          if serializer.is_valid(raise_exception=True):
+            serializer.save()
+      # OX Quiz(3)
+      elif problems.get('pt_id') == 3:
+        ox = ['O', 'X']
+        for i in ox:
+          if answer == i:
+            ans_data['a_correct'] = True
+          else:
+            ans_data['a_correct'] = False
+          ans_data['a_value'] = i
+          serializer = AnswerSerializer(data=ans_data)
+          if serializer.is_valid(raise_exception=True):
+            serializer.save()
+      # 단답식(4)
+      elif problems.get('pt_id') == 4:
+        ans_data['a_value'] = answer
+        ans_data['a_correct'] = True
         serializer = AnswerSerializer(data=ans_data)
         if serializer.is_valid(raise_exception=True):
           serializer.save()
-    # 주관식(1), OX Quiz(3), 단답식(4)
-    else:
-      ans_data['a_value'] = answer
-      ans_data['a_correct'] = True
-      serializer = AnswerSerializer(data=ans_data)
-      if serializer.is_valid(raise_exception=True):
-        serializer.save()
 
     return JsonResponse({'message': 'Success'})
 
@@ -95,6 +113,8 @@ class SpecProb(APIView):
 
     if prob.p_code:
       prob.p_code = None
+    if problems.get('pt_id') == 1:
+      problems['p_commentary'] = request.data.get('answer')
 
     serializer = ProblemSerializer(data=problems, instance=prob)
     if serializer.is_valid(raise_exception=True):
@@ -105,28 +125,29 @@ class SpecProb(APIView):
     for ans in pre_answers:
       ans.delete()
 
-    # 보기 생성부
-    ans_data = dict()
-    ans_data['p_id'] = prob.p_id
-    answer = request.data.get('answer')
-    # 객관식(2)
-    if problems.get('pt_id') == 2:
-      examples = request.data.get('examples')
-      for example in examples:
-        ans_data['a_value'] = example
-        ans_data['a_correct'] = False
-        if example == answer:
-          ans_data['a_correct'] = True
+    if problems.get('pt_id') != 1:
+      # 보기 생성부
+      ans_data = dict()
+      ans_data['p_id'] = prob.p_id
+      answer = request.data.get('answer')
+      # 객관식(2)
+      if problems.get('pt_id') == 2:
+        examples = request.data.get('examples')
+        for example in examples:
+          ans_data['a_value'] = example
+          ans_data['a_correct'] = False
+          if example == answer:
+            ans_data['a_correct'] = True
+          serializer = AnswerSerializer(data=ans_data)
+          if serializer.is_valid(raise_exception=True):
+            serializer.save()
+      # OX Quiz(3), 단답식(4)
+      else:
+        ans_data['a_value'] = answer
+        ans_data['a_correct'] = True
         serializer = AnswerSerializer(data=ans_data)
         if serializer.is_valid(raise_exception=True):
           serializer.save()
-    # 주관식(1), OX Quiz(3), 단답식(4)
-    else:
-      ans_data['a_value'] = answer
-      ans_data['a_correct'] = True
-      serializer = AnswerSerializer(data=ans_data)
-      if serializer.is_valid(raise_exception=True):
-        serializer.save()
 
     return JsonResponse({'message': 'Success'})
 
