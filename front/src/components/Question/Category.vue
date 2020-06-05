@@ -2,8 +2,9 @@
   <div class="main-container">
     <div class="info">
       <h2>문제 풀기</h2>
-      이런저런 안내문구를 작성하겠습니다.
-      카테고리, 난이도, 개수를 선택하세요.
+      <p><small>이런저런 안내문구를 작성하겠습니다.</small></p>
+      <p><small>카테고리, 난이도, 개수를 선택하세요.</small></p>
+      <p><small>틀린문제는 자동으로 오답노트에 저장됩니다.</small></p>
     </div>
     <div style="margin-top:-60px">
       <div class="card">
