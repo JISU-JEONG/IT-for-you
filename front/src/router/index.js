@@ -24,6 +24,34 @@ const routes = [
       {
         path: "interview",
         name: "Interview",
+        redirect: "/interview/category",    
+        component: () => import("../views/InterviewMain.vue"),
+        children: [
+          {
+            path: "category",
+            name: "InterviewCategory",
+            component: () => import("../views/InterviewCategory.vue")
+          },          
+          {
+            path: "list",
+            name: "InterviewList",
+            component: () => import("../views/InterviewList.vue")
+          },          
+          {
+            path: "mic",
+            name: "TestMIC",
+            component: () => import("../views/TestMIC.vue")
+          },          
+          {
+            path: "script",
+            name: "script",
+            component: () => import("../views/Interview.vue")
+          },          
+        ]
+      },
+      {
+        path: "interview",
+        name: "Interview",
         component: () => import("../views/Interview.vue")
       },
       {
