@@ -142,6 +142,7 @@ nav {
   right: 0;
   color: white;
   background-color: rgb(29, 29, 31);
+  z-index: 2;
 }
 ul,
 li {
@@ -304,6 +305,7 @@ a.router-link-active {
   nav {
     height: 52px;
     line-height: 52px;
+    z-index: 2;
   }
   .hamburger-btn {
     width: 30px;

@@ -1,11 +1,5 @@
 <template>
   <main id="app" class="content">
-    <div class="turorial">
-      <span>
-        오른쪽으로 드래그하여 오답노트 문제를 삭제할 수 있습니다.
-      </span>
-    </div>
-    <div class="setting-content" @click="clickSettingButton(settingFlag)"></div>
     <nav class="nav">
       <menu class="nav__controls">
         <div
@@ -56,27 +50,17 @@
       :questionType="questionType"
       :questionCategory="questionCategory"
       :level="level"
-      v-if="settingFlag"
-    />
-    <tumbnail
-      :list="list"
-      :questionType="questionType"
-      :questionCategory="questionCategory"
-      :level="level"
-      v-else
     />
   </main>
 </template>
 
 <script>
 import axios from "@/api/api.service.js";
-import tumbnail from "@/components/Question/thumblist.vue";
 import list from "@/components/Question/list.vue";
 
 export default {
   name: "WrongAnswerNote",
   components: {
-    tumbnail,
     list
   },
   data() {
@@ -88,8 +72,7 @@ export default {
       filters: { type: {}, category: {}, level: {} },
       menus: { type: false, category: false, level: false },
       menuName: { type: "문제유형", category: "문제주제", level: "난이도" },
-      dropdown: { height: 0 },
-      settingFlag: false
+      dropdown: { height: 0 }
     };
   },
   computed: {
@@ -195,16 +178,6 @@ export default {
           this.$set(this.filters.level, this.level[problems.pd_id], false);
         });
       });
-    },
-    clickSettingButton(settingFlag) {
-      this.settingFlag = !settingFlag;
-      if (settingFlag === true) {
-        event.target.classList.remove("background2");
-        event.target.classList.add("background1");
-      } else {
-        event.target.classList.remove("background1");
-        event.target.classList.add("background2");
-      }
     }
   },
 
