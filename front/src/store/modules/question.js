@@ -1,9 +1,12 @@
+import axios from '../../api/api.service'
+
 const state = {
   questionList: null,
   questionType: null,
   questionCategory: null,
   wrongAnswerList: null,
   answerList: [],
+  interviewList: [],
 };
 
 const mutations = {
@@ -18,6 +21,9 @@ const mutations = {
   },
   setWrongAnswerList(state, values) {
     state.wrongAnswerList = values;
+  },
+  setInterviewList(state, payload) {
+    state.interviewList = payload
   }
 };
 
@@ -33,6 +39,12 @@ const actions = {
   },
   wrongAnswerList(context, values) {
     context.commit("setWrongAnswerList", values);
+  },
+  setInterviewList(context, payload) {
+    axios.post('/api/interprobs/search/', payload)
+      .then(res => {
+        context.commit('setInterviewList', res.data)
+      })
   }
 };
 

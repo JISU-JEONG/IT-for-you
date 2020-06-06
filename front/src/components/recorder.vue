@@ -310,6 +310,13 @@
     },
     methods: {
       toggleRecorder () {
+        if (this.recordList[0]) {
+          if (confirm('현재 녹음된 파일은 지워집니다')) {
+            this.removeRecord(0)
+          } else {
+            return
+          }
+        }
         if (this.attempts && this.recorder.records.length >= this.attempts) {
           return
         }
