@@ -1,10 +1,13 @@
+import axios from '../../api/api.service'
+
 const state = {
   questionList: null,
   questionType: null,
   questionCategory: null,
   myNoteList: null,
   wrongAnswerList: null,
-  answerList: []
+  answerList: [],
+  interviewList: [],
 };
 
 const mutations = {
@@ -17,11 +20,11 @@ const mutations = {
   setQuestionCategory(state, values) {
     state.questionCategory = values;
   },
-  setMyNoteList(state, values) {
-    state.myNoteList = values;
+  setWrongAnswerList(state, values) {
+    state.wrongAnswerList = values;
   },
-  setwrongAnswerList(state, values) {
-    state.myNoteList = values;
+  setInterviewList(state, payload) {
+    state.interviewList = payload
   }
 };
 
@@ -39,7 +42,13 @@ const actions = {
     context.commit("setMyNoteList", values);
   },
   wrongAnswerList(context, values) {
-    context.commit("setwrongAnswerList", values);
+    context.commit("setWrongAnswerList", values);
+  },
+  setInterviewList(context, payload) {
+    axios.post('/api/interprobs/search/', payload)
+      .then(res => {
+        context.commit('setInterviewList', res.data)
+      })
   }
 };
 

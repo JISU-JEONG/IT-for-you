@@ -1,40 +1,42 @@
 <style lang="scss">
   .ar {
-    width: 420px;
+    width: 100%;
+    margin: 0 auto;
     font-family: 'Roboto', sans-serif;
-    border-radius: 16px;
     background-color: #FAFAFA;
     box-shadow: 0 4px 18px 0 rgba(0,0,0,0.17);
     position: relative;
-    box-sizing: content-box;
-
+    box-sizing: border-box;
     &-content {
-      padding: 16px;
+      /* width:100%; */
+      /* padding: 16px; */
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
     &-records {
-      height: 138px;
-      padding-top: 1px;
+      width: 100%;
+      height: 97px;
+      padding-top: 8px;
       overflow-y: auto;
-      margin-bottom: 20px;
+      /* margin-bottom: 20px; */
 
       &__record {
-        width: 320px;
+        width: 100%;
         height: 45px;
         padding: 0 10px;
         margin: 0 auto;
         line-height: 45px;
         display: flex;
         justify-content: space-between;
+        border-top: 1px solid  #E8E8E8 ;
         border-bottom: 1px solid #E8E8E8;
         position: relative;
 
         &--selected {
-          border: 1px solid #E8E8E8;
-          border-radius: 24px;
+          /* border: 1px solid #E8E8E8; */
+          /* border-radius: 24px; */
           background-color: #FFFFFF;
           margin-top: -1px;
           padding: 0 34px;
@@ -149,32 +151,33 @@
 
     &__rm {
       cursor: pointer;
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      padding: 6px;
-      line-height: 6px;
-      margin: auto;
-      left: 10px;
-      bottom: 0;
-      top: 0;
-      color: rgb(244, 120, 90);
+      color: #F44336;
     }
 
     &__downloader,
     &__uploader {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
       position: absolute;
-      top: 0;
-      bottom: 0;
+      width: 50%;
+      height: 45px;
+      bottom: -46px;
       margin: auto;
+      cursor: pointer;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid #E8E8E8;
     }
 
     &__downloader {
-      right: 115px;
+      left: 0;
+      color: #4CAF50;
     }
 
     &__uploader {
-      right: 85px;
+      right: 0;
+      color: #2196F3;
+      border-left: 1px solid #E8E8E8;
     }
   }
 
@@ -206,32 +209,28 @@
           @click.native="stopRecorder"/>
       </div>
 
-      <div class="ar-recorder__records-limit" v-if="attempts">Attempts: {{attemptsLeft}}/{{attempts}}</div>
+      <!-- <div class="ar-recorder__records-limit" v-if="attempts">Attempts: {{attemptsLeft}}/{{attempts}}</div> -->
       <div class="ar-recorder__duration">{{recordedTime}}</div>
       <div class="ar-recorder__time-limit" v-if="time">Record duration is limited: {{time}}m</div>
 
       <div class="ar-records">
         <div
-          class="ar-records__record"
-          :class="{'ar-records__record--selected': record.id === selected.id}"
+          class="ar-records__record ar-records__record--selected"
           :key="record.id"
           v-for="(record, idx) in recordList"
           @click="choiceRecord(record)">
-            <div
-              class="ar__rm"
-              v-if="record.id === selected.id"
-              @click="removeRecord(idx)">&times;</div>
-            <div class="ar__text">Record {{idx + 1}}</div>
-            <div class="ar__text">{{record.duration}}</div>
+          <div class="ar__text">인터뷰 ({{record.duration}})</div>
+          <div class="ar__rm" @click="removeRecord(idx)">파일 삭제</div>
+
 
             <downloader
-              v-if="record.id === selected.id && showDownloadButton"
+              v-if="showDownloadButton"
               class="ar__downloader"
               :record="record"
               :filename="filename"/>
 
             <uploader
-              v-if="record.id === selected.id && showUploadButton"
+              v-if="showUploadButton"
               class="ar__uploader"
               :record="record"
               :filename="filename"
@@ -311,6 +310,13 @@
     },
     methods: {
       toggleRecorder () {
+        if (this.recordList[0]) {
+          if (confirm('현재 녹음된 파일은 지워집니다')) {
+            this.removeRecord(0)
+          } else {
+            return
+          }
+        }
         if (this.attempts && this.recorder.records.length >= this.attempts) {
           return
         }
@@ -328,6 +334,7 @@
 
         this.recorder.stop()
         this.recordList = this.recorder.recordList()
+        this.choiceRecord(this.recordList[0])
       },
       removeRecord (idx) {
         this.recordList.splice(idx, 1)

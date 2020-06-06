@@ -1,11 +1,18 @@
 <template>
   <div class="main-container">
+    <div class="company-list">
+      <div class="badge">네이버</div>
+      <div class="badge">네이버</div>
+      <div class="badge">네이버</div>
+      <div class="badge">네이버</div>
+      <div class="badge">네이버</div>
+    </div>
     <div class="card" v-for="interview in interviews" :key="interview.id">
       <div class="info">
         <p>{{interview.question}}</p>
         <div class="badge">{{interview.company}}</div>
       </div>
-      <div class="btn"><span>go next</span></div>
+      <div class="btn" @click="nextButton"><span>go next</span></div>
     </div>
   </div>
 </template>
@@ -84,6 +91,9 @@
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
+}
+.company-list {
+  margin: 20px;
 }
 .info {
   display: inline-block;

@@ -9,8 +9,9 @@ class MyProbSerializer(serializers.ModelSerializer):
 
 class MyProbListSerializer(MyProbSerializer):
     problems = ProblemSerializer(source='prob')
+    answers = AnswerSerializer(source='prob.answer_set', many=True)
     class Meta(MyProbSerializer.Meta):
-        fields = MyProbSerializer.Meta.fields + ('problems',)
+        fields = MyProbSerializer.Meta.fields + ('problems', 'answers',)
 
 class MyProbDetailSerializer(MyProbSerializer):
     problems = ProblemSerializer(source='prob')
