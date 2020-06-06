@@ -3,11 +3,13 @@
 </style>
 
 <template>
-  <icon-button
-    id="download"
-    class="ar-icon ar-icon__xs ar-icon--no-border"
-    name="download"
-    @click.native="download"/>
+  <div class="downloader-wrapper" @click="download">
+    <icon-button
+      id="download"
+      class="ar-icon ar-icon__xs ar-icon--no-border"
+      name="download"/>
+      <span> 녹음파일 저장 </span>
+  </div>
 </template>
 
 <script>
@@ -23,10 +25,10 @@
     },
     methods: {
       download () {
+        console.log('다운로드')
         if (!this.record.url) {
           return
         }
-
         const type = this.record.blob.type.split('/')[1]
         const link = document.createElement('a')
         link.href = this.record.url

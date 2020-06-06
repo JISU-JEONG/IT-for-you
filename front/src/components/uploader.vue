@@ -3,7 +3,10 @@
 </style>
 
 <template>
-  <icon-button name="save" class="ar-icon ar-icon__xs ar-icon--no-border" @click.native="upload"/>
+  <div class="uploader-wrapper" @click="upload">
+    <icon-button name="save" class="ar-icon ar-icon__xs ar-icon--no-border" />
+    <span> 녹음파일->대본 </span>
+  </div>
 </template>
 
 <script>

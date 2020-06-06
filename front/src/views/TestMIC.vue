@@ -1,12 +1,12 @@
 
-
 <template>
-  <div class="row">
+  <div class="main">
+    <p>문제를 씁니다.</p>
     <audio-recorder
       :upload-url="uploadurl"
       filename="interview" 
       format="wav"
-      :attempts="3"
+      :attempts="1"
       :time="2"
       :before-recording="callback"
       :pause-recording="callback"
@@ -40,3 +40,11 @@
     }
   }
 </script>
+<style scoped>
+.main {
+  width: 100%;
+  max-width: 500px;
+  margin:0 auto;
+  height: 600px;
+}
+</style>
