@@ -17,10 +17,10 @@
 
     &-records {
       width: 100%;
-      height: 110px;
+      height: 97px;
       padding-top: 8px;
       overflow-y: auto;
-      margin-bottom: 20px;
+      /* margin-bottom: 20px; */
 
       &__record {
         width: 100%;
@@ -327,6 +327,7 @@
 
         this.recorder.stop()
         this.recordList = this.recorder.recordList()
+        this.choiceRecord(this.recordList[0])
       },
       removeRecord (idx) {
         this.recordList.splice(idx, 1)
