@@ -4,10 +4,9 @@
       <h2>면접 준비</h2>
       <p><small>이런저런 안내문구를 작성하겠습니다.</small></p>
       <p><small>카테고리, 회사를 선택하세요.</small></p>
-      <p><small>입력한 회사의 문제를 우선하여 보여줍니다.</small></p>
     </div>
     <div style="margin-top:-60px" class="flex flex-wrap">
-      <div class="card"  v-for="c in questionCategory" :key="c">
+      <div class="card"  v-for="c in questionCategory" :key="c" @click="getInterview(c)">
         {{c}}
       </div>
       <div class="card" style="visibility: hidden;"></div>
@@ -39,20 +38,19 @@ export default {
         this.$store.dispatch("questionType", data);
       });
     },
+    getInterview(c) {
+      this.$store.dispatch('setInterviewList', {
+        user_id: this.user_id,
+        category: c
+      })
+      .then(() => {
+        this.$router.push({
+          path:'/interview/list'
+        })
+      })
+    },
     submitData() {
       this.$router.push("/interview/list");
-      // this.questionData.pc_value = this.selectedCategory;
-      // this.questionData.pd_id = this.selectedDifficulty;
-      // this.questionData["p_number"] =
-      //   (this.p_number === null || this.p_number < 1) ? 10 : this.p_number > 20 ? 20 : this.p_number*1;
-      // this.questionData.user_id = this.user_id
-      // axios
-      //   .post("/api/problems/search/", this.questionData)
-      //   .then(({ data }) => {
-      //     console.log(data);
-      //     this.$store.dispatch("questionList", data);
-      //     this.$router.push("/detail");
-      //   });
     },
   },
   computed: {
