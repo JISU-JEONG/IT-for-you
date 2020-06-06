@@ -44,12 +44,12 @@
         </div>
       </menu>
     </transition-group>
-
     <myNote
       :list="list"
       :questionType="questionType"
       :questionCategory="questionCategory"
       :level="level"
+      @deleteMynote="deleteMynote"
     />
   </main>
 </template>
@@ -125,6 +125,10 @@ export default {
     }
   },
   methods: {
+    deleteMynote(myNote) {
+      console.log(myNote);
+      this.questionData = myNote;
+    },
     clearFilter(filter, except, active) {
       Object.keys(this.filters[filter]).forEach(option => {
         this.filters[filter][option] = except === option && !active;
@@ -164,9 +168,8 @@ export default {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
       await axios.get(`/api/myprobs/myprob/${user_id}`).then(({ data }) => {
         this.questionData = data;
-        this.$store.dispatch("wrongAnswerList", data);
+        this.$store.dispatch("myNoteList", data);
 
-        console.log("mynote : ", this.questionData);
         data.forEach(({ problems }) => {
           // Type, Category
           this.$set(

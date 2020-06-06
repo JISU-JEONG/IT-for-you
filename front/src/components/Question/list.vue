@@ -1,25 +1,40 @@
 <template>
   <div>
     <transition-group class="content__list">
-      <div class="card-content" v-for="(question, i) in list" :key="question.problems.p_id">
+      <div
+        class="card-content"
+        v-for="(question, i) in wrongAnswerList"
+        :key="question.problems.p_id"
+      >
         <div class="card">
           <!-- 카드 헤더 -->
           <div class="card-header">
-            <span>{{ questionType[question.problems.pt_id] }}</span>
-            <span>{{ questionCategory[question.problems.pc_id] }}</span>
-            <span>{{ level[question.problems.pd_id] }}</span>
+            <span class="info-badge">{{
+              questionType[question.problems.pt_id]
+            }}</span>
+            <span class="info-badge">{{
+              questionCategory[question.problems.pc_id]
+            }}</span>
+            <span class="info-badge">{{ level[question.problems.pd_id] }}</span>
+            <span @click="deleteWrongAnswer(question.id)" class="close"
+              >&#215;</span
+            >
           </div>
 
           <hr />
           <!--  카드 바디 -->
           <div class="card-body">
             <!--  카드 바디 헤더 -->
-            <div class="card-body-header">{{ question.problems.p_question }}</div>
+            <div class="card-body-header">
+              {{ question.problems.p_question }}
+            </div>
 
             <div
               class="card-body-header-code"
               v-if="question.problems.p_code !== null"
-            >{{ question.problems.p_code }}</div>
+            >
+              {{ question.problems.p_code }}
+            </div>
 
             <!--  카드 바디 본문 -->
             <div class="card-trigger">
@@ -49,10 +64,14 @@
                 <del>{{ question.u_answer }}</del>
               </div>
 
-              <div class="card-body-body-right" v-if="answerFlag[i]">{{ question.p_answer }}</div>
+              <div class="card-body-body-right" v-if="answerFlag[i]">
+                {{ question.p_answer }}
+              </div>
 
               <!--  카드 바디 푸터 -->
-              <div class="card-body-footer" v-if="tipFlag[i]">{{ question.problems.p_commentary }}</div>
+              <div class="card-body-footer" v-if="tipFlag[i]">
+                {{ question.problems.p_commentary }}
+              </div>
               <div class="tip">{{ question.problems.p_commentary }}</div>
               <div class="userAnswer">{{ question.u_answer }}</div>
               <div class="answer">{{ question.p_answer }}</div>
@@ -74,8 +93,12 @@ export default {
       tipFlag: null,
       userAnswerFlag: null,
       answerFlag: null,
-      tmpheight: null
+      tmpheight: null,
+      wrongAnswerList: null
     };
+  },
+  creatd() {
+    this.wrongAnswerList = this.list;
   },
   props: {
     list: {
@@ -93,6 +116,8 @@ export default {
   },
   watch: {
     list() {
+      this.wrongAnswerList = this.list;
+
       this.tipFlag = [...this.list].fill(false);
       this.userAnswerFlag = [...this.list].fill(false);
       this.answerFlag = [...this.list].fill(false);
@@ -106,6 +131,20 @@ export default {
     }
   },
   methods: {
+    deleteWrongAnswer(p_id) {
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      console.log(p_id);
+      axios
+        .delete(`/api/xnotes/mynote/${user_id}/${p_id}`)
+        .then(res => {
+          this.wrongAnswerList.splice(
+            this.wrongAnswerList.findIndex(q => q.id === p_id * 1),
+            1
+          );
+          this.$emit("deleteWrongAnswerList", this.wrongAnswerList);
+        })
+        .catch(err => console.error(err));
+    },
     getStyle(name, num, i) {
       const div3 = document.querySelector(name);
       div3.style.opacity = num;
@@ -193,13 +232,7 @@ export default {
 
 .card-header {
   width: 100%;
-  font-weight: bold;
-  text-align: center;
-  font-weight: bold;
-  line-height: 20px;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
+  height: 40px;
 }
 
 .card-body-header {
@@ -257,6 +290,24 @@ export default {
   padding: 10px;
   position: absolute;
   visibility: hidden;
+}
+
+.info-badge {
+  padding: 6px;
+  font-size: 15px;
+  border-radius: 5px;
+  color: white;
+  font-family: Openas;
+  margin-right: 6px;
+  background-color: #17a2b8;
+  float: left;
+}
+
+.close {
+  float: right;
+  padding-right: 10px;
+  font-size: 28px;
+  content: "\00d7";
 }
 
 img {

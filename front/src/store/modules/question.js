@@ -4,6 +4,7 @@ const state = {
   questionList: null,
   questionType: null,
   questionCategory: null,
+  myNoteList: null,
   wrongAnswerList: null,
   answerList: [],
   interviewList: [],
@@ -37,6 +38,9 @@ const actions = {
   questionCategory(context, values) {
     context.commit("setQuestionCategory", values);
   },
+  myNoteList(context, values) {
+    context.commit("setMyNoteList", values);
+  },
   wrongAnswerList(context, values) {
     context.commit("setWrongAnswerList", values);
   },
@@ -52,8 +56,12 @@ const getters = {
   questionList: state => state.questionList,
   questionType: state => state.questionType,
   questionCategory: state => state.questionCategory,
+  myNoteList: state => state.myNoteList,
   wrongAnswerList: state => state.wrongAnswerList,
-  answerList: state => state.questionList.map(q => q.answers).map(q2 => q2.filter(q3 => q3.a_correct).map(q4 =>q4.a_value))
+  answerList: state =>
+    state.questionList
+      .map(q => q.answers)
+      .map(q2 => q2.filter(q3 => q3.a_correct).map(q4 => q4.a_value))
 };
 
 export default {

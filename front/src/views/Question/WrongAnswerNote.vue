@@ -51,6 +51,7 @@
       :questionType="questionType"
       :questionCategory="questionCategory"
       :level="level"
+      @deleteWrongAnswerList="deleteWrongAnswerList"
     />
   </main>
 </template>
@@ -125,6 +126,9 @@ export default {
     }
   },
   methods: {
+    deleteWrongAnswerList(wrongAnswerList) {
+      this.questionData = wrongAnswerList;
+    },
     clearFilter(filter, except, active) {
       Object.keys(this.filters[filter]).forEach(option => {
         this.filters[filter][option] = except === option && !active;
