@@ -13,7 +13,8 @@
 
     & > .ar-player-bar {
       /* height: unset; */
-      border: 1px solid #E8E8E8;
+      border-top: 1px solid #E8E8E8;
+      border-bottom: 1px solid #E8E8E8;
       /* margin: 0 0 0 5px; */
 
       & > .ar-player__progress {
