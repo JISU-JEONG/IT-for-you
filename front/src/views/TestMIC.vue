@@ -1,14 +1,21 @@
 
-
 <template>
-  <div class="row">
+  <div class="main">
+    <p>문제를 씁니다.</p>
     <audio-recorder
       :upload-url="uploadurl"
       filename="interview" 
-      :attempts="3"
-      :time="1"
-      :show-download-button="false"
-    />
+      format="wav"
+      :attempts="1"
+      :time="2"
+      :before-recording="callback"
+      :pause-recording="callback"
+      :after-recording="callback"
+      :select-record="callback"
+      :before-upload="callback"
+      :successful-upload="callback"
+      :failed-upload="callback"
+      :bit-rate="192"/>
   </div>
 </template>
 
@@ -31,3 +38,11 @@
     }
   }
 </script>
+<style scoped>
+.main {
+  width: 100%;
+  max-width: 500px;
+  margin:0 auto;
+  height: 600px;
+}
+</style>
