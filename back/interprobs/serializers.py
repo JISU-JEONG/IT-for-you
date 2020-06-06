@@ -4,10 +4,24 @@ from problems.models import *
 from problems.serializers import *
 from django.shortcuts import get_object_or_404
 import base64
+from IPython import embed
 class InterviewSerializers(serializers.ModelSerializer):
     class Meta:
         model = Interview
         fields = '__all__'
+
+class InterprobDetailSerializer(ProblemSerializer):
+    myinter_check = serializers.SerializerMethodField()
+    class Meta(ProblemSerializer.Meta):
+        fields = ProblemSerializer.Meta.fields + ('myinter_check',)
+
+    def get_myinter_check(self, obj):
+        user_id = self.context.get('user_id')
+        myinter = Interview.objects.filter(user=user_id, prob=obj.p_id)
+        if myinter:
+            return True
+        else:
+            return False
 
 class ProbInfoForInterview(serializers.ModelSerializer):
     category = ProbCateSerializer(source='pc_id')
