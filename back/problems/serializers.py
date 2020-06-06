@@ -31,14 +31,25 @@ class AnswerSerializer(serializers.ModelSerializer):
 class ProblemDetailSerializer(ProblemSerializer):
   category = ProbCateSerializer(source='pc_id')
   answers = serializers.SerializerMethodField()
+  answer_list = serializers.SerializerMethodField()
   myprob_check = serializers.SerializerMethodField()
   
   class Meta(ProblemSerializer.Meta):
-    fields = ProblemSerializer.Meta.fields + ('answers', 'category', 'myprob_check',)
+    fields = ProblemSerializer.Meta.fields + ('answers', 'answer_list', 'category', 'myprob_check',)
   
   def get_answers(self, obj):
     answers = obj.answer_set.all().order_by('?')
-    return AnswerSerializer(answers, many=True).data
+    answers = AnswerSerializer(answers, many=True).data
+
+    return answers
+
+  def get_answer_list(self, obj):
+    answers = obj.answer_set.all()
+    answer_list = []
+    for ans in answers:
+      if ans.a_correct:
+        answer_list.append(ans.a_value)
+    return answer_list
 
   def get_myprob_check(self, obj):
     user_id = self.context.get('user_id')
