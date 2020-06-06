@@ -32,7 +32,7 @@ const routes = [
         component: () => import("../components/Question/Detail.vue")
       },
       {
-        path: "/wrongAnswerNote",
+        path: "wrongAnswerNote",
         name: "wrongAnswerNote",
         component: () => import("../views/Question/WrongAnswerNote.vue")
       },

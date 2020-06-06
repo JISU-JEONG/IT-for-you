@@ -11,6 +11,17 @@ import speech_recognition as sr
 import os
 import base64
 # Create your views here.
+
+class InterSearch(APIView):
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        pc_id = ProbCate.objects.get(pc_value=request.data.get('category')).pc_id
+        interprobs = Problem.objects.filter(pt_id=1, pc_id=pc_id)
+        # embed()
+        serializer = InterprobDetailSerializer(interprobs, many=True, context={'user_id': user_id})
+        return Response(serializer.data)
+
+
 # @api_view(['GET'])
 # def ViewInterviews(request):
 #     interviews = Interview.objects.all()
@@ -65,6 +76,8 @@ def voice(request):
 #     audio_data = interview.file.read()
 #     audio_data = 'data:audio/mpeg;base64,' + base64.b64encode(audio_data).decode('utf-8')
 #     return HttpResponse(audio_data)
+
+
 
 class MyInterview(APIView):
     def get(self, request, user_id):
