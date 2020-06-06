@@ -72,7 +72,36 @@ class MyInterview(APIView):
         serializer = MyInterListSerializers(myinters, many=True)
         return Response(serializer.data)
 
-    # def post(self, request, user_id):
+    def post(self, request, user_id):
+        audio = request.data['audio']
+        p_id = request.data['p_id']
+        
+        # STT 변환부
+        r = sr.Recognizer()
+        with sr.AudioFile(audio) as source:
+            audio_source = r.record(source) 
+        text = r.recognize_google(audio_data = audio_source,language = "ko-KR")
+
+        ser_data = {
+            'prob': p_id,
+            'user': user_id,
+            'file': audio,
+            'content': text
+        }
+
+        interview = Interview.objects.filter(user=user_id, prob=p_id)
+        if interview:
+            interview = interview[0]
+            os.remove(interview.file.path)
+            serializer = InterviewSerializers(data=ser_data, instance=interview)
+        else:
+            serializer = InterviewSerializers(data=ser_data)
+
+        if serializer.is_valid(raise_exception=True):
+            interview = serializer.save()
+            interview.path = interview.file.path
+            interview.save()
+        return Response({'message': '추가되었습니다.'})
 
 class MyInterviewDetail(APIView):
     def get(self, request, user_id, myinter_id):

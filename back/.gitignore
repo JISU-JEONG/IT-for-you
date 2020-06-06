@@ -225,4 +225,6 @@ public/
 
 *.cnf
 
+interviews/
+.interviews
 .interviews/

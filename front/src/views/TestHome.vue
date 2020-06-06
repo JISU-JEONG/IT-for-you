@@ -20,25 +20,35 @@
       <div class="sidde-bar-profile">
         <span class="avata"></span>
         <div>
-          <span class="username">
-            {{ user.username }}
-          </span>
-          <span class="email">
-            {{ user.email }}
-          </span>
+          <span class="username">{{ user.username }}</span>
+          <span class="email">{{ user.email }}</span>
         </div>
       </div>
 
       <div class="side-bar-nav no_highlights" @click="onClickEvent">
-        <li><router-link to="/category">문제풀기</router-link></li>
-        <li><router-link to="/admin">관리자페이지</router-link></li>
-        <li><router-link to="/testmic">마이크테스트</router-link></li>
-        <li><router-link to="/interview">면접대비</router-link></li>
-        <li><router-link to="/wrongAnswerNote">오답노트</router-link></li>
-        <li><router-link to="/mynote">MyNote</router-link></li>
+        <li>
+          <router-link to="/category">문제풀기</router-link>
+        </li>
+        <li v-if="user.is_superuser">
+          <router-link to="/admin">관리자페이지</router-link>
+        </li>
+        <li>
+          <router-link to="/testmic">마이크테스트</router-link>
+        </li>
+        <li>
+          <router-link to="/interview">면접대비</router-link>
+        </li>
+        <li>
+          <router-link to="/wrongAnswerNote">오답노트</router-link>
+        </li>
+        <li>
+          <router-link to="/mynote">단어장</router-link>
+        </li>
       </div>
       <div class="side-bar-logout no_highlights">
-        <li><a @click="logout">로그아웃</a></li>
+        <li>
+          <a @click="logout">로그아웃</a>
+        </li>
       </div>
     </div>
     <div class="router-wrapper">
@@ -55,9 +65,15 @@ export default {
   data() {
     return {
       showSideBar: false,
-      isAuthenticated: this.$session.has("jwt"),
-      user: {}
+      isAuthenticated: this.$session.has("jwt")
+      // user: {}
     };
+  },
+
+  computed: {
+    user() {
+      return this.$store.getters.getUserInfo;
+    }
   },
   methods: {
     onClickEvent() {
@@ -99,30 +115,30 @@ export default {
       this.$session.clear();
       this.$store.dispatch("logout");
       this.$router.push("/login");
-    },
-    getUser() {
-      // axios 요청시마다 헤더를 추가해서 보내야 함!
-      const token = this.$session.get("jwt");
-      const options = {
-        headers: {
-          Authorization: `JWT ${token}` // JWT 다음에 공백있음.
-        }
-      };
-      axios
-        .post("/api/accounts/user/", {}, options)
-        .then(({ data }) => {
-          console.log(data);
-          this.user = data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
     }
+    // getUser() {
+    //   // axios 요청시마다 헤더를 추가해서 보내야 함!
+    //   const token = this.$session.get("jwt");
+    //   const options = {
+    //     headers: {
+    //       Authorization: `JWT ${token}` // JWT 다음에 공백있음.
+    //     }
+    //   };
+    //   axios
+    //     .post("/api/accounts/user/", {}, options)
+    //     .then(({ data }) => {
+    //       console.log(data);
+    //       this.user = data;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    // }
   },
   beforeMount() {
     // console.log(this.$session);
     // this.$store.dispatch("getUser");
-    this.getUser();
+    // this.getUser();
   }
 };
 </script>
@@ -132,7 +148,7 @@ export default {
   font-family: "godoMaum";
   font-size: 2.5em;
 }
-.no_highlights{
+.no_highlights {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -280,7 +296,9 @@ li {
   width: 70px;
   height: 70px;
 
-  background: url("https://w7.pngwing.com/pngs/510/349/png-transparent-computer-icons-teacher-avatar-miscellaneous-child-heroes-thumbnail.png");
+  /* background: url("https://w7.pngwing.com/pngs/510/349/png-transparent-computer-icons-teacher-avatar-miscellaneous-child-heroes-thumbnail.png"); */
+  background: url("https://image.flaticon.com/icons/svg/3011/3011536.svg");
+
   /* background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQ5Ty-UEu2iUE1doS-p_hcMFkLKElpJETI8c268ZGNIhRjDN5N&usqp=CAU"); */
   background-size: contain;
 }
