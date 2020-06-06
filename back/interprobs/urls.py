@@ -3,6 +3,7 @@ from . import views
 
 app_name = 'interprobs'
 urlpatterns = [
+    path('interprob/search/', views.InterProb.as_view()),
     # path('interviews/',views.ViewInterviews),
     path('voice/', views.voice),
     # path('get_interview/<int:p_id>/', views.get_interview),

@@ -5,17 +5,10 @@
     <audio-recorder
       :upload-url="uploadurl"
       filename="interview" 
-      format="wav"
       :attempts="3"
-      :time="2"
-      :before-recording="callback"
-      :pause-recording="callback"
-      :after-recording="callback"
-      :select-record="callback"
-      :before-upload="callback"
-      :successful-upload="callback"
-      :failed-upload="callback"
-      :bit-rate="192"/>
+      :time="1"
+      :show-download-button="false"
+    />
   </div>
 </template>
 
@@ -25,9 +18,7 @@
     name: 'app',
     data () {
       return {
-        mp3: '/demo/example.mp3',
-        uploadurl : API_URL+"/api/accounts/voice/",
-        showRecorder: true,
+        uploadurl : API_URL+"/api/interprobs/myinters/1/",
         headers: {
           'X-Custom-Header': 'some data'
         }

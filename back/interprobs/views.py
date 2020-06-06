@@ -11,6 +11,19 @@ import speech_recognition as sr
 import os
 import base64
 # Create your views here.
+
+class InterProb(APIView):
+    def post(self, request):
+        user_id = request.data.get('user_id')
+        pc_id = []
+        for cate in request.data.get('pc_value'):
+            pc_id.append(ProbCate.objects.get(pc_value=cate).pc_id)
+        if not pc_id:
+            pc_id = [i for i in range(1, len(ProbCate.objects.all()) + 1)]
+        
+        problems = Problem.objects.filter(pt_id=1, pc_id__in=pc_id)
+        random_index = [prob.p_id for prob in problems]
+
 # @api_view(['GET'])
 # def ViewInterviews(request):
 #     interviews = Interview.objects.all()
