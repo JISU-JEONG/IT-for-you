@@ -11,6 +11,9 @@ from problems.models import Problem
 # Create your models here.
 class User(AbstractUser):
     pass
+    class Meta:
+        managed = False
+        db_table = 'accounts_user'
     # incorrects = models.ManyToManyField(
     #     Problem,
     #     related_name='incorrect',

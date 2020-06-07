@@ -69,7 +69,10 @@ class SaveProb(APIView):
         user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
         query_data = request.query_params
         if user_info.id == int(query_data['user_id']):
-            user_prob = UserProb.objects.filter(user_id=query_data['user_id'], date=query_data['date'])
+            if query_data.get('date'):
+                user_prob = UserProb.objects.filter(user_id=query_data['user_id'], date=query_data['date'])
+            else:
+                user_prob = UserProb.objects.filter(user_id=query_data['user_id'])
             serializer = UserProbDetailSerializer(user_prob, many=True)
             return Response(serializer.data)
         return Response({'message': '권한이 없습니다.'})
