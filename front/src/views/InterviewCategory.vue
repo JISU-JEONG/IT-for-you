@@ -6,12 +6,12 @@
       <p><small>카테고리, 회사를 선택하세요.</small></p>
     </div>
     <div style="margin-top:-60px" class="flex flex-wrap">
-      <div class="card"  v-for="c in questionCategory" :key="c" @click="getInterview(c)">
+      <div class="card no_highlights"  v-for="c in questionCategory" :key="c" @click="getInterview(c)">
         {{c}}
       </div>
       <div class="card" style="visibility: hidden;"></div>
     </div>
-    <div class="saved-interview-btn" @click="submitData">저장된 문제 보러가기</div>
+    <div class="saved-interview-btn no_highlights" @click="submitData">저장된 문제 보러가기</div>
   </div>
 </template>
 

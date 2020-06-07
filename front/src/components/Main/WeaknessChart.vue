@@ -2,8 +2,12 @@
   <div>
     <div class="content">
       <div class="info">
+        <div class="title">
+          내가 많이 틀리는 문제
+        </div>
         <apexchart
           type="pie"
+          height="230px"
           :options="chartOptions"
           :series="series"
         ></apexchart>
@@ -41,9 +45,6 @@ export default {
             }
           }
         },
-        title: {
-          text: "내가 많이 틀리는 문제"
-        },
         dataLabels: {
           formatter(val, opts) {
             const name = opts.w.globals.labels[opts.seriesIndex];
@@ -60,9 +61,13 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: MapoPeacefull;
+}
+
 .content {
   width: 100%;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,5 +84,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+@font-face {
+  font-family: "MapoPeacefull";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

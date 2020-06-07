@@ -5,7 +5,8 @@ const state = {
   questionType: null,
   questionCategory: null,
   answerList: [],
-  interviewList: []
+  interviewList: [],
+  interviewResult: '',
 };
 
 const mutations = {
@@ -20,6 +21,9 @@ const mutations = {
   },
   setInterviewList(state, payload) {
     state.interviewList = payload;
+  },
+  setInterviewResult(state, payload) {
+    state.interviewResult = payload
   }
 };
 
@@ -44,10 +48,12 @@ const getters = {
   questionList: state => state.questionList,
   questionType: state => state.questionType,
   questionCategory: state => state.questionCategory,
+  interviewList: state => state.interviewList,
   answerList: state =>
     state.questionList
       .map(q => q.answers)
-      .map(q2 => q2.filter(q3 => q3.a_correct).map(q4 => q4.a_value))
+      .map(q2 => q2.filter(q3 => q3.a_correct).map(q4 => q4.a_value)),
+  interviewResult: state => state.interviewResult
 };
 
 export default {
