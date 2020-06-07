@@ -1,9 +1,11 @@
+import axios from "../../api/api.service";
+
 const state = {
   questionList: null,
   questionType: null,
   questionCategory: null,
-  wrongAnswerList: null,
   answerList: [],
+  interviewList: []
 };
 
 const mutations = {
@@ -16,8 +18,8 @@ const mutations = {
   setQuestionCategory(state, values) {
     state.questionCategory = values;
   },
-  setWrongAnswerList(state, values) {
-    state.wrongAnswerList = values;
+  setInterviewList(state, payload) {
+    state.interviewList = payload;
   }
 };
 
@@ -31,8 +33,10 @@ const actions = {
   questionCategory(context, values) {
     context.commit("setQuestionCategory", values);
   },
-  wrongAnswerList(context, values) {
-    context.commit("setWrongAnswerList", values);
+  setInterviewList(context, payload) {
+    axios.post("/api/interprobs/search/", payload).then(res => {
+      context.commit("setInterviewList", res.data);
+    });
   }
 };
 
@@ -40,8 +44,10 @@ const getters = {
   questionList: state => state.questionList,
   questionType: state => state.questionType,
   questionCategory: state => state.questionCategory,
-  wrongAnswerList: state => state.wrongAnswerList,
-  answerList: state => state.questionList.map(q => q.answers).map(q2 => q2.filter(q3 => q3.a_correct).map(q4 =>q4.a_value))
+  answerList: state =>
+    state.questionList
+      .map(q => q.answers)
+      .map(q2 => q2.filter(q3 => q3.a_correct).map(q4 => q4.a_value))
 };
 
 export default {

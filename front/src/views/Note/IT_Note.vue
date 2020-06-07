@@ -44,26 +44,26 @@
         </div>
       </menu>
     </transition-group>
-
-    <list
+    <noteCard
       :list="list"
-      :size="list.length"
       :questionType="questionType"
       :questionCategory="questionCategory"
       :level="level"
+      @deleteMynote="deleteMynote"
     />
   </main>
 </template>
 
 <script>
 import axios from "@/api/api.service.js";
-import list from "@/components/Question/list.vue";
+import noteCard from "@/components/Note/noteCard.vue";
 
 export default {
-  name: "WrongAnswerNote",
+  name: "IT_Note",
   components: {
-    list
+    noteCard
   },
+
   data() {
     return {
       questionType: [],
@@ -125,6 +125,9 @@ export default {
     }
   },
   methods: {
+    deleteMynote(myNote) {
+      this.questionData = myNote;
+    },
     clearFilter(filter, except, active) {
       Object.keys(this.filters[filter]).forEach(option => {
         this.filters[filter][option] = except === option && !active;
@@ -162,11 +165,9 @@ export default {
 
       // Problems Get
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
-      await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
+      await axios.get(`/api/myprobs/myprob/${user_id}`).then(({ data }) => {
         this.questionData = data;
-        this.$store.dispatch("wrongAnswerList", data);
 
-        console.log("myAnwerote : ", this.questionData);
         data.forEach(({ problems }) => {
           // Type, Category
           this.$set(
@@ -191,4 +192,172 @@ export default {
 };
 </script>
 
-<style lang="scss" scopred src="@/scss/wrong-answer-note.scss"></style>
+<style lang="scss" scopred>
+.main-container {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0 1rem;
+  padding: 2rem 0.5rem 1rem;
+  border-bottom: 1px solid #c5d0d1;
+
+  &__controls {
+    display: flex;
+  }
+
+  &__label {
+    font-family: "Recipekorea";
+    position: relative;
+    margin-left: 1rem;
+    text-transform: capitalize;
+    cursor: pointer;
+
+    &::after {
+      content: "\00d7";
+      display: inline-block;
+      color: transparent;
+      width: 0.5rem;
+      font-weight: 400;
+      transform: scale(0);
+      transition: transform 150ms ease-in-out;
+    }
+
+    &--clear {
+      color: #f68185;
+      opacity: 0;
+      transform: translate3d(-25%, 0, 0);
+      pointer-events: none;
+      transition: all 275ms ease-in-out;
+    }
+
+    &--filter ~ &--clear {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      pointer-events: auto;
+    }
+
+    &--filter::after,
+    &--active::after {
+      transform: scale(1);
+    }
+
+    &--filter::after {
+      content: "\2022";
+      color: #46d2c4;
+    }
+
+    &--active::after {
+      content: "\00d7";
+      color: #f68185;
+    }
+  }
+}
+
+.dropdown {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: height 350ms;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1rem;
+    background-image: linear-gradient(to top, white, rgba(white, 0));
+  }
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+
+  &-leave,
+  &-enter-to {
+    opacity: 1;
+  }
+
+  &-enter-active,
+  &-leave-active {
+    position: absolute;
+    width: 100%;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &-enter-active {
+    transition-delay: 100ms;
+  }
+}
+
+.filters {
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  &__item {
+    font-family: "Recipekorea";
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #c5d0d1;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: all 275ms;
+
+    &:hover {
+      border-color: #379a93;
+    }
+
+    &--active {
+      color: white;
+      border-color: #379a93;
+      background-color: #379a93;
+    }
+  }
+}
+
+@font-face {
+  font-family: "godoMaum";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/godoMaum.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Recipekorea";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Recipekorea.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CookieRunOTF-Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/CookieRunOTF-Bold00.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MapoPeacefull";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+</style>

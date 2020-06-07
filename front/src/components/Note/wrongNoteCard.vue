@@ -3,15 +3,22 @@
     <transition-group class="content__list">
       <div
         class="card-content"
-        v-for="(question, i) in list"
+        v-for="(question, i) in wrongAnswerList"
         :key="question.problems.p_id"
       >
         <div class="card">
           <!-- 카드 헤더 -->
           <div class="card-header">
-            <span>{{ questionType[question.problems.pt_id] }}</span>
-            <span>{{ questionCategory[question.problems.pc_id] }}</span>
-            <span>{{ level[question.problems.pd_id] }}</span>
+            <span class="info-badge">{{
+              questionType[question.problems.pt_id]
+            }}</span>
+            <span class="info-badge">{{
+              questionCategory[question.problems.pc_id]
+            }}</span>
+            <span class="info-badge">{{ level[question.problems.pd_id] }}</span>
+            <span @click="deleteWrongAnswer(question.id)" class="close"
+              >&#215;</span
+            >
           </div>
 
           <hr />
@@ -31,6 +38,13 @@
 
             <!--  카드 바디 본문 -->
             <div class="card-trigger">
+              <span>
+                <figure @click="getUserAnswer(i)">
+                  <img src="../../assets/icons/wrong.png" />
+                  <figcaption>오답</figcaption>
+                </figure>
+              </span>
+
               <span>
                 <figure @click="getAnswer(i)">
                   <img src="../../assets/icons/current.png" />
@@ -55,7 +69,7 @@
               </div>
 
               <!--  카드 바디 푸터 -->
-              <div class="card-body-footer" v-if="tipFlag[i]">
+              <div class="card-body-body-tip" v-if="tipFlag[i]">
                 {{ question.problems.p_commentary }}
               </div>
               <div class="tip">{{ question.problems.p_commentary }}</div>
@@ -73,14 +87,18 @@
 import axios from "@/api/api.service.js";
 
 export default {
-  name: "myNote",
+  name: "list",
   data() {
     return {
       tipFlag: null,
       userAnswerFlag: null,
       answerFlag: null,
-      tmpheight: null
+      tmpheight: null,
+      wrongAnswerList: null
     };
+  },
+  creatd() {
+    this.wrongAnswerList = this.list;
   },
   props: {
     list: {
@@ -98,6 +116,8 @@ export default {
   },
   watch: {
     list() {
+      this.wrongAnswerList = this.list;
+
       this.tipFlag = [...this.list].fill(false);
       this.userAnswerFlag = [...this.list].fill(false);
       this.answerFlag = [...this.list].fill(false);
@@ -107,10 +127,25 @@ export default {
       div.forEach(v => {
         v.style.height = 0;
       });
-      console.log("바뀜");
     }
   },
   methods: {
+    deleteWrongAnswer(p_id) {
+      const del = confirm("정말 삭제하시겠습니까?");
+      if (del) {
+        const user_id = this.$store.state["auth"]["userInfo"]["id"];
+        axios
+          .delete(`/api/xnotes/mynote/${user_id}/${p_id}`)
+          .then(res => {
+            this.wrongAnswerList.splice(
+              this.wrongAnswerList.findIndex(q => q.id === p_id * 1),
+              1
+            );
+            this.$emit("deleteWrongAnswerList", this.wrongAnswerList);
+          })
+          .catch(err => console.error(err));
+      }
+    },
     getStyle(name, num, i) {
       const div3 = document.querySelector(name);
       div3.style.opacity = num;
@@ -124,13 +159,31 @@ export default {
         this.tmpheight[i] += div2.clientHeight;
         div.style.height = `${this.tmpheight[i]}px`;
         this.$nextTick(() => {
-          this.getStyle(".card-body-footer", 1, i);
+          this.getStyle(".card-body-body-tip", 1, i);
         });
       } else {
         this.tmpheight[i] -= div2.clientHeight;
         div.style.height = `${this.tmpheight[i]}px`;
       }
     },
+
+    getUserAnswer(i) {
+      this.$set(this.userAnswerFlag, i, !this.userAnswerFlag[i]);
+      const div = document.querySelectorAll(".question-content")[i];
+      const div2 = document.querySelectorAll(".userAnswer")[i];
+
+      if (this.userAnswerFlag[i] === true) {
+        this.tmpheight[i] += div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+        this.$nextTick(() => {
+          this.getStyle(".card-body-body-wrong", 1, i);
+        });
+      } else {
+        this.tmpheight[i] -= div2.clientHeight;
+        div.style.height = `${this.tmpheight[i]}px`;
+      }
+    },
+
     getAnswer(i) {
       this.$set(this.answerFlag, i, !this.answerFlag[i]);
       const div = document.querySelectorAll(".question-content")[i];
@@ -176,19 +229,13 @@ export default {
 
 .card-header {
   width: 100%;
-  font-weight: bold;
-  text-align: center;
-  font-weight: bold;
-  line-height: 20px;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
+  height: 40px;
 }
 
 .card-body-header {
   font-weight: bold;
   line-height: 25px;
-  font-size: 20px;
+  font-size: 15px;
   padding: 10px;
 }
 
@@ -200,13 +247,22 @@ export default {
 }
 
 .card-body-body-right,
-.card-body-footer {
+.card-body-body-wrong,
+.card-body-body-tip {
   line-height: 20px;
   font-size: 17px;
   padding: 10px;
   opacity: 0;
   transition: all 2s;
   font-weight: bold;
+}
+
+.card-body-body-right {
+  color: red;
+}
+
+.card-body-body-wrong {
+  color: gray;
 }
 
 .question-content {
@@ -231,6 +287,24 @@ export default {
   padding: 10px;
   position: absolute;
   visibility: hidden;
+}
+
+.info-badge {
+  padding: 6px;
+  font-size: 15px;
+  border-radius: 5px;
+  color: white;
+  font-family: Openas;
+  margin-right: 6px;
+  background-color: #17a2b8;
+  float: left;
+}
+
+.close {
+  float: right;
+  padding-right: 10px;
+  font-size: 28px;
+  content: "\00d7";
 }
 
 img {

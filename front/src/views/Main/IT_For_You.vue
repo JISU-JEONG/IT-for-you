@@ -14,100 +14,23 @@
         </div>
       </div>
     </div>
-    <div class="content">
-      <div class="info">
-        <apexchart
-          type="pie"
-          :options="chartOptions"
-          :series="series"
-        ></apexchart>
-      </div>
-    </div>
-
-    <div class="content">
-      <div class="info">
-        <apexchart
-          type="radar"
-          height="300"
-          :options="chartOptions2"
-          :series="series2"
-        ></apexchart>
-      </div>
-    </div>
+    <WeeknessChart />
+    <StrengthChart />
   </div>
 </template>
 
 <script>
-import VueApexCharts from "vue-apexcharts";
+import WeeknessChart from "@/components/Main/WeaknessChart.vue";
+import StrengthChart from "@/components/Main/StrengthChart.vue";
 
 export default {
   name: "IT_For_You",
   components: {
-    apexchart: VueApexCharts
+    WeeknessChart,
+    StrengthChart
   },
   data() {
-    return {
-      series: [25, 28, 44, 55, 45],
-      series2: [
-        {
-          name: "Series 1",
-          data: [80, 50, 30, 40, 100, 20]
-        }
-      ],
-      chartOptions: {
-        chart: {
-          width: "100%",
-          type: "pie"
-        },
-        labels: ["Database", "Javascript", "OS", "Java", "Python"],
-        theme: {
-          monochrome: {
-            // enabled: true
-          }
-        },
-        plotOptions: {
-          pie: {
-            dataLabels: {
-              offset: -5
-            }
-          }
-        },
-        title: {
-          text: "내가 많이 틀리는 문제"
-        },
-        dataLabels: {
-          formatter(val, opts) {
-            const name = opts.w.globals.labels[opts.seriesIndex];
-            return [name, val.toFixed(1) + "%"];
-          }
-        },
-        legend: {
-          show: false
-        }
-      },
-      chartOptions2: {
-        chart: {
-          height: 350,
-          type: "radar"
-        },
-        title: {
-          text: "나의 역량"
-        },
-        yaxis: {
-          show: false
-        },
-        xaxis: {
-          categories: [
-            "Database",
-            "Javascript",
-            "OS",
-            "Java",
-            "Python",
-            "Algorithm"
-          ]
-        }
-      }
-    };
+    return {};
   }
 };
 

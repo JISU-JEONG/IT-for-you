@@ -1,5 +1,6 @@
 <template>
   <div class="main-container">
+    <InterviewDetail v-if="showInterview" :p_info="p_info" @close-interview="closeInterview" />
     <div class="company-list">
       <div class="badge">네이버</div>
       <div class="badge">네이버</div>
@@ -7,69 +8,40 @@
       <div class="badge">네이버</div>
       <div class="badge">네이버</div>
     </div>
-    <div class="card" v-for="interview in interviews" :key="interview.id">
+    <div class="card" v-for="interview in interviewList" :key="interview.id">
       <div class="info">
-        <p>{{interview.question}}</p>
-        <div class="badge">{{interview.company}}</div>
+        <p>{{interview.p_question}}</p>
+        <div class="badge">{{interview.p_code}}</div>
       </div>
-      <div class="btn" @click="nextButton"><span>go next</span></div>
+      <div class="btn" @click="nextButton(interview)"><span>go next</span></div>
     </div>
   </div>
 </template>
 <script>
+import InterviewDetail from '@/components/InterviewDetail.vue'
+
   export default {
     data() {
       return {
-        interviews: [
-          {
-            id: 1,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 2,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 3,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 4,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 5,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 6,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 7,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-          {
-            id: 8,
-            cate: 'Javascript',
-            question: 'var, let, const의 차이점에 대해 말해보세요',
-            company: '네이버'
-          },
-        ]
+        p_info: {},
+        showInterview: false
+      }
+    },
+    methods: {
+      nextButton(interview) {
+        this.p_info = interview
+        this.showInterview = true
+      },
+      closeInterview() {
+        this.showInterview = false
+      }
+    },
+    components: {
+      InterviewDetail
+    },
+    computed: {
+      interviewList() {
+        return this.$store.state.question.interviewList
       }
     }
   }
@@ -81,6 +53,7 @@
   max-width: 500px;
   height: 100%;
   margin: 0 auto;
+  position:relative;
 }
 .card {
   width: 90%;
@@ -93,7 +66,7 @@
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
 }
 .company-list {
-  margin: 20px;
+  margin: 0 20px 20px;
 }
 .info {
   display: inline-block;
@@ -110,8 +83,7 @@
   padding: 3px 6px;
   color: white;
   border-radius: 5px;
-  background-color: #009688
-;
+  background-color: #009688;
 }
 .btn {
   display: inline-block;
@@ -121,6 +93,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .btn span {
   font-size: 16px;
