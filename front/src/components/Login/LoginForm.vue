@@ -30,7 +30,6 @@
 
 <script>
 import axios from "@/api/api.service.js";
-import router from "../router";
 
 export default {
   name: "LoginForm",
@@ -51,7 +50,7 @@ export default {
           this.$session.start();
           this.$session.set("jwt", token);
           this.$store.dispatch("login", token);
-          router.push("/");
+          this.$router.push("/");
         })
         .catch(error => {
           this.credentials.username = "";
