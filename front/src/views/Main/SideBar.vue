@@ -6,7 +6,7 @@
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
       </div>
-      <p class="title" @click="home()">IT For You</p>
+      <p class="title"><span @click="home()">IT For You</span></p>
     </nav>
     <div
       class="side-bar-background display-none opacity-0"
@@ -14,7 +14,7 @@
     ></div>
     <div class="side-bar" :class="{ 'side-bar-transform': showSideBar }">
       <div class="sidde-bar-top">
-        <h2 class="title" @click="home()">IT For You</h2>
+        <h2 class="title">IT For You</h2>
         <span class="close-btn" @click="closeSideBar"></span>
       </div>
       <div class="sidde-bar-profile">
