@@ -39,10 +39,10 @@
           <router-link to="/interview">면접대비</router-link>
         </li>
         <li>
-          <router-link to="/wrongAnswerNote">오답노트</router-link>
+          <router-link to="/wrongNote">오답노트</router-link>
         </li>
         <li>
-          <router-link to="/mynote">단어장</router-link>
+          <router-link to="/IT_Note">단어장</router-link>
         </li>
       </div>
       <div class="side-bar-logout no_highlights">
@@ -295,11 +295,7 @@ li {
   margin-right: 20px;
   width: 70px;
   height: 70px;
-
-  /* background: url("https://w7.pngwing.com/pngs/510/349/png-transparent-computer-icons-teacher-avatar-miscellaneous-child-heroes-thumbnail.png"); */
   background: url("https://image.flaticon.com/icons/svg/3011/3011536.svg");
-
-  /* background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQ5Ty-UEu2iUE1doS-p_hcMFkLKElpJETI8c268ZGNIhRjDN5N&usqp=CAU"); */
   background-size: contain;
 }
 
@@ -315,7 +311,7 @@ li {
   width: 28px;
   height: 28px;
   cursor: pointer;
-  background-image: url("../assets/icons/close.png");
+  background-image: url("../../assets/icons/close.png");
   background-repeat: no-repeat;
   background-size: cover;
 }

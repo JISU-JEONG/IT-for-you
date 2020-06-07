@@ -56,9 +56,8 @@
 </template>
 
 <script>
-import LoginForm from "@/components/LoginForm.vue";
-import SignupForm from "@/components/SignupForm.vue";
-import router from "../router";
+import LoginForm from "@/components/Login/LoginForm.vue";
+import SignupForm from "@/components/Login/SignupForm.vue";
 import axios from "axios";
 
 export default {
@@ -78,7 +77,7 @@ export default {
       console.log(this.$session);
       this.$session.destroy();
       this.$store.dispatch("logout");
-      router.push("/login");
+      this.$router.push("/login");
     },
     // signup(){
     //     router.push('/signup')
@@ -96,7 +95,7 @@ export default {
       // .catch(error => {
       //     console.log(error)
       // })
-      router.push("/profile");
+      this.$router.push("/profile");
     },
     addProblem() {
       this.$session.start();
@@ -135,7 +134,7 @@ export default {
   display: block;
   box-sizing: border-box;
 }
-.no_highlights{
+.no_highlights {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -233,8 +232,8 @@ li {
   font-size: 35px;
 }
 .arrow-bottom {
-  width:0;
-  height:0;
+  width: 0;
+  height: 0;
   border: 15px solid white;
   border-color: white transparent transparent;
   position: absolute;
@@ -245,13 +244,13 @@ li {
 }
 @keyframes moving {
   0% {
-    bottom: 40px; 
+    bottom: 40px;
   }
   50% {
     bottom: 30px;
   }
   100% {
-    bottom: 40px; 
+    bottom: 40px;
   }
 }
 

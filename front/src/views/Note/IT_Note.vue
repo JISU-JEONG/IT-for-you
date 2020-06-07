@@ -44,7 +44,7 @@
         </div>
       </menu>
     </transition-group>
-    <myNote
+    <noteCard
       :list="list"
       :questionType="questionType"
       :questionCategory="questionCategory"
@@ -56,12 +56,12 @@
 
 <script>
 import axios from "@/api/api.service.js";
-import myNote from "@/components/Question/myNote.vue";
+import noteCard from "@/components/Note/noteCard.vue";
 
 export default {
-  name: "MyNote",
+  name: "IT_Note",
   components: {
-    myNote
+    noteCard
   },
 
   data() {
@@ -126,7 +126,6 @@ export default {
   },
   methods: {
     deleteMynote(myNote) {
-      console.log(myNote);
       this.questionData = myNote;
     },
     clearFilter(filter, except, active) {
@@ -168,7 +167,6 @@ export default {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
       await axios.get(`/api/myprobs/myprob/${user_id}`).then(({ data }) => {
         this.questionData = data;
-        this.$store.dispatch("myNoteList", data);
 
         data.forEach(({ problems }) => {
           // Type, Category

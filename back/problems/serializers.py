@@ -38,8 +38,10 @@ class ProblemDetailSerializer(ProblemSerializer):
   
   def get_answers(self, obj):
     answers = obj.answer_set.all().order_by('?')
-    return AnswerSerializer(answers, many=True).data
+    answers = AnswerSerializer(answers, many=True).data
 
+    return answers
+  
   def get_myprob_check(self, obj):
     user_id = self.context.get('user_id')
     myprob = MyProb.objects.filter(user=user_id, prob=obj.p_id)

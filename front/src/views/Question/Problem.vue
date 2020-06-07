@@ -1,14 +1,14 @@
 <template>
   <div>
-    <Problem class="problem" />
+    <Detail class="problem" />
   </div>
 </template>
 
 <script>
-import Problem from "@/components/Question/Detail.vue";
+import Problem from "@/components/Question/Problem.vue";
 
 export default {
-  name: "Detail",
+  name: "Problem",
   components: {
     Problem
   }
