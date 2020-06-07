@@ -9,25 +9,25 @@ const routes = [
     path: "/",
     name: "Home",
     redirect: "/IT_For_You",
-    component: () => import("../views/TestHome.vue"),
+    component: () => import("../views/Main/SideBar.vue"),
     children: [
       {
-        path: "IT_For_You",
+        path: "/IT_For_You",
         name: "IT_For_You",
         component: () => import("../views/Main/IT_For_You.vue")
       },
       {
-        path: "category",
+        path: "/category",
         name: "Category",
         component: () => import("../views/Question/Category.vue")
       },
       {
-        path: "testmic",
+        path: "/testmic",
         name: "TestMIC",
         component: () => import("../views/TestMIC.vue")
       },
       {
-        path: "interview",
+        path: "/interview",
         name: "Interview",
         redirect: "/interview/category",
         component: () => import("../views/InterviewMain.vue"),
@@ -55,31 +55,31 @@ const routes = [
         ]
       },
       {
-        path: "interview",
+        path: "/interview",
         name: "Interview",
         component: () => import("../views/Interview.vue")
       },
       {
-        path: "detail",
-        name: "detail",
-        component: () => import("../components/Question/Detail.vue")
+        path: "/problem",
+        name: "problem",
+        component: () => import("../components/Question/Problem.vue")
       },
       {
-        path: "wrongAnswerNote",
-        name: "wrongAnswerNote",
-        component: () => import("../views/Question/WrongAnswerNote.vue")
+        path: "/wrongNote",
+        name: "wrongNote",
+        component: () => import("../views/Note/WrongNote.vue")
       },
       {
-        path: "mynote",
-        name: "mynote",
-        component: () => import("../views/Question/MyNote.vue")
+        path: "/IT_Note",
+        name: "IT_Note",
+        component: () => import("../views/Note/IT_Note.vue")
       }
     ]
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue")
+    component: () => import("../views/Login/Login.vue")
   },
   {
     path: "/admin",
@@ -144,10 +144,9 @@ router.beforeEach((to, from, next) => {
   store.dispatch("loginCheck", token);
   setTimeout(() => {
     isLogin = store.getters.getUserInfo;
-    // console.log("isLogin", isLogin);
     // 토큰만료시
     if (isLogin === null) {
-      if (to.path === "/login") {
+      if (to.path === "login") {
         return next();
       }
 
@@ -157,7 +156,7 @@ router.beforeEach((to, from, next) => {
       if (to.path === "/admin/user" && !isLogin.is_superuser) {
         return next("/");
       }
-      if (to.path === "/login") {
+      if (to.path === "login") {
         return next("/");
       }
       return next();

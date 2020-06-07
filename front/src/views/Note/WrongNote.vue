@@ -45,7 +45,7 @@
       </menu>
     </transition-group>
 
-    <list
+    <wrongNoteCard
       :list="list"
       :size="list.length"
       :questionType="questionType"
@@ -58,12 +58,12 @@
 
 <script>
 import axios from "@/api/api.service.js";
-import list from "@/components/Question/list.vue";
+import wrongNoteCard from "@/components/Note/wrongNoteCard.vue";
 
 export default {
-  name: "WrongAnswerNote",
+  name: "WrongNote",
   components: {
-    list
+    wrongNoteCard
   },
   data() {
     return {
@@ -168,9 +168,7 @@ export default {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
       await axios.get(`/api/xnotes/mynote/${user_id}`).then(({ data }) => {
         this.questionData = data;
-        this.$store.dispatch("wrongAnswerList", data);
 
-        console.log("myAnwerote : ", this.questionData);
         data.forEach(({ problems }) => {
           // Type, Category
           this.$set(
