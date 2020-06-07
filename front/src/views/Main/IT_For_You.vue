@@ -53,7 +53,6 @@ export default {
 * {
   box-sizing: border-box;
   font-family: MapoPeacefull;
-  background-color: #f0f2f5;
 }
 
 .main-container {
@@ -61,6 +60,10 @@ export default {
   height: 100%;
   max-width: 500px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
@@ -74,7 +77,7 @@ export default {
 .card {
   display: inline-block;
   width: 50%;
-  height: 50%;
+  height: 120px;
   padding: 10px;
 }
 
@@ -94,49 +97,6 @@ export default {
 .name,
 .count {
   margin: 10px;
-}
-
-.circle-content {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.circle {
-  opacity: 0;
-  border: solid 1px black;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  animation: pulse 2.7s;
-  animation-iteration-count: infinite;
-}
-
-.circle:nth-child(2) {
-  animation-delay: 0.9s;
-}
-
-.circle:nth-child(3) {
-  animation-delay: 1.8s;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.2;
-    transform-origin: center;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.5);
-    transform-origin: center;
-  }
 }
 
 @font-face {

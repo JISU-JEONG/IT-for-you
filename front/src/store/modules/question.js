@@ -48,6 +48,7 @@ const getters = {
   questionList: state => state.questionList,
   questionType: state => state.questionType,
   questionCategory: state => state.questionCategory,
+  interviewList: state => state.interviewList,
   answerList: state =>
     state.questionList
       .map(q => q.answers)

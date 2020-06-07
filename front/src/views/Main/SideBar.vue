@@ -14,7 +14,7 @@
     ></div>
     <div class="side-bar" :class="{ 'side-bar-transform': showSideBar }">
       <div class="sidde-bar-top">
-        <h2 class="title" @click="home()">IT For You</h2>
+        <h2 class="title">IT For You</h2>
         <span class="close-btn" @click="closeSideBar"></span>
       </div>
       <div class="sidde-bar-profile">
@@ -31,9 +31,6 @@
         </li>
         <li v-if="user.is_superuser">
           <router-link to="/admin">관리자페이지</router-link>
-        </li>
-        <li>
-          <router-link to="/testmic">마이크테스트</router-link>
         </li>
         <li>
           <router-link to="/interview">면접대비</router-link>
