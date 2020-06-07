@@ -1,7 +1,11 @@
 <template>
   <div>
     <transition-group class="content__list">
-      <div class="card-content" v-for="(question, i) in list" :key="question.problems.p_id">
+      <div
+        class="card-content"
+        v-for="(question, i) in list"
+        :key="question.problems.p_id"
+      >
         <div class="card">
           <!-- 카드 헤더 -->
           <div class="card-header">
@@ -14,22 +18,19 @@
           <!--  카드 바디 -->
           <div class="card-body">
             <!--  카드 바디 헤더 -->
-            <div class="card-body-header">{{ question.problems.p_question }}</div>
+            <div class="card-body-header">
+              {{ question.problems.p_question }}
+            </div>
 
             <div
               class="card-body-header-code"
               v-if="question.problems.p_code !== null"
-            >{{ question.problems.p_code }}</div>
+            >
+              {{ question.problems.p_code }}
+            </div>
 
             <!--  카드 바디 본문 -->
             <div class="card-trigger">
-              <span>
-                <figure @click="getUserAnswer(i)">
-                  <img src="../../assets/icons/wrong.png" />
-                  <figcaption>오답</figcaption>
-                </figure>
-              </span>
-
               <span>
                 <figure @click="getAnswer(i)">
                   <img src="../../assets/icons/current.png" />
@@ -49,10 +50,14 @@
                 <del>{{ question.u_answer }}</del>
               </div>
 
-              <div class="card-body-body-right" v-if="answerFlag[i]">{{ question.p_answer }}</div>
+              <div class="card-body-body-right" v-if="answerFlag[i]">
+                {{ question.p_answer }}
+              </div>
 
               <!--  카드 바디 푸터 -->
-              <div class="card-body-footer" v-if="tipFlag[i]">{{ question.problems.p_commentary }}</div>
+              <div class="card-body-footer" v-if="tipFlag[i]">
+                {{ question.problems.p_commentary }}
+              </div>
               <div class="tip">{{ question.problems.p_commentary }}</div>
               <div class="userAnswer">{{ question.u_answer }}</div>
               <div class="answer">{{ question.p_answer }}</div>
@@ -68,7 +73,7 @@
 import axios from "@/api/api.service.js";
 
 export default {
-  name: "list",
+  name: "myNote",
   data() {
     return {
       tipFlag: null,
@@ -126,24 +131,6 @@ export default {
         div.style.height = `${this.tmpheight[i]}px`;
       }
     },
-
-    getUserAnswer(i) {
-      this.$set(this.userAnswerFlag, i, !this.userAnswerFlag[i]);
-      const div = document.querySelectorAll(".question-content")[i];
-      const div2 = document.querySelectorAll(".userAnswer")[i];
-
-      if (this.userAnswerFlag[i] === true) {
-        this.tmpheight[i] += div2.clientHeight;
-        div.style.height = `${this.tmpheight[i]}px`;
-        this.$nextTick(() => {
-          this.getStyle(".card-body-body-wrong", 1, i);
-        });
-      } else {
-        this.tmpheight[i] -= div2.clientHeight;
-        div.style.height = `${this.tmpheight[i]}px`;
-      }
-    },
-
     getAnswer(i) {
       this.$set(this.answerFlag, i, !this.answerFlag[i]);
       const div = document.querySelectorAll(".question-content")[i];
@@ -159,10 +146,6 @@ export default {
         div.style.height = `${this.tmpheight[i]}px`;
       }
     }
-  },
-
-  beforeMount() {
-    // this.init();
   }
 };
 </script>
@@ -217,7 +200,6 @@ export default {
 }
 
 .card-body-body-right,
-.card-body-body-wrong,
 .card-body-footer {
   line-height: 20px;
   font-size: 17px;
@@ -225,14 +207,6 @@ export default {
   opacity: 0;
   transition: all 2s;
   font-weight: bold;
-}
-
-.card-body-body-right {
-  color: red;
-}
-
-.card-body-body-wrong {
-  color: gray;
 }
 
 .question-content {

@@ -8,9 +8,14 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    redirect: "/category",
+    redirect: "/IT_For_You",
     component: () => import("../views/TestHome.vue"),
     children: [
+      {
+        path: "IT_For_You",
+        name: "IT_For_You",
+        component: () => import("../views/Main/IT_For_You.vue")
+      },
       {
         path: "category",
         name: "Category",
@@ -20,6 +25,34 @@ const routes = [
         path: "testmic",
         name: "TestMIC",
         component: () => import("../views/TestMIC.vue")
+      },
+      {
+        path: "interview",
+        name: "Interview",
+        redirect: "/interview/category",
+        component: () => import("../views/InterviewMain.vue"),
+        children: [
+          {
+            path: "category",
+            name: "InterviewCategory",
+            component: () => import("../views/InterviewCategory.vue")
+          },
+          {
+            path: "list",
+            name: "InterviewList",
+            component: () => import("../views/InterviewList.vue")
+          },
+          {
+            path: "mic",
+            name: "TestMIC",
+            component: () => import("../views/TestMIC.vue")
+          },
+          {
+            path: "script",
+            name: "script",
+            component: () => import("../views/Interview.vue")
+          }
+        ]
       },
       {
         path: "interview",
@@ -39,7 +72,7 @@ const routes = [
       {
         path: "mynote",
         name: "mynote",
-        component: () => import("../views/MyNote.vue")
+        component: () => import("../views/Question/MyNote.vue")
       }
     ]
   },
@@ -70,6 +103,10 @@ const routes = [
         component: () => import("../views/EditQuestion.vue")
       }
     ]
+  },
+  {
+    path: "*",
+    redirect: "/"
   }
 ];
 
@@ -107,7 +144,7 @@ router.beforeEach((to, from, next) => {
   store.dispatch("loginCheck", token);
   setTimeout(() => {
     isLogin = store.getters.getUserInfo;
-
+    // console.log("isLogin", isLogin);
     // 토큰만료시
     if (isLogin === null) {
       if (to.path === "/login") {
@@ -117,6 +154,9 @@ router.beforeEach((to, from, next) => {
       // 이동할 페이지가 login이 아닐경우 login페이지로 변경
       return next("/login");
     } else {
+      if (to.path === "/admin/user" && !isLogin.is_superuser) {
+        return next("/");
+      }
       if (to.path === "/login") {
         return next("/");
       }

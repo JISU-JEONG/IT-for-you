@@ -1,6 +1,6 @@
 <style lang="scss">
   .ar-player {
-    width: 380px;
+    width: 100%;
     height: unset;
     border: 0;
     border-radius: 0;
@@ -12,9 +12,10 @@
     font-family: 'Roboto', sans-serif;
 
     & > .ar-player-bar {
-      border: 1px solid #E8E8E8;
-      border-radius: 24px;
-      margin: 0 0 0 5px;
+      /* height: unset; */
+      border-top: 1px solid #E8E8E8;
+      border-bottom: 1px solid #E8E8E8;
+      /* margin: 0 0 0 5px; */
 
       & > .ar-player__progress {
         width: 125px;
@@ -22,22 +23,24 @@
     }
 
     &-bar {
+      width: 100%;
+      height: 55px;
       display: flex;
       align-items: center;
-      height: 38px;
+      justify-content: space-between;
       padding: 0 12px;
-      margin: 0 5px;
+      /* margin: 0 5px; */
     }
 
     &-actions {
-      width: 55%;
+      /* width: 55%; */
       display: flex;
       align-items: center;
       justify-content: space-around;
     }
 
     &__progress {
-      width: 160px;
+      width: 120px;
       margin: 0 8px;
     }
 
@@ -64,12 +67,16 @@
     }
   }
 
+  @media (max-width: 360px) {
+    #volume {display: none}   
+  }
   @import '../scss/icons';
 </style>
 
 <template>
   <div class="ar-player">
-    <div class="ar-player-actions">
+    <div class="ar-player-bar">
+      <div class="ar-player-actions">
       <icon-button
         id="play"
         class="ar-icon ar-icon__lg ar-player__play"
@@ -77,16 +84,17 @@
         :class="{'ar-player__play--active': isPlaying}"
         @click.native="playback"/>
     </div>
-
-    <div class="ar-player-bar">
+    <span style="display: flex; justify-content: center; align-items: center;">
       <div class="ar-player__time">{{playedTime}}</div>
       <line-control
         class="ar-player__progress"
         ref-id="progress"
         :percentage="progress"
         @change-linehead="_onUpdateProgress"/>
+    
       <div class="ar-player__time">{{duration}}</div>
-      <volume-control @change-volume="_onChangeVolume"/>
+    </span>
+    <volume-control @change-volume="_onChangeVolume" id="volume"/>
     </div>
 
     <audio :id="playerUniqId" :src="audioSource"></audio>
@@ -155,6 +163,7 @@
     },
     methods: {
       playback () {
+        console.log('asd')
         if (!this.audioSource) {
           return
         }
