@@ -6,7 +6,7 @@
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
       </div>
-      <p class="title"><span @click="home()">IT For You</span></p>
+      <p class="title"><span @click="home()" style="cursor: pointer; padding: 0 8px;">IT For You</span></p>
     </nav>
     <div
       class="side-bar-background display-none opacity-0"

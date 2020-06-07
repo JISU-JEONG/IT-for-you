@@ -1,6 +1,8 @@
 <template>
   <div class="main-container">
-    <InterviewDetail v-if="showInterview" :p_info="p_info" @close-interview="closeInterview" />
+    <transition name="move">
+      <InterviewDetail v-if="showInterview" :p_info="p_info" @close-interview="closeInterview" />
+    </transition>
     <div class="company-list">
       <div class="badge">네이버</div>
       <div class="badge">네이버</div>
@@ -13,7 +15,7 @@
         <p>{{interview.p_question}}</p>
         <div class="badge">{{interview.p_code}}</div>
       </div>
-      <div class="btn" @click="nextButton(interview)"><span>go next</span></div>
+      <div class="btn no_highlights" @click="nextButton(interview)"><span>go next</span></div>
     </div>
   </div>
 </template>
@@ -48,6 +50,15 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
 </script>
 <style scoped>
   * { box-sizing: border-box;}
+.no_highlights {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .main-container {
   width: 100%;
   max-width: 500px;
@@ -97,5 +108,11 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
 }
 .btn span {
   font-size: 16px;
+}
+.move-enter-active, .move-leave-active {
+  transition: all .5s;
+}
+.move-enter, .move-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateY(100%)
 }
 </style>
