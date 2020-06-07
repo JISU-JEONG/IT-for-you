@@ -17,7 +17,7 @@
       placeholder="ex) 1q2w3e4r!"
     /><br />
     <button
-      class="input submit"
+      class="input submit no_highlights"
       type="submit"
       :disabled="
         credentials.username.length < 1 || credentials.password.length < 1
@@ -67,6 +67,15 @@ export default {
 /* .container {
     max-width: 500px;
   } */
+.no_highlights {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .login-form {
   width: 100%;
 }

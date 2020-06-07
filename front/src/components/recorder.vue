@@ -1,11 +1,22 @@
 <style lang="scss">
+  .no_highlights {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  } 
   .ar {
     width: 100%;
+    padding-top: 16px;
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
     background-color: #FAFAFA;
     box-shadow: 0 4px 18px 0 rgba(0,0,0,0.17);
-    position: relative;
+    position: absolute;
+    bottom:0;
     box-sizing: border-box;
     &-content {
       /* width:100%; */
@@ -196,7 +207,7 @@
     <div class="ar-content" :class="{'ar__blur': isUploading}">
       <div class="ar-recorder">
         <icon-button
-          class="ar-icon ar-icon__lg"
+          class="ar-icon ar-icon__lg no_highlights"
           :name="iconButtonType"
           :class="{
             'ar-icon--rec': isRecording,
@@ -204,7 +215,7 @@
           }"
           @click.native="toggleRecorder"/>
         <icon-button
-          class="ar-icon ar-icon__sm ar-recorder__stop"
+          class="ar-icon ar-icon__sm ar-recorder__stop no_highlights"
           name="stop"
           @click.native="stopRecorder"/>
       </div>
@@ -215,12 +226,12 @@
 
       <div class="ar-records">
         <div
-          class="ar-records__record ar-records__record--selected"
+          class="ar-records__record ar-records__record--selected no_highlights"
           :key="record.id"
           v-for="(record, idx) in recordList"
           @click="choiceRecord(record)">
           <div class="ar__text">인터뷰 ({{record.duration}})</div>
-          <div class="ar__rm" @click="removeRecord(idx)">파일 삭제</div>
+          <div class="ar__rm no_highlights" @click="removeRecord(idx)">파일 삭제</div>
 
 
             <downloader
