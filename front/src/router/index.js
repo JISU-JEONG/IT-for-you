@@ -22,11 +22,6 @@ const routes = [
         component: () => import("../views/Question/Category.vue")
       },
       {
-        path: "/testmic",
-        name: "TestMIC",
-        component: () => import("../views/TestMIC.vue")
-      },
-      {
         path: "/interview",
         name: "Interview",
         redirect: "/interview/category",
@@ -43,21 +38,11 @@ const routes = [
             component: () => import("../views/InterviewList.vue")
           },
           {
-            path: "mic",
-            name: "TestMIC",
-            component: () => import("../views/TestMIC.vue")
-          },
-          {
             path: "script",
             name: "script",
             component: () => import("../views/Interview.vue")
           }
         ]
-      },
-      {
-        path: "/interview",
-        name: "Interview",
-        component: () => import("../views/Interview.vue")
       },
       {
         path: "/problem",
@@ -159,9 +144,30 @@ router.beforeEach((to, from, next) => {
       if (to.path === "login") {
         return next("/");
       }
-      return next();
+
+      if (to.path === "/problem") {
+        const vuexCheck = store.getters.questionList;
+        // console.log(vuexCheck);
+        if (vuexCheck !== null) {
+          next();
+        } else {
+          next("/");
+          console.log(vuexCheck);
+        }
+      } else if (to.path === "/interview/list") {
+        const vuexCheck = store.getters.interviewList;
+        // console.log(vuexCheck);
+        if (vuexCheck !== null) {
+          next();
+        } else {
+          next("/");
+          console.log(vuexCheck);
+        }
+      } else {
+        return next();
+      }
     }
-  }, 300);
+  }, 100);
 });
 
 export default router;

@@ -33,9 +33,6 @@
           <router-link to="/admin">관리자페이지</router-link>
         </li>
         <li>
-          <router-link to="/testmic">마이크테스트</router-link>
-        </li>
-        <li>
           <router-link to="/interview">면접대비</router-link>
         </li>
         <li>
