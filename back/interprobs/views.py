@@ -126,7 +126,6 @@ class MyInterviewDetail(APIView):
     def delete(self, request, user_id, myinter_id):
         token = request.headers['Authorization'][4:]
         user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
-        embed()
         if user_id == user_info.id or user_info.is_superuser:
             myinter = get_object_or_404(Interview, id=myinter_id)
             os.remove(myinter.file.path)
