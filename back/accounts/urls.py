@@ -7,4 +7,5 @@ urlpatterns = [
     path('user/',views.user),
     path('user_delete/', views.user_delete),
     path('users/', views.users),
+    path('userprob/', views.SaveProb.as_view()),
 ]
