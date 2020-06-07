@@ -205,7 +205,7 @@ p {
   background-color: rgba(var(--b3f, 250, 250, 250), 1);
   box-shadow: 0px -2px 4px lightgray;
   transform: translateY(450px);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   z-index: 1;
 }
 .select-nav {
@@ -239,7 +239,7 @@ p {
   overflow: hidden;
 }
 .difficulty-option > label > span {
-  transition: color 0.25s linear;
+  transition: color 0.15s linear;
 }
 .difficulty-option > label::before {
   content: "";
@@ -248,7 +248,7 @@ p {
   position: absolute;
   left: 0;
   bottom: 0;
-  transition: height 0.25s linear;
+  transition: height 0.15s linear;
 }
 .difficulty-option:nth-child(1) > label {
   border-color: #5CAB7D;
