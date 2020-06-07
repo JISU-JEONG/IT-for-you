@@ -21,7 +21,38 @@ class InterSearch(APIView):
         serializer = InterprobDetailSerializer(interprobs, many=True, context={'user_id': user_id})
         return Response(serializer.data)
 
+class InterRecord(APIView):
 
+
+    def post(self, request):
+        token = request.headers['Authorization'][4:]
+        user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
+        print(user_info)
+        if not request.data.get('save'):
+            audio = request.data['audio']
+            r = sr.Recognizer()
+            with sr.AudioFile(audio) as source:
+                audio_source = r.record(source) 
+            text = r.recognize_google(audio_data = audio_source,language = "ko-KR")
+            return Response({'content': text})
+        elif request.data.get('save'):
+            data = request.data
+            data['user'] = user_info
+            print(data)
+            interview = Interview.objects.filter(user_id=data['user'].id, prob_id=data['prob'])
+            if interview:
+                interview = interview[0]
+                os.remove(interview.file.path)
+                serializer = InterviewSerializers(data=data, instance=interview)
+            else:
+                serializer = InterviewSerializers(data=data)
+
+            if serializer.is_valid(raise_exception=True):
+                interview = serializer.save()
+                interview.path = interview.file.path
+                interview.save()
+
+            return Response({'wait': 'wait!!'})
 # @api_view(['GET'])
 # def ViewInterviews(request):
 #     interviews = Interview.objects.all()
@@ -79,6 +110,8 @@ def voice(request):
 
 
 
+
+
 class MyInterview(APIView):
     def get(self, request, user_id):
         myinters = Interview.objects.filter(user_id=user_id)
@@ -89,32 +122,36 @@ class MyInterview(APIView):
         audio = request.data['audio']
         p_id = request.data['p_id']
         
-        # STT 변환부
-        r = sr.Recognizer()
-        with sr.AudioFile(audio) as source:
-            audio_source = r.record(source) 
-        text = r.recognize_google(audio_data = audio_source,language = "ko-KR")
+        if request.data['save'] == False:
+            # STT 변환부
+            r = sr.Recognizer()
+            with sr.AudioFile(audio) as source:
+                audio_source = r.record(source) 
+            text = r.recognize_google(audio_data = audio_source,language = "ko-KR")
+            return Response({'content': text})
 
-        ser_data = {
-            'prob': p_id,
-            'user': user_id,
-            'file': audio,
-            'content': text
-        }
+        elif request.data['save'] == True:
+            ser_data = {
+                'prob': p_id,
+                'user': user_id,
+                'file': audio,
+                'content': request.data['content']
+            }
 
-        interview = Interview.objects.filter(user=user_id, prob=p_id)
-        if interview:
-            interview = interview[0]
-            os.remove(interview.file.path)
-            serializer = InterviewSerializers(data=ser_data, instance=interview)
-        else:
-            serializer = InterviewSerializers(data=ser_data)
+            interview = Interview.objects.filter(user=user_id, prob=p_id)
+            if interview:
+                interview = interview[0]
+                os.remove(interview.file.path)
+                serializer = InterviewSerializers(data=ser_data, instance=interview)
+            else:
+                serializer = InterviewSerializers(data=ser_data)
 
-        if serializer.is_valid(raise_exception=True):
-            interview = serializer.save()
-            interview.path = interview.file.path
-            interview.save()
-        return Response({'message': '추가되었습니다.'})
+            if serializer.is_valid(raise_exception=True):
+                interview = serializer.save()
+                interview.path = interview.file.path
+                interview.save()
+
+            return Response({'message': '추가되었습니다.'})
 
 class MyInterviewDetail(APIView):
     def get(self, request, user_id, myinter_id):

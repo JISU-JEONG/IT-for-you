@@ -69,3 +69,5 @@ class SaveProb(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response({'message': '저장되었습니다.'})        
+
+# class 
