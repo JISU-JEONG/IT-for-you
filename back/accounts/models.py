@@ -32,4 +32,5 @@ class UserProb(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     prob = models.ForeignKey(Problem, on_delete=models.CASCADE)
     date = models.DateField(auto_now=True)
+    correct = models.BooleanField(null=False)
     
