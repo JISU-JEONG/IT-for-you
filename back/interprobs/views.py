@@ -21,25 +21,25 @@ class InterSearch(APIView):
         serializer = InterprobDetailSerializer(interprobs, many=True, context={'user_id': user_id})
         return Response(serializer.data)
 
+import json
 class InterRecord(APIView):
 
 
     def post(self, request):
         token = request.headers['Authorization'][4:]
         user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
-        print(user_info)
-        if not request.data.get('save'):
+        if not request.data.get('body'):
             audio = request.data['audio']
             r = sr.Recognizer()
             with sr.AudioFile(audio) as source:
                 audio_source = r.record(source) 
             text = r.recognize_google(audio_data = audio_source,language = "ko-KR")
             return Response({'content': text})
-        elif request.data.get('save'):
-            data = request.data
-            data['user'] = user_info
-            print(data)
-            interview = Interview.objects.filter(user_id=data['user'].id, prob_id=data['prob'])
+        elif request.data.get('body'):
+            data = json.loads(request.data.get('body'))
+            data['user'] = user_info.id
+            data['file'] = request.data.get('audio')
+            interview = Interview.objects.filter(user=data['user'], prob=data['prob'])
             if interview:
                 interview = interview[0]
                 os.remove(interview.file.path)
@@ -52,7 +52,7 @@ class InterRecord(APIView):
                 interview.path = interview.file.path
                 interview.save()
 
-            return Response({'wait': 'wait!!'})
+            return Response({'message': '생성되었습니다.'})
 # @api_view(['GET'])
 # def ViewInterviews(request):
 #     interviews = Interview.objects.all()
