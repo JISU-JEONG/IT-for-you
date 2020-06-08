@@ -14,39 +14,125 @@
         </div>
       </div>
     </div>
-    <WeeknessChart />
-    <StrengthChart />
+    <Slider />
+    <WeeknessChart
+      :labelsProps="wrongLabelsProps"
+      :seriesProps="wrongSeriesProps"
+      v-if="WeeknessChartFlag"
+    />
+    <StrengthChart
+      :labelsProps="correctLabelsProps"
+      :seriesProps="correctSeriesProps"
+      v-if="StrengthChartFlag"
+    />
   </div>
 </template>
 
 <script>
 import WeeknessChart from "@/components/Main/WeaknessChart.vue";
 import StrengthChart from "@/components/Main/StrengthChart.vue";
+import Slider from "@/components/Main/Slider.vue";
+import axios from "@/api/api.service.js";
 
 export default {
   name: "IT_For_You",
   components: {
     WeeknessChart,
-    StrengthChart
+    StrengthChart,
+    Slider
   },
   data() {
-    return {};
+    return {
+      WeeknessChartFlag: false,
+      StrengthChartFlag: false,
+      wrongSeriesProps: [],
+      wrongLabelsProps: [],
+      correctSeriesProps: [],
+      correctLabelsProps: []
+    };
+  },
+  methods: {
+    async init() {
+      const user_id = this.$store.state["auth"]["userInfo"]["id"];
+      const token = this.$session.get("jwt");
+      await axios
+        .get("/api/accounts/userprob/", {
+          params: {
+            user_id: user_id
+          },
+          headers: {
+            Authorization: `JWT ${token}` // JWT 다음에 공백있음.
+          }
+        })
+        .then(({ data }) => {
+          console.log(data);
+          let userProb = [];
+          let userWrongProb = [];
+          let userCorrectProb = [];
+
+          data.forEach(v => {
+            userProb.push(v.p_cate.pc_value);
+            if (v.correct === true) {
+              userCorrectProb.push(v.p_cate.pc_value);
+            } else {
+              userWrongProb.push(v.p_cate.pc_value);
+            }
+          });
+
+          let categoryCount = {};
+          let categoryWrongCount = {};
+          let categoryCorrentCount = {};
+
+          userProb.forEach(v => {
+            categoryCount[v] = categoryCount[v] + 1 || 1;
+          });
+          userWrongProb.forEach(v => {
+            categoryWrongCount[v] = categoryWrongCount[v] + 1 || 1;
+          });
+          userCorrectProb.forEach(v => {
+            categoryCorrentCount[v] = categoryCorrentCount[v] + 1 || 1;
+          });
+
+          this.wrongSeriesProps = Object.values(categoryWrongCount);
+          this.wrongLabelsProps = Object.keys(categoryWrongCount);
+
+          // console.log(userWrongProb);
+          // console.log("wrongSeriesProps", this.wrongSeriesProps);
+          // console.log("wrongLabelsProps", this.wrongLabelsProps);
+
+          // console.log("userProb : ", userProb);
+          // console.log("userWrongProb : ", userWrongProb);
+          // console.log("userCorrectProb : ", userCorrectProb);
+
+          // console.log("categoryCount", categoryCount);
+          // console.log("categoryWrongCount", categoryWrongCount);
+          // console.log("categoryCorrentCount", categoryCorrentCount);
+
+          // console.log(Object.values(categoryWrongCount));
+          // console.log(Object.keys(categoryWrongCount));
+
+          const size = userCorrectProb.length;
+          Object.values(categoryCorrentCount).forEach(v => {
+            this.correctSeriesProps.push((v / size) * 100);
+          });
+
+          this.correctLabelsProps = Object.keys(categoryCorrentCount);
+
+          console.log("userCorrectProb", userCorrectProb);
+          console.log("categoryCorrentCount", categoryCorrentCount);
+          console.log("correctSeriesProps", this.correctSeriesProps);
+          console.log("correctLabelsProps", this.correctLabelsProps);
+
+          this.WeeknessChartFlag = true;
+          this.StrengthChartFlag = true;
+        });
+    }
+  },
+
+  created() {
+    this.init();
   }
 };
-
-// 추가
-/*
-문제번호
-문제타입
-문제카테고리
-문제맞춤여부
-날짜
-*/
-
-// 조회
-/*
-날짜
-*/
 </script>
 
 <style scoped lang="scss">

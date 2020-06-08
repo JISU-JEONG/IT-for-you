@@ -18,26 +18,31 @@
 
 <script>
 import VueApexCharts from "vue-apexcharts";
+import axios from "@/api/api.service.js";
 
 export default {
   name: "WeaknessChart",
   components: {
     apexchart: VueApexCharts
   },
+  props: {
+    seriesProps: {
+      type: Array
+    },
+    labelsProps: {
+      type: Array
+    }
+  },
+
   data() {
     return {
-      series: [25, 28, 44, 55, 45],
+      series: this.seriesProps,
       chartOptions: {
         chart: {
           width: "100%",
           type: "pie"
         },
-        labels: ["Database", "Javascript", "OS", "Java", "Python"],
-        theme: {
-          monochrome: {
-            // enabled: true
-          }
-        },
+        labels: this.labelsProps,
         plotOptions: {
           pie: {
             dataLabels: {

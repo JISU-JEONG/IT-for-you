@@ -25,12 +25,21 @@ export default {
   components: {
     apexchart: VueApexCharts
   },
+  props: {
+    seriesProps: {
+      type: Array
+    },
+    labelsProps: {
+      type: Array
+    }
+  },
+
   data() {
     return {
       series: [
         {
           name: "Series 1",
-          data: [80, 50, 30, 40, 100, 20]
+          data: this.seriesProps
         }
       ],
 
@@ -45,14 +54,7 @@ export default {
           show: false
         },
         xaxis: {
-          categories: [
-            "Database",
-            "Javascript",
-            "OS",
-            "Java",
-            "Python",
-            "Algorithm"
-          ]
+          categories: this.labelsProps
         }
       }
     };
