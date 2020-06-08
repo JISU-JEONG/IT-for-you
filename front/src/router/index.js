@@ -25,22 +25,22 @@ const routes = [
         path: "/interview",
         name: "Interview",
         redirect: "/interview/category",
-        component: () => import("../views/InterviewMain.vue"),
+        component: () => import("../views/Interview/InterviewMain.vue"),
         children: [
           {
             path: "category",
             name: "InterviewCategory",
-            component: () => import("../views/InterviewCategory.vue")
+            component: () => import("../views/Interview/InterviewCategory.vue")
           },
           {
             path: "list",
             name: "InterviewList",
-            component: () => import("../views/InterviewList.vue")
+            component: () => import("../views/Interview/InterviewList.vue")
           },
           {
             path: "mynote",
             name: "InterviewMyNote",
-            component: () => import("../views/InterviewMyNote.vue")
+            component: () => import("../views/Interview/InterviewMyNote.vue")
           }
         ]
       },
@@ -70,22 +70,22 @@ const routes = [
     path: "/admin",
     name: "Admin",
     redirect: "/admin/user",
-    component: () => import("../views/Admin.vue"),
+    component: () => import("../views/Admin/Admin.vue"),
     children: [
       {
         path: "user",
         name: "User",
-        component: () => import("../views/User.vue")
+        component: () => import("../views/Admin/User.vue")
       },
       {
         path: "make",
         name: "MakeQuestion",
-        component: () => import("../views/MakeQuestion.vue")
+        component: () => import("../views/Admin/MakeQuestion.vue")
       },
       {
         path: "edit",
         name: "EditQuestion",
-        component: () => import("../views/EditQuestion.vue")
+        component: () => import("../views/Admin/EditQuestion.vue")
       }
     ]
   },
@@ -167,7 +167,7 @@ router.beforeEach((to, from, next) => {
         return next();
       }
     }
-  },100);
+  }, 100);
 });
 
 export default router;

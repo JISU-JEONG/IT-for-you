@@ -6,7 +6,11 @@
         <div class="hamburger hamburger-mid"></div>
         <div class="hamburger hamburger-bot"></div>
       </div>
-      <p class="title"><span @click="home()" style="cursor: pointer; padding: 0 8px;">IT For You</span></p>
+      <p class="title">
+        <span @click="home()" style="cursor: pointer; padding: 0 8px;"
+          >IT For You</span
+        >
+      </p>
     </nav>
     <div
       class="side-bar-background display-none opacity-0"
@@ -14,7 +18,9 @@
     ></div>
     <div class="side-bar" :class="{ 'side-bar-transform': showSideBar }">
       <div class="sidde-bar-top">
-        <h2 class="title" @click="home()" style="cursor: pointer;" >IT For You</h2>
+        <h2 class="title" @click="home()" style="cursor: pointer;">
+          IT For You
+        </h2>
         <span class="close-btn" @click="closeSideBar"></span>
       </div>
       <div class="sidde-bar-profile">
@@ -26,11 +32,11 @@
       </div>
 
       <div class="side-bar-nav no_highlights" @click="onClickEvent">
-        <li>
-          <router-link to="/category">문제풀기</router-link>
-        </li>
         <li v-if="user.is_superuser">
           <router-link to="/admin">관리자페이지</router-link>
+        </li>
+        <li>
+          <router-link to="/category">문제풀기</router-link>
         </li>
         <li>
           <router-link to="/interview">면접대비</router-link>
@@ -44,7 +50,7 @@
       </div>
       <div class="side-bar-logout no_highlights">
         <li @click="logout">
-          <a >로그아웃</a>
+          <a>로그아웃</a>
         </li>
       </div>
     </div>
