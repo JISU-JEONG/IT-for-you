@@ -347,6 +347,7 @@
         this.recorder.stop()
         this.recordList = this.recorder.recordList()
         this.choiceRecord(this.recordList[0])
+        console.log(this.recordList[0])
       },
       removeRecord (idx) {
         this.recordList.splice(idx, 1)

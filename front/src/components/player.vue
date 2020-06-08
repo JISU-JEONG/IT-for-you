@@ -163,7 +163,6 @@
     },
     methods: {
       playback () {
-        console.log('asd')
         if (!this.audioSource) {
           return
         }

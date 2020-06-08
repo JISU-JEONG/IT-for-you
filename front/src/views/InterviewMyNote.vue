@@ -1,27 +1,52 @@
 <template>
   <div class="main-container">
-    <p>이곳은 인터뷰 풀어본 문젱비니다.</p>
-    {{user_id}}
+    <span v-for="interview in interviewList" :key="interview.id" @click="showDetail(interview.id)">
+      <button class="accordion" @click="showPanel">Section 1 {{interview.p_question}}</button>
+      <div class="panel">
+        <div class="my-interview">{{interview.p_answer}}</div>
+        <div class="best-interview">{{interview.myanswer}}</div>
+        <audio-player :src="interview.audio_data"/>
+      </div>
+    </span>
+
+    
   </div>
 </template>
 <script>
+  import AudioPlayer from '@/components/player'
   import axios from '@/api/api.service.js'
   export default {
     data() {
       return {
-
+        interviewList: [],
       }
+    },
+    components: {
+      AudioPlayer
     },
     methods: {
       getMyInterview() {
         axios.get(`/api/interprobs/myinters/${this.user_id}/`)
           .then(res => {
-            console.log(res)
+            console.log(res.data)
+            this.interviewList = res.data
           })
           .catch(err => {
             console.error(err)
           })
-
+      },
+      showDetail(p_id) {
+        axios.get(`/api/interprobs/myinters/${this.user_id}/${p_id}/`)
+          .then(res => {
+            this.select = res.data.audio_data
+            
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      },
+      showPanel() {
+        console.log(event.target)
       }
     },
     computed: {
@@ -35,5 +60,21 @@
   }
 </script>
 <style scoped>
-
+.main-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.accordion {
+  width: 100%;
+  height: 52px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: lightseagreen;
+}
+.panel {
+  width: 100%;
+  background-color: white;
+}
 </style>
