@@ -131,7 +131,6 @@
 
 <script>
 import axios from "@/api/api.service.js";
-import "@/utils/prism.css";
 
 export default {
   name: "Category",

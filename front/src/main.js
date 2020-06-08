@@ -6,7 +6,7 @@ import store from "./store";
 import VueSession from "vue-session";
 import VueCodeHighlight from "vue-code-highlight";
 import VueResource from "vue-resource";
-import AudioRecorder from "./components/index";
+import AudioRecorder from "./utils/audio";
 
 Vue.use(AudioRecorder);
 Vue.config.productionTip = false;
