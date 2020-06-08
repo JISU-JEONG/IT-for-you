@@ -2,16 +2,25 @@
   <div class="main-container">
     <div class="info">
       <h2>면접 준비</h2>
-      <p><small>이런저런 안내문구를 작성하겠습니다.</small></p>
+      <p style="margin-top:10px">
+        <small>이런저런 안내문구를 작성하겠습니다.</small>
+      </p>
       <p><small>카테고리, 회사를 선택하세요.</small></p>
     </div>
     <div style="margin-top:-60px" class="flex flex-wrap">
-      <div class="card "  v-for="c in questionCategory" :key="c" @click="getInterview(c)">
-        {{c}}
+      <div
+        class="card "
+        v-for="c in questionCategory"
+        :key="c"
+        @click="getInterview(c)"
+      >
+        {{ c }}
       </div>
       <div class="card" style="visibility: hidden;"></div>
     </div>
-    <div class="saved-interview-btn no_highlights" @click="moveToMyNote">저장된 문제 보러가기</div>
+    <div class="saved-interview-btn no_highlights" @click="moveToMyNote">
+      저장된 문제 보러가기
+    </div>
   </div>
 </template>
 
@@ -22,7 +31,7 @@ export default {
   name: "InterviewCategory",
   data() {
     return {
-      selectedCategory: '',
+      selectedCategory: "",
       questionData: {},
       questionCategory: []
     };
@@ -39,19 +48,20 @@ export default {
       });
     },
     getInterview(c) {
-      this.$store.dispatch('setInterviewList', {
-        user_id: this.user_id,
-        category: c
-      })
-      .then(() => {
-        this.$router.push({
-          path:'/interview/list'
+      this.$store
+        .dispatch("setInterviewList", {
+          user_id: this.user_id,
+          category: c
         })
-      })
+        .then(() => {
+          this.$router.push({
+            path: "/interview/list"
+          });
+        });
     },
     moveToMyNote() {
       this.$router.push("/interview/mynote");
-    },
+    }
   },
   computed: {
     user_id() {
@@ -67,9 +77,9 @@ export default {
 <style scoped lang="scss">
 * {
   box-sizing: border-box;
-  font-family: MapoPeacefull; 
+  font-family: MapoPeacefull;
 }
-.no_highlights{
+.no_highlights {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -93,10 +103,19 @@ export default {
 .info h2 {
   text-align: center;
 }
-.flex { display: flex ;}
-.flex-center { justify-content: center; align-items: center;}
-.flex-column { flex-direction: column;}
-.flex-wrap {flex-wrap: wrap;}
+.flex {
+  display: flex;
+}
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+.flex-column {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
 .card {
   width: 42%;
   height: 72px;
@@ -121,6 +140,10 @@ export default {
   cursor: pointer;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
 }
+p {
+  font-size: 20px;
+}
+
 @font-face {
   font-family: "MapoPeacefull";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff")
