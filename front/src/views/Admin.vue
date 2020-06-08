@@ -35,9 +35,9 @@
           <div class="admin-btn" @click="$router.push('/')">서비스로 돌아가기</div>
         </nav>
         <div class="content-top">
-          <div>여기에</div>
-          <div>쓸 정보가</div>
-          <div>있을까</div>
+          <div>총 회원 수 {{userCount}}</div>
+          <div>IT FOR YOU</div>
+          <div>총 문제 수 {{questionCount}}</div>
         </div>
         <div class="content-layout">
           <router-view></router-view>
@@ -47,23 +47,43 @@
   </div>
 </template>
 <script>
+import axios from '../api/api.service.js'
 export default {
     data() {
       return {
-        routerName: {User: '회원 관리', MakeQuestion: '문제 생성', EditQuestion: '문제 수정'}
+        routerName: {User: '회원 관리', MakeQuestion: '문제 생성', EditQuestion: '문제 수정'},
+        userCount: 'loading...',
+        questionCount: 'loading...'
       }
     },
     methods: {
       addIcon(type){
         return require(`@/assets/icons/${type}.svg`)
       },
-      // color() {
-      //   // let style = "{mask-image: url(" + require("@/assets/icons/account.svg") + ")}; backgroundColor:red; width:100px; height:100px}";
-      //   return "{mask-image: url('" + require("@/assets/icons/account.svg") + "); width:100px; height:100px}";
-      // }
+      getUserInfo() {
+      const token = this.$session.get("jwt");
+      const headers =  {
+        Authorization: `JWT ${token}`
+      }
+      axios.get('/api/accounts/users/', {headers: headers})
+        .then(res => {
+          this.userCount = res.data.length
+        })
+      },
+      loadAllQuestions() {
+        const token = this.$session.get("jwt");
+        const headers =  {
+          Authorization: `JWT ${token}`
+        }
+        axios.get('/api/problems/probs/', {headers: headers})
+        .then(res => {
+          this.questionCount = res.data.length
+        })
+      },
     },
     mounted() {
-      // console.log()
+      this.getUserInfo()
+      this.loadAllQuestions()
     }
 }
 </script>
@@ -184,6 +204,8 @@ section {
     div {
       width: 300px;
       height: 120px;
+      font-size: 20px;
+      font-weight: 600;
       text-align: center;
       line-height: 120px;
       background-color: rgb(255,255,255);

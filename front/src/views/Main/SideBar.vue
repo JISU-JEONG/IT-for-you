@@ -43,8 +43,8 @@
         </li>
       </div>
       <div class="side-bar-logout no_highlights">
-        <li>
-          <a @click="logout">로그아웃</a>
+        <li @click="logout">
+          <a >로그아웃</a>
         </li>
       </div>
     </div>

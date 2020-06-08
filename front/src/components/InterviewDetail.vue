@@ -8,11 +8,11 @@
     <div class="interview-content">
       <transition name="fade">
         <div class="content question" v-if="toggleInterview" key="question" >
-          질문. {{p_info.p_question}} 
+          질문) {{p_info.p_question}} 
           <button class="toggle-btn" @click="toggleInterview = !toggleInterview">{{toggleInterview ? '모범답안 보기' : '문제 보기'}}</button>
         </div>
         <div class="content commentary" v-else key="commentary">
-          모범 답안 : {{p_info.p_commentary}}
+          모범 답안 - {{p_info.p_commentary}}
           <button class="toggle-btn" @click="toggleInterview = !toggleInterview">{{toggleInterview ? '모범답안 보기' : '문제 보기'}}</button>
         </div>
       </transition>
@@ -24,11 +24,11 @@
       <div class="my-script" v-if="script && !showEdit">
         <span v-if="!script">You can make your script</span>
         <span v-else>{{script}}</span>
-        <button class="btn edit" @click="edit">edit</button>
+        <button class="btn edit" @click="edit">수정</button>
       </div>
       <textarea v-if="showEdit" type="textarea" class="edit-my-script" v-model="editScript"></textarea>
-      <button v-if="showEdit" class="btn save" @click="save">save</button>
-      <button v-if="showEdit" class="btn cancle" @click="cancle">cancle</button>
+      <button v-if="showEdit" class="btn save" @click="save">취소</button>
+      <button v-if="showEdit" class="btn cancle" @click="cancle">저장</button>
     </div>
     <audio-recorder
     :upload-url="uploadurl"
@@ -170,7 +170,7 @@
   position:absolute;
   top: 0;
   left: 0;
-  /* overflow: scroll; */
+  overflow-y: scroll;
 }
 .toggle-btn {
   position:absolute;

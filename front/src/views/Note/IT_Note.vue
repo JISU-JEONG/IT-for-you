@@ -192,7 +192,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scopred>
+<style lang="scss" scoped>
 .main-container {
   width: 100%;
   max-width: 500px;

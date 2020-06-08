@@ -261,7 +261,7 @@ export default {
       }
     },
     goToWrongNote() {
-      this.$router.push("/wrongAnswerNote");
+      this.$router.push("/wrongNote");
     },
     onClickMyNote(p_id, index) {
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
