@@ -131,7 +131,6 @@ export default {
       axios
         .post("/api/problems/search/", this.questionData)
         .then(({ data }) => {
-          console.log(data);
           this.$store.dispatch("questionList", data);
           this.$router.push("/problem");
         });

@@ -215,24 +215,16 @@ export default {
               Authorization: `JWT ${token}` // JWT 다음에 공백있음.
             }
           }
-        )
-        .then(({ data }) => {
-          console.log(data);
-        });
+        );
 
       this.buttonFlag = !this.buttonFlag;
     },
     wrongAnswer(userAnswer, problemNumber) {
-      console.log(userAnswer);
-      console.log(problemNumber);
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
       axios
         .post(`/api/xnotes/mynote/${user_id}/`, {
           prob: problemNumber,
           u_answer: userAnswer
-        })
-        .then(({ data }) => {
-          console.log(data);
         });
     },
     nextProblem(i, size) {
@@ -292,8 +284,6 @@ export default {
   },
   mounted() {
     this.progressInit();
-    console.log("init", this.questionList);
-    console.log("answer", this.answerList);
   }
 };
 </script>
