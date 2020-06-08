@@ -5,9 +5,10 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse, HttpResponse
 from .models import User
 from problems.models import Problem
-from .serializers import UserSerializers
+from .serializers import *
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
 from IPython import embed
+from rest_framework.views import APIView
 # Create your views here.
 @api_view(['POST'])
 def user_signup(request):
@@ -62,4 +63,11 @@ def users(request):
     return Response(serializers.data)
 
 
+class SaveProb(APIView):
+    def post(self, request):
+        serializer = UserProbSerializers(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response({'message': '저장되었습니다.'})        
 
+# class 
