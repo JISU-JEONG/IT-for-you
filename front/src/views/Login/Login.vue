@@ -37,16 +37,16 @@
         <hr />
         <ul>
           <li>
-            <strong>대단한 서비스.</strong>
-            <p>우리 서비스는 이런 기능들이 있다</p>
+            <strong>문제풀이</strong>
+            <p>다양한 주제별 문제와 해설 제공</p>
           </li>
           <li>
-            <strong>대단한 서비스.</strong>
-            <p>우리 서비스는 이런 기능들이 있다</p>
+            <strong>면접 대비</strong>
+            <p>나만의 녹음 스크립트로 면접준비</p>
           </li>
           <li>
-            <strong>대단한 서비스.</strong>
-            <p>우리 서비스는 이런 기능들이 있다</p>
+            <strong>오답노트와 찜한문제</strong>
+            <p>틀린문제와 내가 원하는 문제를 한눈에</p>
           </li>
         </ul>
       </div>
