@@ -84,7 +84,6 @@ export default {
     },
     passwordChecking() {
       // 비밀번호 확인해서 다르면 안내메세지 뜨게...해야하는데
-      if (this.password != this.passwordCheck) console.log("asd");
     }
   },
   computed: {

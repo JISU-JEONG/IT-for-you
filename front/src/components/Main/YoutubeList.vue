@@ -66,7 +66,6 @@ export default {
       now.classList.add("z-index");
       this.index = i;
 
-      console.log(this.ListFlag);
     }
   }
 };

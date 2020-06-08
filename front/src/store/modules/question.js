@@ -28,7 +28,6 @@ const mutations = {
   },
   setAudioData(state, payload) {
     state.data = payload
-    console.log('store data', state.data)
   }
 };
 
