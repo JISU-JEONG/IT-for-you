@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     download() {
-      console.log("다운로드");
       if (!this.record.url) {
         return;
       }

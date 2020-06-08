@@ -147,21 +147,17 @@ router.beforeEach((to, from, next) => {
 
       if (to.path === "/problem") {
         const vuexCheck = store.getters.questionList;
-        // console.log(vuexCheck);
         if (vuexCheck !== null) {
           next();
         } else {
           next("/");
-          console.log(vuexCheck);
         }
       } else if (to.path === "/interview/list") {
         const vuexCheck = store.getters.interviewList;
-        // console.log(vuexCheck);
         if (vuexCheck !== null) {
           next();
         } else {
           next("/");
-          console.log(vuexCheck);
         }
       } else {
         return next();
