@@ -26,7 +26,11 @@
     },
     methods: {
       getMyInterview() {
-        axios.get(`/api/interprobs/myinters/${this.user_id}/`)
+        const token = this.$session.get("jwt");
+        const headers =  {
+          Authorization: `JWT ${token}`
+        }        
+        axios.get(`/api/interprobs/myinters/${this.user_id}/`, { headers: headers })
           .then(res => {
             console.log(res.data)
             this.interviewList = res.data
@@ -35,8 +39,13 @@
             console.error(err)
           })
       },
+  
       showDetail(p_id) {
-        axios.get(`/api/interprobs/myinters/${this.user_id}/${p_id}/`)
+        const token = this.$session.get("jwt");
+        const headers =  {
+          Authorization: `JWT ${token}`
+        }        
+        axios.get(`/api/interprobs/myinters/${this.user_id}/${p_id}/`, { headers: headers })
           .then(res => {
             this.select = res.data.audio_data
             
