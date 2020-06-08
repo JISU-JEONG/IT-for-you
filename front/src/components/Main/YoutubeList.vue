@@ -123,6 +123,7 @@ export default {
 
 .silde-button {
   margin: 10px;
+  cursor: pointer;
 }
 .z-index {
   z-index: 1;
