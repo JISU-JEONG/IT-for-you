@@ -11,6 +11,9 @@ from problems.models import Problem
 # Create your models here.
 class User(AbstractUser):
     pass
+    class Meta:
+        managed = False
+        db_table = 'accounts_user'
     # incorrects = models.ManyToManyField(
     #     Problem,
     #     related_name='incorrect',
@@ -32,4 +35,5 @@ class UserProb(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     prob = models.ForeignKey(Problem, on_delete=models.CASCADE)
     date = models.DateField(auto_now=True)
+    correct = models.BooleanField(null=False)
     

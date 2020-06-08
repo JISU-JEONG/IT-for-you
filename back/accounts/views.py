@@ -64,10 +64,26 @@ def users(request):
 
 
 class SaveProb(APIView):
-    def post(self, request):
-        serializer = UserProbSerializers(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-        return Response({'message': '저장되었습니다.'})        
+    def get(self, request):
+        token = request.headers['Authorization'][4:]
+        user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
+        query_data = request.query_params
+        if user_info.id == int(query_data['user_id']):
+            if query_data.get('date'):
+                user_prob = UserProb.objects.filter(user_id=query_data['user_id'], date=query_data['date'])
+            else:
+                user_prob = UserProb.objects.filter(user_id=query_data['user_id'])
+            serializer = UserProbDetailSerializer(user_prob, many=True)
+            return Response(serializer.data)
+        return Response({'message': '권한이 없습니다.'})
 
-# class 
+
+    def post(self, request):
+        token = request.headers['Authorization'][4:]
+        user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
+        if user_info.id == request.data.get('user'):
+            serializer = UserProbSerializers(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+            return Response({'message': '저장되었습니다.'}) 
+        return Response({'message': '권한이 없습니다.'}) 
