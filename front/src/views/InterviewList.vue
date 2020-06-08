@@ -5,20 +5,20 @@
     </transition>
     <div class="card company-container">
       <p>회사 선택</p>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">Naver</div>
+      <div class="badge no_highlights">카카오</div>
+      <div class="badge no_highlights">삼성</div>
+      <div class="badge no_highlights">LINE</div>
+      <div class="badge no_highlights">Apple</div>
+      <div class="badge no_highlights">Google</div>
     </div>
     <div class="card flex" v-for="interview in interviewList" :key="interview.id">
       <div class="info">
         <p>{{interview.p_question}}</p>
         <div class="badge saved" v-if="interview.myinter_check">저장된 문제</div>
-        <div class="badge">{{interview.p_code}}</div>
+        <div class="badge" v-if="interview.p_code">{{interview.p_code}}</div>
       </div>
-      <div class="next-btn no_highlights" @click="nextButton(interview)"><span>연습하기</span></div>
+      <div class="next-btn no_highlights" @click="nextButton(interview)"><span>연습 <br> 하기</span></div>
     </div>
   </div>
 </template>
