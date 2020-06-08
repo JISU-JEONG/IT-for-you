@@ -41,7 +41,7 @@ const routes = [
             path: "mynote",
             name: "InterviewMyNote",
             component: () => import("../views/InterviewMyNote.vue")
-          },
+          }
         ]
       },
       {
