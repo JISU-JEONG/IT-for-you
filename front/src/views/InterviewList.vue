@@ -11,13 +11,11 @@
       <div class="badge no_highlights">네이버</div>
       <div class="badge no_highlights">네이버</div>
       <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
     </div>
     <div class="card flex" v-for="interview in interviewList" :key="interview.id">
       <div class="info">
         <p>{{interview.p_question}}</p>
+        <div class="badge saved" v-if="interview.myinter_check">저장된 문제</div>
         <div class="badge">{{interview.p_code}}</div>
       </div>
       <div class="next-btn no_highlights" @click="nextButton(interview)"><span>연습하기</span></div>
@@ -50,7 +48,8 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
     computed: {
       interviewList() {
         return this.$store.state.question.interviewList
-      }
+      },
+      
     }
   }
 </script>
@@ -93,14 +92,19 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
   font-size: 16px;
   margin-bottom: 4px;
 }
+.company-container .badge {
+  margin: 2px 4px;
+}
+
 .info {
   display: inline-block;
-  width: 70%;
+  width: 80%;
   height: 100%;
   padding: 8px;
 }
 .info p {
   font-size: 16px;
+  margin-bottom: 4px;
 }
 .badge {
   cursor: pointer;
@@ -108,15 +112,19 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
   font-size: 14px;
   font-weight: 600;
   padding: 3px 6px;
-  margin: 2px 6px;
   border-radius: 5px;
   /* background-color: #009688; */
   color: #009688;
   border: 1.5px solid #009688;
 }
+.saved {
+  color: #C62828;
+  border-color: #C62828;
+  margin-right: 8px;
+}
 .next-btn {
   display: inline-block;
-  width: 30%;
+  width: 20%;
   height: 100%;
   padding: 16px;
   display: flex;
