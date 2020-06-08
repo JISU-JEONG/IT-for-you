@@ -14,7 +14,7 @@
     ></div>
     <div class="side-bar" :class="{ 'side-bar-transform': showSideBar }">
       <div class="sidde-bar-top">
-        <h2 class="title">IT For You</h2>
+        <h2 class="title" @click="home()" style="cursor: pointer;" >IT For You</h2>
         <span class="close-btn" @click="closeSideBar"></span>
       </div>
       <div class="sidde-bar-profile">
