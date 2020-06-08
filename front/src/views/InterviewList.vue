@@ -14,18 +14,17 @@
       <div class="badge no_highlights">네이버</div>
       <div class="badge no_highlights">네이버</div>
       <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
-      <div class="badge no_highlights">네이버</div>
     </div>
     <div class="card flex" v-for="interview in interviewList" :key="interview.id">
       <div class="info">
         <p>{{interview.p_question}}</p>
         <div class="badge">{{interview.p_code}}</div>
       </div>
-      <div class="next-btn no_highlights" @click="nextButton(interview)"><span>go next</span></div>
+      <div class="next-btn no_highlights" @click="nextButton(interview)"><span>연습하기</span></div>
     </div>
   </div>
 </template>
+
 <script>
 import InterviewDetail from '@/components/InterviewDetail.vue'
 
