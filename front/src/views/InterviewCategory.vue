@@ -11,7 +11,7 @@
       </div>
       <div class="card" style="visibility: hidden;"></div>
     </div>
-    <div class="saved-interview-btn no_highlights" @click="submitData">저장된 문제 보러가기</div>
+    <div class="saved-interview-btn no_highlights" @click="moveToMyNote">저장된 문제 보러가기</div>
   </div>
 </template>
 
@@ -49,8 +49,8 @@ export default {
         })
       })
     },
-    submitData() {
-      this.$router.push("/interview/list");
+    moveToMyNote() {
+      this.$router.push("/interview/mynote");
     },
   },
   computed: {

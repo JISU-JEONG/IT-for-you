@@ -3,19 +3,26 @@
     <transition name="move">
       <InterviewDetail v-if="showInterview" :p_info="p_info" @close-interview="closeInterview" />
     </transition>
-    <div class="company-list">
-      <div class="badge">네이버</div>
-      <div class="badge">네이버</div>
-      <div class="badge">네이버</div>
-      <div class="badge">네이버</div>
-      <div class="badge">네이버</div>
+    <div class="card company-container">
+      <p>회사 선택</p>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
+      <div class="badge no_highlights">네이버</div>
     </div>
-    <div class="card" v-for="interview in interviewList" :key="interview.id">
+    <div class="card flex" v-for="interview in interviewList" :key="interview.id">
       <div class="info">
         <p>{{interview.p_question}}</p>
         <div class="badge">{{interview.p_code}}</div>
       </div>
-      <div class="btn no_highlights" @click="nextButton(interview)"><span>go next</span></div>
+      <div class="next-btn no_highlights" @click="nextButton(interview)"><span>go next</span></div>
     </div>
   </div>
 </template>
@@ -68,16 +75,24 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
 }
 .card {
   width: 90%;
-  height: 100px; /* 필요한가?*/
-  display: flex;
+  height: 100px;
   margin: 20px auto 0;
   font-size: 20px;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
 }
-.company-list {
-  margin: 0 20px 20px;
+.flex {
+  display: flex;
+}
+.company-container {
+  height: initial;
+  padding: 12px;
+  margin: 0 auto;
+}
+.company-container p {
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 .info {
   display: inline-block;
@@ -89,24 +104,30 @@ import InterviewDetail from '@/components/InterviewDetail.vue'
   font-size: 16px;
 }
 .badge {
+  cursor: pointer;
   display: inline-block;
   font-size: 14px;
+  font-weight: 600;
   padding: 3px 6px;
-  color: white;
+  margin: 2px 6px;
   border-radius: 5px;
-  background-color: #009688;
+  /* background-color: #009688; */
+  color: #009688;
+  border: 1.5px solid #009688;
 }
-.btn {
+.next-btn {
   display: inline-block;
   width: 30%;
   height: 100%;
   padding: 16px;
   display: flex;
+  color: white;
+  background-color:black;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
-.btn span {
+.next-btn span {
   font-size: 16px;
 }
 .move-enter-active, .move-leave-active {

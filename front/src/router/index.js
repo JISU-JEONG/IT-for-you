@@ -38,10 +38,10 @@ const routes = [
             component: () => import("../views/InterviewList.vue")
           },
           {
-            path: "script",
-            name: "script",
-            component: () => import("../views/Interview.vue")
-          }
+            path: "mynote",
+            name: "InterviewMyNote",
+            component: () => import("../views/InterviewMyNote.vue")
+          },
         ]
       },
       {
