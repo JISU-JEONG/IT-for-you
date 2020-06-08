@@ -41,7 +41,7 @@ const routes = [
             path: "mynote",
             name: "InterviewMyNote",
             component: () => import("../views/InterviewMyNote.vue")
-          },
+          }
         ]
       },
       {
@@ -167,7 +167,7 @@ router.beforeEach((to, from, next) => {
         return next();
       }
     }
-  }, 100);
+  }, 1000);
 });
 
 export default router;
