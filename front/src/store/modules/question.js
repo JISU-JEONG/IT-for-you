@@ -7,6 +7,7 @@ const state = {
   answerList: [],
   interviewList: [],
   interviewResult: '',
+  data: new FormData(),
 };
 
 const mutations = {
@@ -24,6 +25,10 @@ const mutations = {
   },
   setInterviewResult(state, payload) {
     state.interviewResult = payload
+  },
+  setAudioData(state, payload) {
+    state.data = payload
+    console.log('store data', state.data)
   }
 };
 

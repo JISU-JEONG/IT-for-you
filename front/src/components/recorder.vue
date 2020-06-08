@@ -324,6 +324,7 @@
         if (this.recordList[0]) {
           if (confirm('현재 녹음된 파일은 지워집니다')) {
             this.removeRecord(0)
+            this.$store.commit('setInterviewResult', '')
           } else {
             return
           }
@@ -350,6 +351,8 @@
       removeRecord (idx) {
         this.recordList.splice(idx, 1)
         this.$set(this.selected, 'url', null)
+        this.$store.commit('setAudioData', new FormData)
+        this.$store.commit('setInterviewResult', '')
         this.$eventBus.$emit('remove-record')
       },
       choiceRecord (record) {
