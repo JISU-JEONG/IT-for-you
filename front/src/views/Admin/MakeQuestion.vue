@@ -4,19 +4,16 @@
   </div>
 </template>
 <script>
-  import QuestionForm from "@/components/QuestionForm.vue";
+import QuestionForm from "@/components/Admin/QuestionForm.vue";
 
 export default {
-  name: 'MakeQuestion',
+  name: "MakeQuestion",
   components: {
-    QuestionForm,
+    QuestionForm
   },
   data() {
-    return {
-
-    }
-  },
-}
+    return {};
+  }
+};
 </script>
-<style scoped>
-</style>
+<style scoped></style>
