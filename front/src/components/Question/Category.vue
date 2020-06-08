@@ -9,7 +9,7 @@
     <div style="margin-top:-60px">
       <div class="card">
         <div
-          class="selected category flex flex-center flex-wrap no_highlights"
+          class="selected category flex flex-center flex-wrap "
           style="cursor: pointer;"
           @click="onClickShow"
         >
