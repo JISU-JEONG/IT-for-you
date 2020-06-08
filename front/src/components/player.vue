@@ -1,4 +1,13 @@
 <style lang="scss">
+  .no_highlights {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
   .ar-player {
     width: 100%;
     height: unset;
@@ -79,7 +88,7 @@
       <div class="ar-player-actions">
       <icon-button
         id="play"
-        class="ar-icon ar-icon__lg ar-player__play"
+        class="ar-icon ar-icon__lg ar-player__play no_highlights "
         :name="playBtnIcon"
         :class="{'ar-player__play--active': isPlaying}"
         @click.native="playback"/>
@@ -163,7 +172,6 @@
     },
     methods: {
       playback () {
-        console.log('asd')
         if (!this.audioSource) {
           return
         }

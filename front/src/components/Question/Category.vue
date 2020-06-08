@@ -9,7 +9,7 @@
     <div style="margin-top:-60px">
       <div class="card">
         <div
-          class="selected category flex flex-center flex-wrap no_highlights"
+          class="selected category flex flex-center flex-wrap "
           style="cursor: pointer;"
           @click="onClickShow"
         >
@@ -234,9 +234,9 @@ p {
 .select-container {
   /*밑에서 오가는거*/
   height: 450px;
+  width: 100vw;
+  max-width: 500px;
   position: fixed;
-  left: 0;
-  right: 0;
   bottom: 0;
   border-radius: 20px 20px 0 0;
   background-color: rgba(var(--b3f, 250, 250, 250), 1);

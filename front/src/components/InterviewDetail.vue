@@ -219,7 +219,9 @@
   left:0;
   padding: 12px;
   border: none;
+  outline: none;
   box-shadow: 0 0 4px #00BCD4;
+  z-index: 2;
 }
 .btn {
   position:absolute;

@@ -114,7 +114,7 @@ class InterRecord(APIView):
 class MyInterview(APIView):
     def get(self, request, user_id):
         myinters = Interview.objects.filter(user_id=user_id)
-        serializer = MyInterListSerializers(myinters, many=True)
+        serializer = MyInterDetailSerializers(myinters, many=True)
         return Response(serializer.data)
 
 class MyInterviewDetail(APIView):

@@ -6,7 +6,7 @@
       <p><small>카테고리, 회사를 선택하세요.</small></p>
     </div>
     <div style="margin-top:-60px" class="flex flex-wrap">
-      <div class="card no_highlights"  v-for="c in questionCategory" :key="c" @click="getInterview(c)">
+      <div class="card "  v-for="c in questionCategory" :key="c" @click="getInterview(c)">
         {{c}}
       </div>
       <div class="card" style="visibility: hidden;"></div>
@@ -107,7 +107,7 @@ export default {
   background-color: white;
   border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
+  box-shadow: 0 0 2rem rgba(136, 152, 170, 0.15);
 }
 .saved-interview-btn {
   margin: 20px 20px 0;
