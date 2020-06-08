@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <div class="card" v-for="user in userList" :key="user.id">
-      <span class="delete-user" @click="deleteUSer(user.id)">탈퇴</span>
+      <span class="delete-user" @click="deleteUser(user.id)">탈퇴</span>
       <hr style="clear:both">
       <div class="user-info">
         <p>아이디</p>
@@ -23,13 +23,25 @@ export default {
   },
   methods: {
     getUserInfo() {
-      axios.get('/api/accounts/users/')
+      const token = this.$session.get("jwt");
+      const headers =  {
+        Authorization: `JWT ${token}`
+      }
+      axios.get('/api/accounts/users/', {headers: headers})
         .then(res => {
-          this.userList = res.data
+          this.userList = res.data.filter(u => !u.is_superuser)
         })
     },
     deleteUser(user_id) {
-      console.log(user_id)
+      const token = this.$session.get("jwt");
+      const headers =  {
+        Authorization: `JWT ${token}`
+      }
+      axios.delete(`/api/accounts/user_delete/${user_id}`, {headers: headers})
+        .then(res => {
+          this.userList.splice(this.userList.findIndex(v => v.id === user_id), 1)
+        })
+        .catch(err => console.error(err))
     }
   },
   mounted() {
