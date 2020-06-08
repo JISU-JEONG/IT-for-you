@@ -4,34 +4,46 @@
       <div class="card">
         <div class="info">
           <div class="name">오늘 맞춘 문제</div>
-          <div class="count">18</div>
+          <div class="count">{{ nowCorrectProb }}</div>
         </div>
       </div>
       <div class="card">
         <div class="info">
           <div class="name">오늘 틀린 문제</div>
-          <div class="count">2</div>
+          <div class="count">{{ nowWrongProb }}</div>
         </div>
       </div>
     </div>
-    <Slider />
-    <WeeknessChart
-      :labelsProps="wrongLabelsProps"
-      :seriesProps="wrongSeriesProps"
-      v-if="WeeknessChartFlag"
-    />
-    <StrengthChart
-      :labelsProps="correctLabelsProps"
-      :seriesProps="correctSeriesProps"
-      v-if="StrengthChartFlag"
-    />
+    <div class="chart">
+      <WeeknessChart
+        class="WeeknessChart"
+        :labelsProps="wrongLabelsProps"
+        :seriesProps="wrongSeriesProps"
+        v-if="WeeknessChartFlag && WeeknessCarousel"
+      />
+      <StrengthChart
+        class="StrengthChart"
+        :labelsProps="correctLabelsProps"
+        :seriesProps="correctSeriesProps"
+        v-if="StrengthChartFlag && StrengthCarousel"
+      />
+      <span class="prev" @click="prev()">
+        &#60;
+      </span>
+      <span class="next" @click="next()">
+        &#62;
+      </span>
+    </div>
+
+    <YoutubeList />
   </div>
 </template>
 
 <script>
 import WeeknessChart from "@/components/Main/WeaknessChart.vue";
 import StrengthChart from "@/components/Main/StrengthChart.vue";
-import Slider from "@/components/Main/Slider.vue";
+import YoutubeList from "@/components/Main/YoutubeList.vue";
+
 import axios from "@/api/api.service.js";
 
 export default {
@@ -39,20 +51,41 @@ export default {
   components: {
     WeeknessChart,
     StrengthChart,
-    Slider
+    YoutubeList
   },
   data() {
     return {
       WeeknessChartFlag: false,
       StrengthChartFlag: false,
+      WeeknessCarousel: true,
+      StrengthCarousel: false,
+
       wrongSeriesProps: [],
       wrongLabelsProps: [],
       correctSeriesProps: [],
-      correctLabelsProps: []
+      correctLabelsProps: [],
+
+      nowCorrectProb: 0,
+      nowWrongProb: 0
     };
   },
   methods: {
     async init() {
+      const date = new Date();
+      const year = date.getFullYear();
+      let month = new String(date.getMonth() + 1);
+      let day = new String(date.getDate());
+
+      // 한자리수일 경우 0을 채워준다.
+      if (month.length == 1) {
+        month = "0" + month;
+      }
+      if (day.length == 1) {
+        day = "0" + day;
+      }
+
+      const now = year + "-" + month + "-" + day;
+
       const user_id = this.$store.state["auth"]["userInfo"]["id"];
       const token = this.$session.get("jwt");
       await axios
@@ -66,26 +99,27 @@ export default {
         })
         .then(({ data }) => {
           console.log(data);
-          let userProb = [];
           let userWrongProb = [];
           let userCorrectProb = [];
 
           data.forEach(v => {
-            userProb.push(v.p_cate.pc_value);
             if (v.correct === true) {
               userCorrectProb.push(v.p_cate.pc_value);
+              if (v.date === now) {
+                this.nowCorrectProb += 1;
+              }
             } else {
+              if (v.date === now) {
+                this.nowWrongProb += 1;
+              }
+
               userWrongProb.push(v.p_cate.pc_value);
             }
           });
 
-          let categoryCount = {};
           let categoryWrongCount = {};
           let categoryCorrentCount = {};
 
-          userProb.forEach(v => {
-            categoryCount[v] = categoryCount[v] + 1 || 1;
-          });
           userWrongProb.forEach(v => {
             categoryWrongCount[v] = categoryWrongCount[v] + 1 || 1;
           });
@@ -96,36 +130,59 @@ export default {
           this.wrongSeriesProps = Object.values(categoryWrongCount);
           this.wrongLabelsProps = Object.keys(categoryWrongCount);
 
-          // console.log(userWrongProb);
-          // console.log("wrongSeriesProps", this.wrongSeriesProps);
-          // console.log("wrongLabelsProps", this.wrongLabelsProps);
-
-          // console.log("userProb : ", userProb);
-          // console.log("userWrongProb : ", userWrongProb);
-          // console.log("userCorrectProb : ", userCorrectProb);
-
-          // console.log("categoryCount", categoryCount);
-          // console.log("categoryWrongCount", categoryWrongCount);
-          // console.log("categoryCorrentCount", categoryCorrentCount);
-
-          // console.log(Object.values(categoryWrongCount));
-          // console.log(Object.keys(categoryWrongCount));
-
           const size = userCorrectProb.length;
           Object.values(categoryCorrentCount).forEach(v => {
             this.correctSeriesProps.push((v / size) * 100);
           });
 
           this.correctLabelsProps = Object.keys(categoryCorrentCount);
-
-          console.log("userCorrectProb", userCorrectProb);
-          console.log("categoryCorrentCount", categoryCorrentCount);
-          console.log("correctSeriesProps", this.correctSeriesProps);
-          console.log("correctLabelsProps", this.correctLabelsProps);
-
           this.WeeknessChartFlag = true;
           this.StrengthChartFlag = true;
         });
+    },
+
+    next() {
+      if (event.target.style.color === "gray") {
+        return;
+      }
+
+      this.WeeknessCarousel = !this.WeeknessCarousel;
+      this.StrengthCarousel = !this.StrengthCarousel;
+      if (this.WeeknessCarousel) {
+        const span1 = document.querySelector(".prev");
+        const span2 = document.querySelector(".next");
+
+        span1.style.color = "gray";
+        span2.style.color = "black";
+      } else {
+        const span1 = document.querySelector(".next");
+        const span2 = document.querySelector(".prev");
+
+        span1.style.color = "gray";
+        span2.style.color = "black";
+      }
+    },
+
+    prev() {
+      if (event.target.style.color === "gray") {
+        return;
+      }
+
+      this.WeeknessCarousel = !this.WeeknessCarousel;
+      this.StrengthCarousel = !this.StrengthCarousel;
+      if (this.WeeknessCarousel) {
+        const span1 = document.querySelector(".prev");
+        const span2 = document.querySelector(".next");
+
+        span1.style.color = "gray";
+        span2.style.color = "black";
+      } else {
+        const span1 = document.querySelector(".perv");
+        const span2 = document.querySelector(".next");
+
+        span1.style.color = "black";
+        span2.style.color = "gray";
+      }
     }
   },
 
@@ -146,10 +203,6 @@ export default {
   height: 100%;
   max-width: 500px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .content {
@@ -183,6 +236,35 @@ export default {
 .name,
 .count {
   margin: 10px;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 320px;
+  position: relative;
+}
+
+.WeeknessChart,
+.StrengthChart,
+.next,
+.prev {
+  position: absolute;
+}
+
+.prev {
+  left: 0;
+  color: gray;
+  margin-left: 25px;
+  font-size: 30px;
+}
+
+.next {
+  right: 0;
+  margin-right: 25px;
+  font-size: 30px;
 }
 
 @font-face {
