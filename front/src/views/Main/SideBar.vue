@@ -159,14 +159,13 @@ export default {
   user-select: none;
 }
 nav {
+  width: 100vw;
   height: 44px;
   line-height: 44px;
   padding-left: 10px;
   text-align: center;
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
   color: white;
   background-color: rgb(29, 29, 31);
   z-index: 2;
@@ -328,7 +327,7 @@ li {
 .router-wrapper {
   padding-top: 44px;
   height: 100vh;
-  min-width: 100vw;
+  /* min-width: 100vw; */
   min-height: 100vh;
 }
 
