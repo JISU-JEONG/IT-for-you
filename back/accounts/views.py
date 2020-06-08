@@ -34,14 +34,18 @@ def user(request):
     #         serializers.save()
     #         return Response(serializers.data)
 
-@api_view(['POST'])
-def user_delete(request):
-    if request.method == 'POST':
-        data = request.data
-        valid_data = VerifyJSONWebTokenSerializer().validate(data)
-        user = valid_data['user']
-        user.delete()
-        return Response({'message': '삭제되었음'})
+@api_view(['DELETE'])
+def user_delete(request, user_id):
+    token = request.headers['Authorization'][4:]
+    user_info = VerifyJSONWebTokenSerializer().validate({'token': token})['user']
+    if user_info.is_superuser or user_info.id == user_id:
+        user = get_object_or_404(User, id=user_id)
+        if user.is_superuser:
+            return Response({'message': '관리자 삭제 불가'})
+        else:
+            user.delete()
+            return Response({'message': '삭제되었습니다.'})
+    return Response({'message': '권한이 없습니다.'})
 
 # @api_view(['POST'])
 # def add_problem(request, problem_pk):
