@@ -259,12 +259,14 @@ export default {
   color: gray;
   margin-left: 25px;
   font-size: 30px;
+  cursor: pointer;
 }
 
 .next {
   right: 0;
   margin-right: 25px;
   font-size: 30px;
+  cursor: pointer;
 }
 
 @font-face {

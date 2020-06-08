@@ -3,9 +3,10 @@
     <div class="info">
       <h2>면접 준비</h2>
       <p style="margin-top:10px">
-        <small>이런저런 안내문구를 작성하겠습니다.</small>
+        <small>면접을 대비할 수 있는 문제가 준비되어있습니다.</small>
       </p>
-      <p><small>카테고리, 회사를 선택하세요.</small></p>
+      <p><small>녹음 파일로 손쉽게 대본을 만들 수 있습니다.</small></p>
+      <p><small>카테고리를 선택하세요.</small></p>
     </div>
     <div style="margin-top:-60px" class="flex flex-wrap">
       <div
@@ -19,7 +20,7 @@
       <div class="card" style="visibility: hidden;"></div>
     </div>
     <div class="saved-interview-btn no_highlights" @click="moveToMyNote">
-      저장된 문제 보러가기
+      내가 저장한 문제 보러가기
     </div>
   </div>
 </template>

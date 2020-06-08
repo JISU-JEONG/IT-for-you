@@ -1,33 +1,34 @@
 <template>
   <div class="interview-detail-container">
     <div class="interview-nav">
-      <button v-if="script" class="save-interview-btn" @click="submitInterview">Save this interview</button>
+      <button v-if="script" class="save-interview-btn" @click="submitInterview">결과 저장하기</button>
+      <button  class="save-interview-btn" style="background-color: #C62828; border-color: #C62828;" v-if="p_info.myinter_check">저장된 문제</button>
       <span class="back-btn"  @click="closeInterview"><span class="arrow-left"></span></span>
     </div>
     <div class="interview-content">
       <transition name="fade">
         <div class="content question" v-if="toggleInterview" key="question" >
-          Question : {{p_info.p_question}} company : {{p_info.p_code}} check : {{p_info.myinter_check}} 
-          <button class="toggle-btn" @click="toggleInterview = !toggleInterview">{{toggleInterview ? 'show commentary' : 'show question'}}</button>
+          질문) {{p_info.p_question}} 
+          <button class="toggle-btn" @click="toggleInterview = !toggleInterview">{{toggleInterview ? '모범답안 보기' : '문제 보기'}}</button>
         </div>
         <div class="content commentary" v-else key="commentary">
-          Commentary : {{p_info.p_commentary}}
-          <button class="toggle-btn" @click="toggleInterview = !toggleInterview">{{toggleInterview ? 'show commentary' : 'show question'}}</button>
+          모범 답안 - {{p_info.p_commentary}}
+          <button class="toggle-btn" @click="toggleInterview = !toggleInterview">{{toggleInterview ? '모범답안 보기' : '문제 보기'}}</button>
         </div>
       </transition>
     </div>
     <div class="script-content">
       <div class="empty" v-if="!script">
-        You can do something
+        하단 메뉴를 이용해 녹음을 해주세요.
       </div>
       <div class="my-script" v-if="script && !showEdit">
         <span v-if="!script">You can make your script</span>
         <span v-else>{{script}}</span>
-        <button class="btn edit" @click="edit">edit</button>
+        <button class="btn edit" @click="edit">수정</button>
       </div>
       <textarea v-if="showEdit" type="textarea" class="edit-my-script" v-model="editScript"></textarea>
-      <button v-if="showEdit" class="btn save" @click="save">save</button>
-      <button v-if="showEdit" class="btn cancle" @click="cancle">cancle</button>
+      <button v-if="showEdit" class="btn save" @click="save">취소</button>
+      <button v-if="showEdit" class="btn cancle" @click="cancle">저장</button>
     </div>
     <audio-recorder
     :upload-url="uploadurl"
@@ -83,11 +84,10 @@
         }
         const jsonstringfy = JSON.stringify(questionData)
         data.append('body', jsonstringfy)
-        console.log(data)
         axios.post('/api/interprobs/record/', data, { headers: headers })
           .then(res => {
-            console.log(res)
-            
+            this.p_info.myinter_check = true
+            this.closeInterview()
           })
           .catch(err => console.error(err))
         
@@ -134,9 +134,9 @@
   color: white;
   padding: 4px 8px;
   margin-left: 10px;
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid #1B5E20;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
 }
 .back-btn{
@@ -170,7 +170,7 @@
   position:absolute;
   top: 0;
   left: 0;
-  /* overflow: scroll; */
+  overflow-y: scroll;
 }
 .toggle-btn {
   position:absolute;
@@ -243,11 +243,13 @@
   border-color: #4CAF50;
   background-color: #4CAF50;
   left: 0;
+  z-index: 2;
 }
 .cancle {
   border-color: #F44336;
   background-color: #F44336;
   right: 0;
+  z-index: 2;
 }
 .fade-enter-active, .fade-leave-active {
   transition: all 0.7s;

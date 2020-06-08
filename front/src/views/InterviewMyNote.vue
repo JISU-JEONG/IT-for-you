@@ -2,8 +2,8 @@
   <div class="main-container">
     <div class="info">
       <h2>저장된 인터뷰</h2>
-      <p>이곳에서는 여러분이 저장한 인터뷰문제를 다시 볼 수 있습니다.</p>
-      <p>연습했던 음성과 해당 음성 파일의 스크립트를 다시 볼 수 있습니다.</p>
+      <p style="margin-top:10px">이곳에서는 여러분이 저장한 인터뷰문제를 다시 볼 수 있습니다.</p>
+      <p style="margin-top:10px">연습했던 음성과 해당 음성 파일의 스크립트가 저장되어있습니다.</p>
     </div>
     <h3 class="no-data" v-if="!interviewList.length">
       아직 저장된 문제가 없습니다.
@@ -12,12 +12,12 @@
       <div class="accordion no_highlights" @click="togglePanel">{{interview.p_question}}</div>
       <div class="panel">
         <div class="interview my">
-          <h3>내 인터뷰</h3>
-          {{interview.p_answer}}
+          <h3>나의 답안</h3>
+          {{interview.myanswer}}
         </div>
         <div class="interview best">
           <h3>모범 답안</h3>
-          {{interview.myanswer}}
+            {{interview.p_answer}}
         </div>
         <audio-player :src="interview.audio_data"/>
       </div>

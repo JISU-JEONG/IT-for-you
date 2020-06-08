@@ -25,14 +25,22 @@ export default {
     },
     methods: {
       loadAllQuestions() {
-        axios.get('/api/problems/probs/')
+        const token = this.$session.get("jwt");
+        const headers =  {
+          Authorization: `JWT ${token}`
+        }
+        axios.get('/api/problems/probs/', {headers: headers})
         .then(res => {
           this.questions = res.data
         })
       },
       deleteQuestion(id) {
+        const token = this.$session.get("jwt");
+        const headers =  {
+          Authorization: `JWT ${token}`
+        }
         if (confirm('문제를 삭제하시겠습니까?')) {
-          axios.delete(`/api/problems/probs/${id}/`)
+          axios.delete(`/api/problems/probs/${id}/`, {headers: headers})
           .then(res => {
             this.questions.splice(this.questions.findIndex(p => p.p_id === id), 1)
           })
