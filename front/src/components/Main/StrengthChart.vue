@@ -1,18 +1,17 @@
 <template>
-  <div>
-    <div class="content">
-      <div class="info">
-        <div class="title">
-          나의 강점
-        </div>
-
-        <apexchart
-          type="radar"
-          height="230px"
-          :options="chartOptions"
-          :series="series"
-        ></apexchart>
+  <div class="content">
+    <div class="info">
+      <div class="title">
+        나의 강점
       </div>
+
+      <apexchart
+        type="radar"
+        height="230px"
+        width="250px"
+        :options="chartOptions"
+        :series="series"
+      ></apexchart>
     </div>
   </div>
 </template>
@@ -69,7 +68,6 @@ export default {
 
 .content {
   width: 100%;
-  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

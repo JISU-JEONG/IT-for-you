@@ -1,17 +1,16 @@
 <template>
-  <div>
-    <div class="content">
-      <div class="info">
-        <div class="title">
-          내가 많이 틀리는 문제
-        </div>
-        <apexchart
-          type="pie"
-          height="230px"
-          :options="chartOptions"
-          :series="series"
-        ></apexchart>
+  <div class="content">
+    <div class="info">
+      <div class="title">
+        내가 많이 틀리는 문제
       </div>
+      <apexchart
+        type="pie"
+        height="230px"
+        width="250px"
+        :options="chartOptions"
+        :series="series"
+      ></apexchart>
     </div>
   </div>
 </template>
@@ -72,7 +71,7 @@ export default {
 
 .content {
   width: 100%;
-  padding: 20px;
+  max-width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -93,7 +92,7 @@ export default {
 
 .title {
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 @font-face {
