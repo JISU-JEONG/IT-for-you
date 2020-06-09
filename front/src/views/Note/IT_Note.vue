@@ -1,5 +1,6 @@
 <template>
   <main id="app" class="main-container">
+    <loading v-if="loadingFlag" />
     <nav class="nav">
       <menu class="nav__controls">
         <div
@@ -57,11 +58,13 @@
 <script>
 import axios from "@/api/api.service.js";
 import noteCard from "@/components/Note/noteCard.vue";
+import loading from "@/components/Loading.vue";
 
 export default {
   name: "IT_Note",
   components: {
-    noteCard
+    noteCard,
+    loading
   },
 
   data() {
@@ -73,7 +76,8 @@ export default {
       filters: { type: {}, category: {}, level: {} },
       menus: { type: false, category: false, level: false },
       menuName: { type: "문제유형", category: "문제주제", level: "난이도" },
-      dropdown: { height: 0 }
+      dropdown: { height: 0 },
+      loadingFlag: true
     };
   },
   computed: {
@@ -181,6 +185,7 @@ export default {
             false
           );
           this.$set(this.filters.level, this.level[problems.pd_id], false);
+          this.loadingFlag = false;
         });
       });
     }

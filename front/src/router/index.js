@@ -22,6 +22,11 @@ const routes = [
         component: () => import("../views/Question/Category.vue")
       },
       {
+        path: "/test",
+        name: "test",
+        component: () => import("../components/Loading.vue")
+      },
+      {
         path: "/interview",
         name: "Interview",
         redirect: "/interview/category",
@@ -36,7 +41,7 @@ const routes = [
             path: "list",
             name: "InterviewList",
             component: () => import("../views/Interview/InterviewList.vue")
-          },
+          }
         ]
       },
       {

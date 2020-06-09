@@ -1,0 +1,94 @@
+<template>
+  <div class="loading-background">
+    <div class="spinner spinner--steps icon-spinner" aria-hidden="true"></div>
+  </div>
+</template>
+<style scoped>
+.loading-background {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  z-index: 2;
+}
+
+@font-face {
+  font-family: "icomoon";
+  src: url("https://s3.amazonaws.com/icomoon.io/4/Loading/icomoon.eot?-9haulc");
+  src: url("https://s3.amazonaws.com/icomoon.io/4/Loading/icomoon.eot?#iefix-9haulc")
+      format("embedded-opentype"),
+    url("https://s3.amazonaws.com/icomoon.io/4/Loading/icomoon.woff?-9haulc")
+      format("woff"),
+    url("https://s3.amazonaws.com/icomoon.io/4/Loading/icomoon.ttf?-9haulc")
+      format("truetype"),
+    url("https://s3.amazonaws.com/icomoon.io/4/Loading/icomoon.svg?-9haulc#icomoon")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: "icomoon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-spinner:before {
+  content: "\e000";
+}
+.icon-spinner-2:before {
+  content: "\e001";
+}
+.icon-spinner-3:before {
+  content: "\e002";
+}
+.icon-spinner-4:before {
+  content: "\e003";
+}
+.icon-spinner-5:before {
+  content: "\e004";
+}
+.icon-spinner-6:before {
+  content: "\e005";
+}
+.icon-spinner-7:before {
+  content: "\e006";
+}
+
+@keyframes anim-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  font-size: 4em;
+  height: 1em;
+  line-height: 1;
+  margin: 0.5em;
+  animation: anim-rotate 2s infinite linear;
+  color: #fff;
+  text-shadow: 0 0 0.25em rgba(255, 255, 255, 0.3);
+}
+
+.spinner--steps {
+  animation: anim-rotate 1s infinite steps(8);
+}
+</style>
