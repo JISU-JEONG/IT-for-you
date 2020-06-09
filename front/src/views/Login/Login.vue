@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="login-container" id="login-section">
-      <h1>서비스 이름</h1>
+      <h1>IT FOR YOU</h1>
       <div class="login-or-signup">
         <span>
           <p>회원이시라면</p>
@@ -30,7 +30,7 @@
     <div class="desc-container">
       <div class="desc-background-color">
         <div class="logo">
-          <h1>서비스 이름</h1>
+          <h1>IT FOR YOU</h1>
         </div>
         <h2>환영합니다.</h2>
         <p>기술면접준비<br />우리와 함께</p>

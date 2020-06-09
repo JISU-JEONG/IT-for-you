@@ -37,12 +37,12 @@ const routes = [
             name: "InterviewList",
             component: () => import("../views/Interview/InterviewList.vue")
           },
-          {
-            path: "mynote",
-            name: "InterviewMyNote",
-            component: () => import("../views/Interview/InterviewMyNote.vue")
-          }
         ]
+      },
+      {
+        path: "/myinterview",
+        name: "Myinterview",
+        component: () => import("../views/Interview/InterviewMyNote.vue")
       },
       {
         path: "/problem",
