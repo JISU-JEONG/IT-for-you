@@ -48,7 +48,7 @@
           <router-link to="/IT_Note">저장한 문제</router-link>
         </li>
         <li>
-          <router-link to="/interview/mynote">저장한 면접</router-link>
+          <router-link to="/myinterview">저장한 면접</router-link>
         </li>
       </div>
       <div class="side-bar-logout no_highlights">
