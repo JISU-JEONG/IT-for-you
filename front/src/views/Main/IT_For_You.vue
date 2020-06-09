@@ -131,7 +131,6 @@ export default {
           }
         })
         .then(({ data }) => {
-          console.log(data);
           let userWrongProb = [];
           let userCorrectProb = [];
 

@@ -45,7 +45,10 @@
           <router-link to="/wrongNote">오답노트</router-link>
         </li>
         <li>
-          <router-link to="/IT_Note">단어장</router-link>
+          <router-link to="/IT_Note">저장한 문제</router-link>
+        </li>
+        <li>
+          <router-link to="/interview/mynote">저장한 면접</router-link>
         </li>
       </div>
       <div class="side-bar-logout no_highlights">
@@ -119,6 +122,7 @@ export default {
       this.closeSideBar();
     },
     logout() {
+      console.log('logout')
       this.$session.clear();
       this.$store.dispatch("logout");
       this.$router.push("/login");
@@ -290,9 +294,11 @@ li {
 .side-bar-logout {
   position: absolute;
   bottom: 10px;
-  left: 20px;
   width: 100%;
   cursor: pointer;
+}
+.side-bar-logout a {
+  margin-left: 20px;
 }
 .sidde-bar-profile .avata {
   display: inline-block;
