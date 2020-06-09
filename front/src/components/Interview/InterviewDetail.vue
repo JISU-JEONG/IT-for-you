@@ -52,8 +52,8 @@
         class="edit-my-script"
         v-model="editScript"
       ></textarea>
-      <button v-if="showEdit" class="btn save" @click="save">취소</button>
-      <button v-if="showEdit" class="btn cancle" @click="cancle">저장</button>
+      <button v-if="showEdit" class="btn save" @click="save">저장</button>
+      <button v-if="showEdit" class="btn cancle" @click="cancle">취소</button>
     </div>
     <audio-recorder
       :upload-url="uploadurl"
