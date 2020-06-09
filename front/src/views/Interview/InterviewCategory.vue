@@ -19,9 +19,6 @@
       </div>
       <div class="card" style="visibility: hidden;"></div>
     </div>
-    <div class="saved-interview-btn no_highlights" @click="moveToMyNote">
-      내가 저장한 문제 보러가기
-    </div>
   </div>
 </template>
 
