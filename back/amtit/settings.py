@@ -117,13 +117,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
-USE_I18N = True
+# USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -159,5 +159,5 @@ REST_FRAMEWORK = {
 import datetime
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
 }
