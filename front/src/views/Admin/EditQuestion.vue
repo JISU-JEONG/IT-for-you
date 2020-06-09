@@ -31,7 +31,8 @@ export default {
         "Network",
         "JAVA",
         "Python",
-        "OS"
+        "OS",
+        "DataScience"
       ],
       questions: [],
 
