@@ -35,7 +35,11 @@
       </span>
     </div>
 
-    <YoutubeList />
+    <YoutubeList
+      :YoutubeList="YoutubeList"
+      :ListFlag="ListFlag"
+      v-if="youtubeListFlag"
+    />
   </div>
 </template>
 
@@ -66,7 +70,36 @@ export default {
       correctLabelsProps: [],
 
       nowCorrectProb: 0,
-      nowWrongProb: 0
+      nowWrongProb: 0,
+
+      YoutubeList: [],
+      youtubeListFlag: false,
+      ListFlag: new Array(5).fill(false),
+      path: [
+        "https://www.youtube.com/embed/lJES5TQTTWE",
+        "https://www.youtube.com/embed/q3_WXP9pPUQ",
+        "https://www.youtube.com/embed/iyFHfzCRHA8",
+        "https://www.youtube.com/embed/hhd8uUPO3-0",
+        "https://www.youtube.com/embed/eprXmC_j9A4",
+        "https://www.youtube.com/embed/srQR0Qb7Joo",
+        "https://www.youtube.com/embed/NMdnzvPsGu8",
+        "https://www.youtube.com/embed/HsJ4oy_jBx0",
+        "https://www.youtube.com/embed/EkWI6Ru8lFQ",
+        "https://www.youtube.com/embed/iOueE9AXDQQ",
+        "https://www.youtube.com/embed/jVG5jvOzu9Y",
+        "https://www.youtube.com/embed/tPjpcsgxgWc",
+        "https://www.youtube.com/embed/u65F4ECaKaY",
+        "https://www.youtube.com/embed/IH7mUwunzlo",
+        "https://www.youtube.com/embed/OpoVuwxGRDI",
+        "https://www.youtube.com/embed/R0YJ-r-qLNE",
+        "https://www.youtube.com/embed/iks_Xb9DtTM",
+        "https://www.youtube.com/embed/m0icCqHY39U",
+        "https://www.youtube.com/embed/CaXQNfYAdHs",
+        "https://www.youtube.com/embed/AERY1ZGoYc8",
+        "https://www.youtube.com/embed/iks_Xb9DtTM",
+        "https://www.youtube.com/embed/3hxT4cSm03s",
+        "https://www.youtube.com/embed/ODa9mY2bEEc"
+      ]
     };
   },
   methods: {
@@ -182,10 +215,33 @@ export default {
         span1.style.color = "black";
         span2.style.color = "gray";
       }
+    },
+
+    random(i) {},
+
+    flag() {},
+
+    getYoutubeList() {
+      this.ListFlag[0] = true;
+
+      for (let i = 0; i < 6; i++) {
+        if (i === 5) {
+          this.youtubeListFlag = true;
+        } else {
+          let item = this.path[[Math.floor(Math.random() * this.path.length)]];
+          if (this.YoutubeList[item] === undefined) {
+            // this.$set(this.YoutubeList, item, item);
+            this.YoutubeList[i] = item;
+          } else {
+            i--;
+          }
+        }
+      }
     }
   },
 
   created() {
+    this.getYoutubeList();
     this.init();
   }
 };
