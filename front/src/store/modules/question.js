@@ -57,7 +57,8 @@ const getters = {
     state.questionList
       .map(q => q.answers)
       .map(q2 => q2.filter(q3 => q3.a_correct).map(q4 => q4.a_value)),
-  interviewResult: state => state.interviewResult
+  interviewResult: state => state.interviewResult,
+  interviewTag: state => [...new Set(state.interviewList.map(interview => interview.p_code))]
 };
 
 export default {
