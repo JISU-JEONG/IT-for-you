@@ -9,14 +9,42 @@
     </transition>
     <div class="card company-container">
       <p>회사 선택</p>
-      <div class="badge no_highlights">Naver</div>
-      <div class="badge no_highlights">카카오</div>
-      <div class="badge no_highlights">삼성</div>
-      <div class="badge no_highlights">LINE</div>
-      <div class="badge no_highlights">Apple</div>
-      <div class="badge no_highlights">Google</div>
+      <input type="radio" name="all" id="all" value="" v-model="selectedCompany" style="display:none" class="tag">
+      <label class="badge no_highlights" for="all">전체선택</label>
+      <span v-for="tag in interviewTag" :key="tag">
+        <input type="radio" :name="tag" :id="tag" :value="tag" v-model="selectedCompany" style="display:none" class="tag">
+        <label class="badge no_highlights" :for="tag">{{tag}}</label>
+      </span>
     </div>
-    <div
+    <transition-group
+      name="staggered-fade"
+      :css="false"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @leave="leave"
+    >
+      <div
+        class="card flex"
+        v-for="(interview, index) in computedList"
+        :key="interview.p_code + index"
+        :data-index="index"
+      >
+        <div class="info">
+          <p>{{ interview.p_question }}</p>
+          <div class="badge saved" v-if="interview.myinter_check">
+            저장된 문제
+          </div>
+          <div class="badge" v-if="interview.p_code">{{ interview.p_code }}</div>
+        </div>
+        <div class="next-btn no_highlights" @click="nextButton(interview)">
+          <span
+            >연습 <br />
+            하기</span
+          >
+        </div>
+      </div>
+    </transition-group>
+    <!-- <div
       class="card flex"
       v-for="interview in interviewList"
       :key="interview.id"
@@ -34,18 +62,20 @@
           하기</span
         >
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import InterviewDetail from "@/components/Interview/InterviewDetail.vue";
+import Velocity from 'velocity-animate'
 
 export default {
   data() {
     return {
       p_info: {},
-      showInterview: false
+      showInterview: false,
+      selectedCompany: '',
     };
   },
   methods: {
@@ -55,6 +85,30 @@ export default {
     },
     closeInterview() {
       this.showInterview = false;
+    },
+    beforeEnter(el) {
+      el.style.opacity = 0
+      el.style.height = 0
+    },
+    enter(el, done) {
+      var delay = el.dataset.index * 150
+      setTimeout(function () {
+        Velocity(
+          el,
+          { opacity: 1, height: '100px' },
+          { complete: done }
+        )
+      }, delay)      
+    },
+    leave(el, done) {
+      var delay = el.dataset.index * 150
+      setTimeout(function () {
+        Velocity(
+          el,
+          { opacity: 0, height: 0 },
+          { complete: done }
+        )
+      }, delay)      
     }
   },
   components: {
@@ -63,6 +117,16 @@ export default {
   computed: {
     interviewList() {
       return this.$store.state.question.interviewList;
+    },
+    computedList() {
+      if (!this.selectedCompany) {return this.interviewList}
+      else {
+        const vm = this
+        return this.interviewList.filter(interview => interview.p_code === this.selectedCompany)
+      }
+    },
+    interviewTag() {
+      return this.$store.getters.interviewTag
     }
   }
 };
@@ -149,6 +213,11 @@ export default {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.tag:checked + label {
+  color: white;
+  background-color: #009688;
 }
 .next-btn span {
   font-size: 16px;
