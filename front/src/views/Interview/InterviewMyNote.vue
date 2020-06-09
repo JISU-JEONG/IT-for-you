@@ -1,5 +1,6 @@
 <template>
   <div class="main-container">
+    <loading v-if="loadingFlag" />
     <div class="info">
       <h2>저장된 인터뷰</h2>
       <p style="margin-top:10px">
@@ -37,19 +38,24 @@
 <script>
 import AudioPlayer from "@/components/Interview/audio/player";
 import axios from "@/api/api.service.js";
+import loading from "@/components/Loading.vue";
+
 export default {
   data() {
     return {
       interviewList: [],
-      currentAccordion: ""
+      currentAccordion: "",
+      loadingFlag: true
     };
   },
   components: {
-    AudioPlayer
+    AudioPlayer,
+    loading
   },
   methods: {
     getMyInterview() {
       const token = this.$session.get("jwt");
+
       const headers = {
         Authorization: `JWT ${token}`
       };
@@ -57,6 +63,7 @@ export default {
         .get(`/api/interprobs/myinters/${this.user_id}/`, { headers: headers })
         .then(res => {
           this.interviewList = res.data;
+          this.loadingFlag = false;
         })
         .catch(err => {
           console.error(err);
@@ -65,6 +72,7 @@ export default {
 
     showDetail(p_id) {
       const token = this.$session.get("jwt");
+
       const headers = {
         Authorization: `JWT ${token}`
       };
