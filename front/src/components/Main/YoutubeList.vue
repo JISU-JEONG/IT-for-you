@@ -5,7 +5,7 @@
         오늘의 추천영상
       </div>
       <div class="youtube-wrapper">
-        <div class="youtube" v-for="(p, i) in path" :key="i">
+        <div class="youtube" v-for="(p, i) in YoutubeList" :key="i">
           <iframe
             :src="p"
             frameborder="0"
@@ -34,19 +34,16 @@ export default {
   name: "YoutubeList",
   data() {
     return {
-      path: [
-        "https://www.youtube.com/embed/lJES5TQTTWE",
-        "https://www.youtube.com/embed/q3_WXP9pPUQ",
-        "https://www.youtube.com/embed/iyFHfzCRHA8",
-        "https://www.youtube.com/embed/hhd8uUPO3-0",
-        "https://www.youtube.com/embed/eprXmC_j9A4"
-      ],
-      ListFlag: new Array(5).fill(false),
       index: 0
     };
   },
-  beforeMount() {
-    this.ListFlag[0] = true;
+  props: {
+    ListFlag: {
+      type: Array
+    },
+    YoutubeList: {
+      type: Array
+    }
   },
   methods: {
     click(i) {
@@ -65,7 +62,6 @@ export default {
       now.classList.add("fas");
       now.classList.add("z-index");
       this.index = i;
-
     }
   }
 };
