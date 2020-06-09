@@ -229,8 +229,7 @@ export default {
           this.youtubeListFlag = true;
         } else {
           let item = this.path[[Math.floor(Math.random() * this.path.length)]];
-          if (this.YoutubeList[item] === undefined) {
-            // this.$set(this.YoutubeList, item, item);
+          if (this.YoutubeList[i] === undefined) {
             this.YoutubeList[i] = item;
           } else {
             i--;
