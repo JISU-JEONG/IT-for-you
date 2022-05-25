@@ -34,7 +34,7 @@ pipwin==0.5.0
 prompt-toolkit==3.0.5
 Pygments==2.6.1
 pyjsparser==2.7.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pylint==2.5.2
 pyparsing==2.4.7
 PyPrind==2.11.2
